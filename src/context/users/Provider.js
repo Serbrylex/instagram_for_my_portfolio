@@ -17,11 +17,11 @@ const UserProvider = ({ children }) => {
 	const value = {
 		isAuth,
 		setIsAuth,
-		activeAuth: async ({ username, password }) => {
+		activeAuth: async ({ username, password, urlDirection}) => {
 			try{			
 				
 				let response = await apiCall({ 
-					urlDirection: 'user/login/', 
+					urlDirection, 
 					method: "POST", 
 					headers:  {
 						'Content-Type': 'application/json',

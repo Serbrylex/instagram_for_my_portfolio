@@ -8,7 +8,7 @@ import {
 	LoginContainer, MainData, Title, Form, Input, Button, Separator, Line, Element,
 	LinkFacebook, Signin, Link, Apps, Description, ImagesContainer, ImageApp, 
 	LinkImage, ErrorP, PHeader, ImageLeft, SigninForm
-} from './style'
+} from './style' 
  
 import { AiFillFacebook } from 'react-icons/ai'
 
@@ -51,7 +51,7 @@ const SignIn = () => {
 	const handleSubmit = async e => {
 		e.preventDefault()
 
-		const response = await activeAuth({ 
+		const response = await activeAuth({  
 			urlDirection: 'user/signup/', 
 			method: "POST", 
 			headers:  {

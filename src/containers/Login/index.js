@@ -10,7 +10,7 @@ import {
 	ImagesContainer, ImageApp, LinkImage, ErrorP, ImageLoading, ImageLeft,
 	LoginForm
 } from './style' 
-
+ 
 import { AiFillFacebook } from 'react-icons/ai'
 
 import play from '../../assets/images/play_store.png'
@@ -54,7 +54,8 @@ const Login = () => {
 
 		setLoading(true)
 
-		const response = await activeAuth({ 
+		const response = await activeAuth({  
+			urlDirection: 'user/login/',
 			username: username.value,
 			password: password.value
 		})
