@@ -55,7 +55,7 @@ const UserProvider = ({ children }) => {
 					urlDirection: 'user/logout/', 
 					method: 'DELETE', 
 					headers: {
-						'Authorization': isAuth.access_token,
+						'Authorization': `Token ${isAuth.access_token}`,
 						'Content-Type': 'application/json'
 					} 					
 				})				

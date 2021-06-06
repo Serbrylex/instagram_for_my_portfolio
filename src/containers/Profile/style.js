@@ -184,8 +184,10 @@ export const HeaderSection = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content: start;	
-	@media (max-width: 100vw) and (min-width: 500px){	    
+	@media (min-width: 500px){	    
 	    border: 1px solid #dbdbdb;	    
+		width: 500px;
+	    margin: 0 auto;	    
     }	
 `
 
