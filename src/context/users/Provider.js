@@ -17,7 +17,7 @@ const UserProvider = ({ children }) => {
 	const value = {
 		isAuth,
 		setIsAuth,
-		activeAuth: async ({ username, password, urlDirection}) => {
+		activeAuth: async ({ body, urlDirection}) => {
 			try{			
 				
 				let response = await apiCall({ 
@@ -26,10 +26,7 @@ const UserProvider = ({ children }) => {
 					headers:  {
 						'Content-Type': 'application/json',
 					}, 
-					body: JSON.stringify({
-						username,
-						password
-					})
+					body
 				})
 
 				let newAuth = {}

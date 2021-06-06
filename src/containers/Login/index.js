@@ -56,8 +56,10 @@ const Login = () => {
 
 		const response = await activeAuth({  
 			urlDirection: 'user/login/',
-			username: username.value,
-			password: password.value
+			body: JSON.stringify({
+				username: username.value,
+				password: password.value				
+			})
 		})
 		
 		console.log(response)
