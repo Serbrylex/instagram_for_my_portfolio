@@ -67,13 +67,14 @@ const SignIn = () => {
 			})
 		})
 
-		if (response?.access_token) {			
+		if (response?.isAuth) {
 			history.push("/login")
-		} else {
+		} else {			
 			setErrorRespose({
 				error: true,
 				listErrors: response
 			})
+			setLoading(false)
 		}	
 
 		console.log(response)
