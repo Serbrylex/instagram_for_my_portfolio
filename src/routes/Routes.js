@@ -37,7 +37,8 @@ import UserContext from '../context/users'
 const Routes = () => {
 
 	const { isAuth } = useContext(UserContext)	
-	const url = 'http://127.0.0.1:8000'
+	//const url = 'http://127.0.0.1:8000'
+	const url = 'https://newinstagrambyme.herokuapp.com'
 	let elements = []
 
 	// Recuerda cambiarlo ------------------------------------------------
