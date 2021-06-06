@@ -82,8 +82,8 @@ const SignIn = () => {
 	return(
 		<LoginContainer>
 			<Helmet>
-                <title>Instagram | Sign In</title>
-				<meta name='description' content={`Sign in of Instagram`} />
+                <title>Instagram | Sign Up</title>
+				<meta name='description' content={`Sign up of Instagram`} />
 			</Helmet>
 			<ImageLeft src={imageFont} />
 			<SigninForm>
