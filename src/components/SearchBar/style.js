@@ -8,9 +8,20 @@ export const SearchContainer = styled.div`
 	justify-content: center;
 	padding: 10px 2%;
 	
+
 	${props => props.fixed === 'bottom' && css`
 		bottom: 0;
 		position: fixed;
+	`}
+
+	${props => props.theme === 'light' && css` 
+		background-color: white;
+		color: black;
+	`}
+
+	${props => props.theme === 'dark' && css`
+		background-color: #141414;
+		color: white;
 	`}
 `
 
@@ -24,6 +35,11 @@ export const Form = styled.div`
 	padding: 5px 10px;
 	justify-content: space-between;
 
+	@media (min-width: 500px){
+	    margin: 0 auto;
+	    width: 500px;	    
+	    border-radius: 4px;
+    }
 `
 
 export const Input = styled.input`

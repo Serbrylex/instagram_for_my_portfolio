@@ -1,12 +1,13 @@
 // React
 import { useState, useContext, useEffect } from 'react'
-
-// Assets
-import { 
+import { Helmet } from 'react-helmet'
+ 
+// Assets 
+import {  
 	FeedContainer, FeedImages, LoadingBottom, ImageLoading
 } from './style'
 
-import circle from '../../images/circle.svg'
+import circle from '../../assets/images/circle.svg'
 
 // Components
 import Header from '../../components/Header' 
@@ -17,6 +18,7 @@ import PostsContainer from '../../components/PostsContainer'
 
 // Context
 import UserContext from '../../context/users'
+import ThemeContext from '../../context/theme'
 
 // Hooks
 import { useGetStories } from '../../hooks/useGetStories'
@@ -24,10 +26,11 @@ import { useGetPosts } from '../../hooks/useGetPosts'
 
 let element = undefined
  
-const Feed = ({ url }) => {	
-
- 	// Context auth 
- 	const { isAuth } = useContext(UserContext) 	
+const Feed = ({ url }) => {		
+ 	
+ 	// Context
+	const { isAuth } = useContext(UserContext) 	 	
+ 	const { theme } = useContext(ThemeContext) 	 	
 	
 	// se volvera false cuando los fetchs correspondientes se realicen correctamente
 	const [loading, setLoading] = useState(true)
@@ -65,8 +68,7 @@ const Feed = ({ url }) => {
 		}
 	}, [allPosts])
 
-	useEffect(()=>{	
-		console.log('Me estoy renderizando ', page)
+	useEffect(()=>{			
 		if (postsFetch.posts?.length) {
 			setAllPosts([...allPosts, ...postsFetch.posts])			
 			setLoading(false)			
@@ -75,24 +77,21 @@ const Feed = ({ url }) => {
 	
 	const handleScrollFetchData = e => {
 		
-		element = e.target
+		element = e.target	
 		if (!bottomLoading) {
 		    if (element.scrollHeight - element.scrollTop === element.clientHeight && indexOfReturn === page) {
-		      	// do something at end of scroll
-		      	
+		      	// do something at end of scroll		      	
 		    	setBottomLoading(true)							
 				postsFetch.getPosts(page + 1)
 				setPage(page + 1)		
 				setIndexOfReturn(indexOfReturn + 1)	
 
-			} else if (element.scrollHeight - element.scrollTop === element.clientHeight && indexOfReturn < page) {
-				console.log('Baja baja')
+			} else if (element.scrollHeight - element.scrollTop === element.clientHeight && indexOfReturn < page) {				
 				setActualPosts(allPosts.slice(((indexOfReturn + 1) * 5) - 5, (indexOfReturn + 1) * 5))
 		    	setIndexOfReturn(indexOfReturn + 1)	
 		    	element.scrollTop = element.clientHeight * 0.1
 
-		    } else if (element.scrollTop === 0 && indexOfReturn > 1) {
-		    	console.log('Sube')
+		    } else if (element.scrollTop === 0 && indexOfReturn > 1) {		    	
 		    	setActualPosts(allPosts.slice(((indexOfReturn - 1) * 5) - 5, (indexOfReturn - 1) * 5))
 		    	setIndexOfReturn(indexOfReturn - 1)	
 		    	element.scrollTop = element.clientHeight * 0.9
@@ -101,15 +100,19 @@ const Feed = ({ url }) => {
 	}
 
 	return(
-		<FeedContainer onScroll={(e)=>handleScrollFetchData(e)}>
-			<Header />
+		<FeedContainer onScroll={(e)=>handleScrollFetchData(e)} theme={theme}>
+			<Helmet>
+                <title>Instagram</title>
+				<meta name='description' content={`Feed de instagram`} />
+			</Helmet>
+			<Header url={url}/>
 
 			{loading ? 
 				<Loading /> :
 				<>
 					<Stories add='first' stories={stories} url={url} />					
 
-					<FeedImages>
+					<FeedImages theme={theme}>
 						<PostsContainer posts={actualPosts} url={url}/>
 					</FeedImages>
 					{bottomLoading && 

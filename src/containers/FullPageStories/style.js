@@ -12,7 +12,7 @@ export const FullPageStoriesContainer = styled.div`
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	justify-content: center;
+	justify-content: center; 
 	top: 0;
 	bottom: 0;
 	left: 0;
@@ -23,6 +23,9 @@ export const ImageFont = styled.img`
 	width: 100vw;	
 	height: auto;
 	cursor: pointer;
+	@media (min-width: 500px){        
+        width: 500px;        
+    }
 `
 
 export const HeaderInfo = styled.div`
@@ -35,6 +38,9 @@ export const HeaderInfo = styled.div`
 	justify-content: left;
 	align-items: center;
 	padding: 2%;	
+	@media (min-width: 500px){        
+        width: 500px;        
+    }
 `
 
 export const HeaderData = styled.div`
@@ -42,6 +48,9 @@ export const HeaderData = styled.div`
 	align-items: center;
 	justify-content: space-between;
 	width: 90vw;
+	@media (min-width: 500px){        
+        width: 450px;        
+    }
 `
 
 export const DataLeft = styled.div`
@@ -89,6 +98,9 @@ export const BottomData = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
+	@media (min-width: 500px){        
+        width: 500px;        
+    }
 `
 
 export const Input = styled.input`

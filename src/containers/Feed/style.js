@@ -1,21 +1,51 @@
-import styled from 'styled-components' 
+import styled, { css } from 'styled-components' 
 
 export const FeedContainer = styled.div`
 	width: 100%;	
 	height: 100vh;
-	overflow-y: scroll;
+	overflow-y: scroll;	
+	padding-top: 50px;	
+
+	-ms-overflow-style: none;
+	scrollbar-width: none;
+
+	&::-webkit-scrollbar { 
+		display: none;
+	}
+
+	${props => props.theme === 'light' && css`
+		background-color: white;
+		color: black;
+	`}
+
+	${props => props.theme === 'dark' && css`
+		background-color: #141414;
+		color: white;
+	`}	
 `
  
 // Feed ----------------------------------------------- 
 export const FeedImages = styled.div`
-	width: 100vw;
+	width: 100%;
 	height: auto;	
-	margin: 10px auto;
+	margin: 10px auto;	
+	${props => props.theme === 'light' && css`
+		background-color: white;
+		color: black;
+	`}
+
+	${props => props.theme === 'dark' && css`
+		background-color: #1F1F1F;
+		color: white;
+	`}
+	@media (min-width: 500px){
+	    width: 500px;	    
+    }
 `
 
 export const LoadingBottom = styled.div`
 	height: 10vh;
-	width: 100vw;
+	width: 100%;
 	display: flex;
 	align-items: center;
 	justify-content: center;	

@@ -1,0 +1,100 @@
+{	
+	"containers": {		
+		"add_storie": {
+			"something_wrong": "Something go wrong",
+			"your_storie": "Your storie",
+			"send_to": "Send to",
+			"storie": "Storie"
+		},
+		"full_page_stories": {
+			"send_message": "Send a message"
+		},		
+		"login": {		
+			"username": "Username",
+			"password": "Password",
+			"or": "or",
+			"start_session": "Start session",
+			"start_session_facebook": "Start session with Facebook",
+			"did_you_forgot_password": "¿Did you forget your password?",
+			"dont_have_an_account": "¿Didn't you have an account?",
+			"sign_in": "Sign In",
+			"download_app": "Download the app"
+		},
+		"new_post": {
+			"description": "Description",
+			"new_post": "New post",
+			"upload_image": "Upload image"
+		},
+		"profile": {
+			"post": "Post",
+			"followers": "Followers",
+			"following": "Following",
+			"follow": "Follow",
+			"edit_profile": "Edit profile",			
+			"message": "Message",
+			"posts": "Posts"
+		},
+		"search": {
+			"search": "Search",
+			"explor": "Explor"
+		},
+		"sign_in": {
+			"email": "Email",
+			"username": "Username",
+			"password": "Password",
+			"password_confirmation": "Password confirmation",
+			"name": "Name",
+			"last_name": "Last name",
+			"sign_in_to": "Sign in to watch pictures and videos of your friends",
+			"start_session_facebook": "Start session with Facebook",
+			"you_have_account": "¿Did you have an account?",
+			"start_session": "Start session",
+			"download_app": "Download the app"
+		},
+		"update_profile": {
+			"edit_profile": "Edit profile",
+			"change_profile_picture": "Change profile picture",
+			"public_profile": "Pubilc profile",
+			"public": "Public",
+			"no_public": "No public",
+			"name": "Name",
+			"last_name": "Last name",
+			"username": "Username",
+			"website": "Website",
+			"biography": "Biography",
+			"phone_number": "Phone number"
+		}
+	},
+	"components": {
+		"comments_list": {
+			"comments": "Comments"
+		},
+		"post": {
+			"likes": "People that liked",
+			"comments": "Comments"
+		},
+		"post_options": {
+			"see_profile": "See profile",
+			"delete_post": "Delete post",
+			"stop_following": "Stop following",
+			"cancel": "Cancel"
+		},
+		"search_bar": {
+			"post": "Post"
+		},
+		"stories": {
+			"new_storie": "New"
+		},
+		"user_in_list": {
+			"following": "Following",
+			"follow": "Follow"
+		},
+		"user_menu": {
+			"theme": "Theme",
+			"dark": "Dark",
+			"light": "Light",
+			"language": "Language",
+			"close_session": "Close session"
+		}
+	}
+}

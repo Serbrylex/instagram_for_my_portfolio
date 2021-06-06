@@ -1,8 +1,7 @@
-import styled from 'styled-components'
-
+import styled, { css } from 'styled-components'
 import { Link as Linked } from 'react-router-dom'
 
-export const FooterContainer = styled.div`
+export const FooterContainer = styled.div` 
 	height: 10vh;
 	width: 100vw;	
 	position: fixed;
@@ -15,16 +14,30 @@ export const FooterContainer = styled.div`
 	background-color: white;
 	z-index: 5;
 	padding: 5px 2vw;
+	${props => props.theme === 'light' && css`
+		background-color: white;
+		color: black;
+	`}
+
+	${props => props.theme === 'dark' && css`
+		background-color: #141414;
+		color: white;
+	`}
+
+	@media (max-width: 100vw) and (min-width: 500px){
+	    display: none;
+    }
 `
 
 export const Link = styled(Linked)`
 	color: black;
 	margin: 0 10px;
+	cursor: pointer;
 `
 
 export const ImgageProfile = styled.img`
 	width: 30px;
 	height: 30px;
-	border: ${props => props.border === 'true' ? '2px solid black' : 'none'};
+	border: ${props => props.border.length > 0 ? `2px solid ${props.border}` : 'none'};
 	border-radius: 100%;
 `

@@ -1,19 +1,43 @@
-import styled from 'styled-components' 
+import styled, { css } from 'styled-components' 
 
-
-export const ProfileContainer = styled.div`
+export const ProfileContainer = styled.div` 
 	width: 100%;
-	height: auto;
+	height: 100%;
 	display: flex;
 	flex-direction: column; 
-	align-items: center;
+	align-items: center;	
+	padding: 60px 0 50px 0;
+	margin: 0 auto;
+	overflow-y: scroll;
+	overflow-x: hidden;
+	-ms-overflow-style: none;
+	scrollbar-width: none;
+
+	&::-webkit-scrollbar {
+		display: none;
+	}
+	
+	${props => props.theme === 'light' && css`
+		background-color: white;		
+		color: black;		
+	`}
+
+	${props => props.theme === 'dark' && css`
+		background-color: #141414;		
+		color: white;		
+	`}	
 `
  
 export const DataProfile = styled.div`
-	width: 96vw; 
+	width: 100%; 
 	padding: 5px 2vw;
 	display: flex;
 	flex-direction: column;
+	@media (min-width: 500px){	    
+	    border: 1px solid #dbdbdb;	    
+	    width: 500px;
+	    margin: 0 auto;
+    }	
 `
 
 export const SectionImage = styled.div`
@@ -30,6 +54,7 @@ export const Image = styled.img`
 	border-radius: 100%;
 	margin-right: auto;
 	object-fit: cover;	
+	border: 1px solid black;
 `
 
 export const GeneralData = styled.div`
@@ -51,12 +76,13 @@ export const Count = styled.p`
 `
 
 export const Description = styled.p`
-
+	cursor: pointer;
 `
 
 export const UserDescription = styled.div`
 	width: 100%;
-	height: 70px;	
+	height: auto;	
+	margin-bottom: 10px;
 `
 
 export const Username = styled.h2`
@@ -73,13 +99,27 @@ export const Link = styled.p`
 
 export const EditProfile = styled.button`
 	width: 95%;
-	height: 30px;
-	border: 1px solid black;
-	backgroud-color: grey;
+	height: 30px;	
 	padding: 5px 0;
 	text-align: center;
 	border-radius: 4px;
 	cursor: pointer;
+	margin: 10px 0;
+	${props => props.theme === 'light' && css`
+		border: 1px solid black;
+		background-color: white;			
+		color: black;		
+	`}
+
+	${props => props.theme === 'dark' && css`
+		background-color: #1F1F1F;		
+		border: 1px solid white;
+		color: white;		
+	`}
+	@media (min-width: 500px){	    	    
+	    width: 500px;
+	    margin: 10px auto;
+    }	
 `
 
 export const ButtonsContainer = styled.div`
@@ -87,26 +127,31 @@ export const ButtonsContainer = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
+	margin: 10px 0;
+	@media (min-width: 500px){	    	    
+	    width: 500px;
+	    margin: 10px auto;
+    }	
 `
 
-export const Following = styled.div`
+export const ButtonUserFunction = styled.div`
 	width: 40%;
 	height: 30px;
-	border: 1px solid black;
-	backgroud-color: grey;
 	padding: 5px 0;
 	text-align: center;
 	border-radius: 4px;	
-`
+	cursor: pointer;
+	${props => props.theme === 'light' && css`
+		border: 1px solid black;
+		background-color: white;			
+		color: black;		
+	`}
 
-export const Message = styled.div`
-	width: 40%;
-	height: 30px;
-	border: 1px solid black;
-	backgroud-color: grey;
-	padding: 5px 0;
-	text-align: center;
-	border-radius: 4px;
+	${props => props.theme === 'dark' && css`
+		background-color: #141414;		
+		border: 1px solid white;
+		color: white;		
+	`}
 `
 
 export const Down = styled.div`
@@ -118,6 +163,18 @@ export const Down = styled.div`
 	text-align: center;
 	border-radius: 4px;
 	text-align: center;
+	cursor: pointer;
+	${props => props.theme === 'light' && css`
+		border: 1px solid black;
+		background-color: white;			
+		color: black;		
+	`}
+
+	${props => props.theme === 'dark' && css`
+		background-color: #141414;		
+		border: 1px solid white;
+		color: white;		
+	`}
 `
 
 export const HeaderSection = styled.div`
@@ -127,6 +184,9 @@ export const HeaderSection = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content: start;	
+	@media (max-width: 100vw) and (min-width: 500px){	    
+	    border: 1px solid #dbdbdb;	    
+    }	
 `
 
 export const Close = styled.div`

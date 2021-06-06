@@ -5,12 +5,12 @@ import { useEffect, useState } from 'react'
 import apiCall from '../api/apiCall' 
 
 // Assets
-import imageTest from '../images/agujero-del-tiempo.jpg' 
+import imageTest from '../assets/images/agujero-del-tiempo.jpg' 
 
 
 export const useGetStories = ({ token, user, url }) => {	
 
-	const [stories, setStories] = useState([])
+	const [stories, setStories] = useState([])	
 
 	// Serializa la información obtenida por el backend
 	const ReseteaEachStorie = (storie, url, indice) => {		

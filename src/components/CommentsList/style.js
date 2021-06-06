@@ -1,15 +1,24 @@
-import styled from 'styled-components' 
+import styled, { css } from 'styled-components' 
 
 export const LikesContainer = styled.div`
 	width: 100vw;
 	height: 100vh;
 	position: fixed;
-	background-color: white;
 	bottom: 0;
 	right: 0;
 	left: 0;
 	top: 0;
 	z-index: 100;	
+	
+	${props => props.theme === 'light' && css`
+		background-color: white;			
+		color: black;		
+	`}
+
+	${props => props.theme === 'dark' && css`
+		background-color: #1F1F1F;		
+		color: white;		
+	`}
 `
 
 export const HeaderSection = styled.div`
@@ -19,6 +28,13 @@ export const HeaderSection = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content: start;	
+
+	@media (min-width: 500px){
+	    margin: 0 auto;
+	    width: 500px;
+	    border: 1px solid #dbdbdb;
+	    border-radius: 4px;
+    }
 `
 
 export const Close = styled.div`
@@ -45,4 +61,11 @@ export const CommentList = styled.div`
 	margin: 10px 0;
 	height: 80vh;	
 	overflow-y: scroll;
+
+	@media (min-width: 500px){
+	    margin: 0 auto;
+	    width: 500px;
+	    border: 1px solid #dbdbdb;
+	    border-radius: 4px;
+    }
 `

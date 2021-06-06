@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 export const LikeContainer = styled.div`
 	width: 100%;
@@ -6,8 +6,9 @@ export const LikeContainer = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	border-bottom: 1px solid black;	
-	padding: 5px 0;
+	border: 1px solid #dbdbdb;
+	margin: 5px 0;
+	padding: 5px;
 `
 
 export const Picture = styled.div`
@@ -31,6 +32,7 @@ export const Username = styled.p`
 	align-items: center;
 	justify-content: start;
 	cursor: pointer;
+	color: ${props => props.theme === 'light' ? 'black' : 'white'};
 `
 
 export const Button = styled.button`
@@ -38,5 +40,15 @@ export const Button = styled.button`
 	height: 30px;
 	text-align: center;
 	color: white;
-	background-color: blue;
+	cursor: pointer;
+	border-radius: 4px;
+	${props => props.theme === 'light' && css`
+		background-color: #0095f6;		
+		color: white;		
+	`}
+
+	${props => props.theme === 'dark' && css`
+		background-color: #1F1F1F;
+		color: white;		
+	`}
 `

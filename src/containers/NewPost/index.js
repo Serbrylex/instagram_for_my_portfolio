@@ -1,40 +1,53 @@
 // React
-import { useRef, useContext, useState } from 'react'
+import { useRef, useContext, useState, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
+import { Helmet } from 'react-helmet'
 
 // Assets
-import {
+import { 
 	NewPostContainer, HeaderSection, Close, Title, Publish, ImagesContainer,
 	Image, Form, InputText, Button
-} from './style'
+} from './style' 
 
 import { AiOutlineClose, AiOutlineCheck } from 'react-icons/ai'
 import { MdKeyboardArrowDown } from 'react-icons/md'
 
-import imageTest from '../../images/agujero-del-tiempo.jpg' 
+import imageTest from '../../assets/images/agujero-del-tiempo.jpg' 
 
 // Hooks
 import { useInputValue } from '../../hooks/useInputValue'
 import { useImage } from '../../hooks/useImage'
+import { useGetWords } from '../../hooks/useGetWords'
 
 // API
 import apiCall from '../../api/apiCall'
 
 // Context
 import UserContext from '../../context/users'
+import ThemeContext from '../../context/theme'
 
 // Components
 import Loading from '../../components/Loading'
 
 const NewPost = () => {
 
-	const [loading, setLoading] = useState(false)
-	const caption = useInputValue('Descripción')
-	const { isAuth } = useContext(UserContext)
-	const imagen = useImage([imageTest])
-	const hiddenFileInput = useRef(null)
+	// Context
+	const { isAuth } = useContext(UserContext)	
+ 	const { theme } = useContext(ThemeContext) 	
+	
+	// Variables
 	const history = useHistory()	
 	const size = '25px'
+	const [loading, setLoading] = useState(false)
+	const color = theme === 'light' ? 'black' : 'white'
+	
+ 	// Language hook
+ 	const words = useGetWords({ container: 'new_post' })
+
+ 	// Inputs form
+	const imagen = useImage([imageTest])
+	const caption = useInputValue(words?.description)
+	const hiddenFileInput = useRef(null)
 
 
 	const handleClick = e => {
@@ -96,22 +109,24 @@ const NewPost = () => {
 			const data = response.json()
 			alert(data)
 		}
-		setLoading(false)
-
-		// Si la respuesta es correcta, comenzamos a mandar todas las imagenes con ese post como referencia
+		setLoading(false)		
 	}
 
 	const handleSubmit = e => {
 		e.preventDefault()		
-	}
+	} 
 	
 	return(
-		<NewPostContainer>
-			<HeaderSection>			
+		<NewPostContainer theme={theme}>
+			<Helmet>
+                <title>{isAuth.user.username} | New post</title>
+				<meta name='description' content={`${isAuth.user.username} is adding a new post`} />
+			</Helmet>
+			<HeaderSection theme={theme}>			
 				<Close onClick={()=> history.goBack()}>
-					<AiOutlineClose size={size}/>
+					<AiOutlineClose size={size} color={color} />
 				</Close>
-				<Title>Nueva publicación</Title>
+				<Title>{words?.new_post}</Title>
 				<Publish onClick={sendPost}>
 					<AiOutlineCheck size={size}/>
 				</Publish>
@@ -121,7 +136,7 @@ const NewPost = () => {
 						<Image src={eachImage} alt='image post' key={index} />
 					))}
 			</ImagesContainer>
-			<Form onSubmit={handleSubmit}>
+			<Form onSubmit={handleSubmit} theme={theme}>
 				<input 
 					type="file" 
 					ref={hiddenFileInput}
@@ -129,7 +144,7 @@ const NewPost = () => {
 	             	style={{display:'none'}}
 	             	multiple
 				/>		
-				<Button onClick={handleClick}>Subir Imagen <MdKeyboardArrowDown size={size}/></Button>			
+				<Button onClick={handleClick}>{words?.upload_image} <MdKeyboardArrowDown size={size}/></Button>			
 				<InputText 
 					type="text"
 					{...caption}

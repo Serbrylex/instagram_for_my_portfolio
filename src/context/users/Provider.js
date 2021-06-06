@@ -6,16 +6,17 @@ import apiCall from '../../api/apiCall'
 
 const UserProvider = ({ children }) => {
 	const [isAuth, setIsAuth] = useState(() => {		
-		const cookie = window.sessionStorage.getItem('token')
+		const cookie = window.sessionStorage.getItem('token')		
 		if (cookie === undefined || cookie === null){
 			return false
 		} else {
-			return cookie
+			return JSON.parse(cookie)
 		}
 	}) 
 
 	const value = {
 		isAuth,
+		setIsAuth,
 		activeAuth: async ({ username, password }) => {
 			try{			
 				
@@ -40,7 +41,7 @@ const UserProvider = ({ children }) => {
 				}
 				
 				setIsAuth(newAuth)					
-				window.sessionStorage.setItem('token', newAuth)				
+				window.sessionStorage.setItem('token', JSON.stringify(newAuth))
 
 				return newAuth
 
@@ -51,7 +52,7 @@ const UserProvider = ({ children }) => {
 		removeAuth: async () => {
 			try{			
 				await apiCall({ 
-					urlDirection: 'logout/', 
+					urlDirection: 'user/logout/', 
 					method: 'DELETE', 
 					headers: {
 						'Authorization': isAuth.access_token,

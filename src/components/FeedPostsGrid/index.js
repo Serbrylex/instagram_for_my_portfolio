@@ -1,3 +1,6 @@
+// React
+import { useContext } from 'react'
+
 // Assets
 import {
 	FeedImages, EachImageContainer, IconContainer, ImagePost
@@ -5,12 +8,16 @@ import {
 
 import { RiCheckboxMultipleBlankLine } from 'react-icons/ri'
 
-const FeedPostsGrid = ({ posts, setKindOfView }) => {
+// Context
+import ThemeContext from '../../context/theme'
 
+const FeedPostsGrid = ({ posts, setKindOfView }) => {
+ 
+	const { theme } = useContext(ThemeContext) 	
 	const size = '25px'
 	 
 	return(
-		<FeedImages> 
+		<FeedImages theme={theme}> 
 			{posts?.map((post, index)=>(	
 				<EachImageContainer key={index}>
 					{post.images.length > 0 &&

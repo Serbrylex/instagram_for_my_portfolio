@@ -1,15 +1,30 @@
-import styled from 'styled-components' 
+import styled, { css } from 'styled-components' 
 
 
 export const SearchContainer = styled.div`
-	width: 100vw;
+	width: 100%;
 	height: auto; 
+	padding: 60px 0 0 0;
+	
+	${props => props.theme === 'light' && css` 
+		background-color: white;
+		color: black;
+	`}
+
+	${props => props.theme === 'dark' && css`
+		background-color: #141414;
+		color: white;
+	`}
 `
  
 export const SearchInput = styled.div`
 	width: 100%;
-	height: auto;	
-	height: 80vh;
+	height: auto;		
+
+	@media (min-width: 500px){
+	    width: 500px;	   	    		
+	    margin: 0 auto;
+    }
 `
 
 export const HeaderSection = styled.div`
@@ -18,7 +33,15 @@ export const HeaderSection = styled.div`
 	padding: 2px 2vw;
 	display: flex;
 	align-items: center;
-	justify-content: start;	
+	justify-content: start;		
+
+	@media (min-width: 500px){
+	    width: 500px;	   	       
+		border: 1px solid #dbdbdb;	  		    
+	    margin: 0 auto;
+    
+    }
+
 `
 
 export const Close = styled.div`
@@ -54,4 +77,10 @@ export const Filter = styled.p`
 export const ListOfFilter = styled.div`
 	width: 100%;
 	height: 80vh;	
+	padding: 0 1%;
+	
+	@media (min-width: 500px){
+	    width: 500px;	   	    		
+	    margin: 0 auto;
+    }
 `

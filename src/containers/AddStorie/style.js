@@ -1,10 +1,29 @@
 import styled, { css } from 'styled-components'
 
-export const AddStoriContainer = styled.div`
-	width: 100vw;
+export const AddStoriContainer = styled.div` 
+	width: 100vw; 
 	height: 100vh;
-	position: relative;
 	color: white;
+
+	${props => props.theme === 'light' && css`
+		background-color: white;
+		color: black;
+	`}
+
+	${props => props.theme === 'dark' && css`
+		background-color: #141414;
+		color: white;
+	`}	
+`
+
+export const ContainerForPosition = styled.div`
+	position: relative;
+	width: 100%;
+	height: 100%;
+	@media (max-width: 100vw) and (min-width: 500px){
+	    width: 500px;	    
+	    margin: 0 auto;
+    }
 `
 
 export const ImagesContainer = styled.div`	
@@ -15,6 +34,13 @@ export const ImagesContainer = styled.div`
 		display: flex;
 		overflow-x: scroll;		
 		scroll-behavior: smooth;
+
+		-ms-overflow-style: none;
+		scrollbar-width: none;
+
+		&::-webkit-scrollbar {
+			display: none;
+		}
 	`}
 
 	${props => props.kindGrid === 'two' && css`
@@ -32,6 +58,12 @@ export const ImagesContainer = styled.div`
 		grid-template-columns: repeat(2, 1fr);
 		grid-template-rows: repeat(2, 1fr);		
 	`}	
+
+
+	@media (max-width: 100vw) and (min-width: 500px){
+	    width: 498px;	    
+	    margin: 0 auto;
+    }
 `
 
 export const ImageBackground = styled.img`	
@@ -42,10 +74,18 @@ export const ImageBackground = styled.img`
 		width: 100vw;
 		height: auto;		
 	`}
+	border: 1px solid white;
+
+	@media (min-width: 500px){
+	    width: 498px;	    
+	    margin: 0 auto;
+    }
 `
 export const Header = styled.div`
 	position: absolute;
 	top: 0;
+	left: 0;
+	right: 0;
 	width: 100vw;
 	height: 50px;	
 	display: flex;
@@ -53,6 +93,11 @@ export const Header = styled.div`
 	color: white;
 	justify-content: space-between;
 	padding: 0 2vw; 
+
+	@media (min-width: 500px){
+	    width: 500px;	    
+	    margin: 0 auto;
+    }
 `
 export const NavegationBar = styled.div`
 	position: absolute;
@@ -66,7 +111,7 @@ export const NavegationBar = styled.div`
 	flex-direction: column;
 	justify-content: space-evenly;
 	padding: 0 2vw;
-	color: white;
+	color: white;	
 `
 export const Footer = styled.div`
 	position: absolute;
@@ -79,6 +124,11 @@ export const Footer = styled.div`
 	align-items: center;
 	justify-content: space-between;
 	padding: 0 2vw;
+
+	@media (min-width: 500px){
+	    width: 500px;	    
+	    margin: 0 auto;
+    }
 `
 export const Button = styled.button`	
 	display: flex;
@@ -100,9 +150,8 @@ export const ImageButton = styled.img`
 
 export const WhatContainer = styled.div`
 	position: absolute;
-	bottom: 0;
-	left: 20%;	
-	right: 20%;
+	bottom: 0;	
+	right: 10px;
 	width: auto;	
 	height: 50px;	
 	display: flex;

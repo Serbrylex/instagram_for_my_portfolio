@@ -1,5 +1,6 @@
 
-const ResetDate = ({ created }) => {
+const ResetDate = ({ created, language }) => {
+
 	const time = new Date();
 	let messageTime = ''
 
@@ -17,18 +18,69 @@ const ResetDate = ({ created }) => {
 	const hora = parseInt(created.slice(11, 13))
 	const minuto = parseInt(created.slice(14, 16))			
 
+	let years_words = 'years ago'
+	let year_words = 'year ago'
+	let months_words = 'months ago'
+	let month_words = 'month ago'
+	let days_words = 'days ago'
+	let day_words = 'day ago'	
+	let hours_words = 'hours ago'
+	let hour_words = 'hour ago'
+	let minutes_words = 'minutes ago'
+	let minute_words = 'minute ago'
+
+	let aMoment = 'a moment'
+
+	let firstWord = ''
+	if (language === 'es') {
+		firstWord = 'Hace '
+
+		years_words = 'años'
+		year_words = 'año'
+		months_words = 'meses'
+		month_words = 'mes'
+		days_words = 'días'
+		day_words = 'día'
+		hours_words = 'horas'
+		hour_words = 'hora'
+		minutes_words = 'minutos'
+		minute_words = 'minuto'
+
+		aMoment = 'un momento'
+	}
+
 	if (year > ano) {
-		messageTime = `Hace ${year - ano} años`
+		if (year - ano === 1) {
+			messageTime = `${firstWord}${year - ano} ${year_words}`
+		} else {
+			messageTime = `${firstWord}${year - ano} ${years_words}`
+		}
 	} else if (month > mes) {
-		messageTime = `Hace ${month - mes} meses`
+		if (month - mes === 1) {
+			messageTime = `${firstWord}${month - mes} ${month_words}`
+		} else {
+			messageTime = `${firstWord}${month - mes} ${months_words}`
+		}
 	} else if (day > dia) {
-		messageTime = `Hace ${day - dia} días`
-	} else if (hour > hora) {
-		messageTime = `Hace ${hour - hora} horas`
-	} else if (minute > minuto) {
-		messageTime = `Hace ${minute - minuto} minutos`
+		if (day - dia === 1) {
+			messageTime = `${firstWord}${day - dia} ${day_words}`
+		} else {
+			messageTime = `${firstWord}${day - dia} ${days_words}`
+		}
+	} else if (hour > hora) {		
+		if (hour - hora === 1) {
+			messageTime = `${firstWord}${hour - hora} ${hour_words}`
+		} else {
+			messageTime = `${firstWord}${hour - hora} ${hours_words}`
+		}
+	} else if (minute > minuto) {		
+		if (minute - minuto === 1) {
+			messageTime = `${firstWord}${minute - minuto} ${minute_words}`
+		} else {
+			messageTime = `${firstWord}${minute - minuto} ${minutes_words}`
+		}
 	} else {
-		messageTime = `Hace un momento`
+		messageTime = `${firstWord} ${aMoment}`
 	}			
 
 	return messageTime

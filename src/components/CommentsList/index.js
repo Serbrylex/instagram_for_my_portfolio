@@ -14,17 +14,30 @@ import SearchBar from '../SearchBar'
 
 // Hooks
 import { useInputValue } from '../../hooks/useInputValue'
+import { useGetWords } from '../../hooks/useGetWords'
 
 // API
 import apiCall from '../../api/apiCall'
 
 // Context
 import UserContext from '../../context/users'
+import ThemeContext from '../../context/theme'
+
 
 const CommentsList = ({ url, setShowComments, post_id }) => {
+	
+	// Context
+	const { isAuth } = useContext(UserContext)
+ 	const { theme } = useContext(ThemeContext) 	
+
+	// Variables
 	const size = '25px'	
 	const comment = useInputValue('Agrega un comentario')
-	const { isAuth } = useContext(UserContext)
+	const color = theme === 'light' ? 'black' : 'white'
+
+	// Language hook
+ 	const words = useGetWords({ component: 'comments_list' }) 		
+	
 	const [comments, setComments] = useState([])
 	const [focus, setFocus] = useState(false)	
 
@@ -66,12 +79,12 @@ const CommentsList = ({ url, setShowComments, post_id }) => {
 	}, [])
 
 	return(
-		<LikesContainer>
+		<LikesContainer theme={theme}>
 			<HeaderSection>			
 				<Close onClick={()=>setShowComments(false)}>
-					<CgArrowLeft size={size}/>
+					<CgArrowLeft size={size} color={color} />
 				</Close>
-				<Title>Comentarios</Title>				
+				<Title>{words?.comments}</Title>				
 			</HeaderSection>
 
 

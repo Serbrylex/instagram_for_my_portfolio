@@ -1,17 +1,27 @@
+// React
+import { useContext } from 'react'
 import { useLocation } from 'react-router-dom'
 
+// Assets
 import { 
-	FooterContainer, Link, ImgageProfile
+	FooterContainer, Link, ImgageProfile 
 } from './style'
 
 import { AiFillHome, AiOutlineHome, AiOutlineSearch } from 'react-icons/ai'
 import { ImSearch } from 'react-icons/im'
 
-import imageTest from '../../images/agujero-del-tiempo.jpg'
+import imageTest from '../../assets/images/agujero-del-tiempo.jpg'
+
+// Context
+import ThemeContext from '../../context/theme'
 
 
 const Footer = () => {
 	
+	// Context
+	const { theme } = useContext(ThemeContext) 	
+
+	// Location
 	let site = useLocation();	
 	site = site.pathname
  	
@@ -21,26 +31,28 @@ const Footer = () => {
 		site = '/search'
 	}	
 
+	// Variables
 	const size = '25px'
+	const color = theme === 'light' ? 'black' : 'white'
 
 	return(
-		<FooterContainer>
+		<FooterContainer theme={theme}>
 			<Link to='/'>
 				{site === '/' ?
-					<AiFillHome size={size} /> :
-					<AiOutlineHome size={size} />
+					<AiFillHome size={size} color={color} /> :
+					<AiOutlineHome size={size} color={color} />
 				}
 			</Link>
 			<Link to='/search'>
 				{site === '/search' ?
-					<ImSearch size={size} /> :
-					<AiOutlineSearch size={size} />
+					<ImSearch size={size} color={color} /> :
+					<AiOutlineSearch size={size} color={color} />
 				}
 			</Link>
 			<Link to='/profile/Serbrylex'>
 				{site === '/profile' ?
-					<ImgageProfile src={imageTest} alt="Profile Image" border={'true'}/> : 
-					<ImgageProfile src={imageTest} alt="Profile Image" />
+					<ImgageProfile src={imageTest} alt="Profile Image" border={color}/> : 
+					<ImgageProfile src={imageTest} alt="Profile Image" border={''}/>
 				}
 			</Link>
 		</FooterContainer>

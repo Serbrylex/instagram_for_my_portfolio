@@ -1,24 +1,28 @@
 // React
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useContext } from 'react'
 
 // API
 import apiCall from '../api/apiCall' 
 
 // Assets
-import imageTest from '../images/agujero-del-tiempo.jpg' 
+import imageTest from '../assets/images/agujero-del-tiempo.jpg' 
  
 // Hooks
 import ResetDate from './ResetDate'
- 
 
-export const useGetAllStories = ({ token, user, url }) => {	
+// Context
+import LanguageContext from '../context/language'
+
+
+export const useGetAllStories = ({ token, user, url, byUser = false }) => {	
 
 	const [stories, setStories] = useState([])
+	const { language } = useContext(LanguageContext)
 
 	// Hace la petición y ordena los elementos (user first)
 	const fetchAndOrderData = async () => {
 		const storiesResponse = await apiCall({
-			urlDirection: 'stories/get-all-stories/',
+			urlDirection: byUser ? `stories/get-stories/${user.username}/` : 'stories/get-all-stories/',
 			headers: {
 				'Authorization': `Token ${token}`
 			}
@@ -53,7 +57,7 @@ export const useGetAllStories = ({ token, user, url }) => {
 								storiesOrderedByUser[x].stories.push({
 									id: storiesData[i].id,
 									image: url + storiesData[i].image,
-									created: ResetDate({ created: storiesData[i].created })
+									created: ResetDate({ created: storiesData[i].created, language })
 								})
 							}
 						}	
@@ -70,7 +74,7 @@ export const useGetAllStories = ({ token, user, url }) => {
 								stories: [{
 									id: storiesData[i].id,
 									image: url + storiesData[i].image,
-									created: ResetDate({ created: storiesData[i].created })
+									created: ResetDate({ created: storiesData[i].created, language })
 								}]
 							})														
 						}

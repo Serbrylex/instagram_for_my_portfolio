@@ -29,12 +29,12 @@ export const DataRight = styled.div`
 	height: auto;
 `
 
-export const CommentParagraph = styled.div`
-
+export const CommentParagraph = styled.div`	
+	color: ${props => props.theme === 'light' ? 'black' : 'white'};
 `
 
 export const Username = styled(Link)`
-	font-weight: bold;
-	color: black;
-	text-decoration: none;
+	font-weight: bold;	
+	text-decoration: none;	
+	color: ${props => props.theme === 'light' ? 'black' : 'white'};
 `

@@ -1,4 +1,4 @@
-import styled from 'styled-components' 
+import styled, { css } from 'styled-components' 
 
 export const LikesContainer = styled.div`
 	width: 100%;
@@ -9,7 +9,14 @@ export const LikesContainer = styled.div`
 	right: 0;
 	left: 0;
 	top: 0;
-	z-index: 50;
+	z-index: 100;	
+	${props => props.theme === 'light' && css`
+		background-color: white;				
+	`}
+
+	${props => props.theme === 'dark' && css`
+		background-color: #1F1F1F;				
+	`}
 `
 
 export const HeaderSection = styled.div`
@@ -19,6 +26,12 @@ export const HeaderSection = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content: start;	
+	border: 1px solid #dbdbdb;
+
+	@media (min-width: 500px){
+	    width: 500px;
+	    margin: 0 auto;
+    }
 `
 
 export const Close = styled.div`
@@ -45,4 +58,8 @@ export const LikeList = styled.div`
 	padding: 10px 5vw;
 	overflow-y: scroll;
 	margin: 0 auto;
+	border: 1px solid #dbdbdb;
+	@media (min-width: 500px){
+	    width: 500px;
+    }
 `

@@ -2,14 +2,18 @@ import styled from 'styled-components'
 
 export const FeedContainer = styled.div`
 	width: 100%;
-	height: 100%;
-	margin-bottom: 10vh;
+	height: 100%;	
+
+	@media (max-width: 100vw) and (min-width: 500px){
+	    width: 500px;
+	    margin: 50px auto 0 auto;
+    }
 `
  
 // Feed ----------------------------------------------- 
 export const FeedImages = styled.div`
-	width: 100vw;
+	width: 100%;
 	height: auto;
-	margin: 0 auto;	
+	margin: 0 auto 10vh auto;
 `
 

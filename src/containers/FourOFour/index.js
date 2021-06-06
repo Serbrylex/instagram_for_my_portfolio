@@ -2,7 +2,7 @@ import {
 	Container, Image
 } from './style'
 
-import fourofour from '../../images/FourOFour.svg'
+import fourofour from '../../assets/images/FourOFour.svg'
 
 const FourOFour = () => {
 	

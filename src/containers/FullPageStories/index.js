@@ -1,13 +1,14 @@
 // React
 import { useState, useEffect, useContext } from 'react'
 import { useParams, useHistory } from 'react-router-dom'
+import { Helmet } from 'react-helmet'
 
 // Assets
 import {
-	FullPageStoriesContainer, ImageFont, HeaderInfo, 
+	FullPageStoriesContainer, ImageFont, HeaderInfo,
 	HeaderData, DataLeft, ImageProfile, Username, Hour, 
 	DataRight, BottomData, Input, SendTo
-} from './style'
+} from './style' 
  
 import { AiOutlineSend } from 'react-icons/ai'
 import { MdClose } from 'react-icons/md'
@@ -15,6 +16,7 @@ import { MdClose } from 'react-icons/md'
 // Hooks
 import { useInputValue } from '../../hooks/useInputValue'
 import { useGetAllStories } from '../../hooks/useGetAllStories'
+import { useGetWords } from '../../hooks/useGetWords'
 
 // Components
 import Loading from '../../components/Loading'
@@ -22,16 +24,23 @@ import TimeLine from '../../components/TimeLine'
 
 // Context
 import UserContext from '../../context/users'
+import ThemeContext from '../../context/theme'
 
 
-const FullPageStories = ({ url }) => {
+const FullPageStories = ({ url, byUser = false }) => {
 	
-	// Variables globales
+	// Variables
 	let timer
 	const size = '25px'	
 	const history = useHistory()		
 	const { index } = useParams()
- 	const { isAuth } = useContext(UserContext)
+ 	
+ 	// Context
+	const { isAuth } = useContext(UserContext) 	
+ 	const { theme } = useContext(ThemeContext) 	
+
+ 	// Language hook
+ 	const words = useGetWords({ container: 'full_page_stories' }) 	
 
 	try{
 		parseInt(index)
@@ -43,12 +52,13 @@ const FullPageStories = ({ url }) => {
 	const stories = useGetAllStories({ 
 		token: isAuth.access_token, 
 		user: isAuth.user,
-		url: url,		
+		url: url,
+		byUser: byUser
 	})	
 
 	// Variables especificas para algo
 	const [time, setTime] = useState(999)
-	const message = useInputValue('Send Message')
+	const message = useInputValue(words?.send_message)
 
 	const [actualUser, setActualUser] = useState({})
 	const [userIndex, setUserIndex] = useState(parseInt(index))
@@ -161,6 +171,10 @@ const FullPageStories = ({ url }) => {
 
 	return(
 		<FullPageStoriesContainer onClick={e => handleClickWindow(e)}>
+			<Helmet>
+                <title>Storie of {actualStorie.username}</title>
+				<meta name='description' content={`This is the storie of: ${isAuth.user.username}`} />
+			</Helmet>
 			{actualStorie?.id ?
 				<><ImageFont src={actualStorie.image} alt={actualUser.username}/>
 				<HeaderInfo>

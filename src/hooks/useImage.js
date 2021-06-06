@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-import imageTest from '../images/agujero-del-tiempo.jpg'
+import imageTest from '../assets/images/agujero-del-tiempo.jpg'
 
 export const useImage = (defaultImage = imageTest) => {
 	const [image, setImage] = useState([defaultImage])

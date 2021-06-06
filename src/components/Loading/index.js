@@ -1,5 +1,5 @@
 // Assets
-import circle from '../../images/circle.svg' 
+import circle from '../../assets/images/circle.svg' 
 
 import {
 	ImageLoading, Container

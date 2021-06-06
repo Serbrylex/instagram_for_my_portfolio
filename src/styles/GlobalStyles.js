@@ -1,5 +1,17 @@
 import { createGlobalStyle } from 'styled-components'
 
+/*
+Dark
+    0A0A0A
+    141414
+    1F1F1F 
+    292929
+    333333
+    3D3D3D
+    474747
+    525252
+*/
+
 export const GlobalStyles = createGlobalStyle`
     html {
         box-sizing: border-box;
@@ -23,17 +35,23 @@ export const GlobalStyles = createGlobalStyle`
         outline: none;
     }
     body {
-        background: #fafafa;
+        background-color: #fafafa;
         height: 100vh;
         margin: 0 auto;
         max-width: 500px;
         width: 100%;        
-        font-size: 14px;
-
+        font-size: 14px;        
+        @media (min-width: 500px){
+            max-width: none;
+            width: 100%;
+            margin: 0;
+        }
     }
     #root {
         box-shadow: 0 0 10px rgba(0, 0, 0, .5);        
-        min-height: 100vh;
-        padding-bottom: 10px;
+        min-height: 100%;        
+        @media (min-width: 500px){
+            width: 100%;
+        }
     }
 `

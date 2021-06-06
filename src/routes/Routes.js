@@ -26,7 +26,8 @@ import FollowRequest from '../containers/FollowRequest'
 //Messages
 import Messages from '../containers/Messages'
 //Add Stori
-import AddStori from '../containers/AddStori'
+import AddStorie from '../containers/AddStorie'
+
 // 404
 import FourOFour from '../containers/FourOFour'
 
@@ -66,11 +67,14 @@ const Routes = () => {
 				<Messages url={url} />
 			</Route>,						
 			<Route path="/add-storie" exact key={8}>
-				<AddStori url={url}/>
+				<AddStorie url={url}/>
 			</Route>,
 			<Route path="/stories/:index" exact key={9}>
 				<FullPageStories url={url}/>
-			</Route>						
+			</Route>,
+			<Route path="/stories_by_user/:index" exact key={9}>
+				<FullPageStories url={url} byUser={true} />
+			</Route>
 		]
 	}else{
 		elements.push(<Redirect to="/login" key={10}/>)

@@ -1,0 +1,100 @@
+{	
+	"containers": {		
+		"add_storie": {
+			"something_wrong": "Algo salio mal",
+			"your_storie": "Tú historia",
+			"send_to": "Enviar a",
+			"storie": "Historia"
+		},
+		"full_page_stories": {
+			"send_message": "Enviar mensaje"
+		},		
+		"login": {		
+			"username": "Nombre de usuario",
+			"password": "Contraseña",
+			"or": "o",
+			"start_session": "Iniciar sesión",
+			"start_session_facebook": "Iniciar sesión con Facebook",
+			"did_you_forgot_password": "¿Olvidaste tu contraseña?",
+			"dont_have_an_account": "¿No tienes una cuenta?",
+			"sign_in": "Registrate",
+			"download_app": "Descargar app"
+		},
+		"new_post": {
+			"description": "Descripción",
+			"new_post": "Nueva publicación",
+			"upload_image": "Subir Imagen"
+		},
+		"profile": {
+			"post": "Publicación",
+			"followers": "Seguidores",
+			"following": "Siguiendo",
+			"follow": "Seguir",
+			"edit_profile": "Editar Perfil",			
+			"message": "Mensaje",
+			"posts": "Publicaciones"
+		},
+		"search": {
+			"search": "Buscar",
+			"explor": "Explorar"
+		},
+		"sign_in": {
+			"email": "Correo electronico",
+			"username": "Nombre de usuario",
+			"password": "Contraseña",
+			"password_confirmation": "Confirma tu contraseña",
+			"name": "Nombres",
+			"last_name": "Apellidos",
+			"sign_in_to": "Regístrate para ver fotos y videos de tus amigos",
+			"start_session_facebook": "Iniciar sesión con Facebook",
+			"you_have_account": "¿Tienes una cuenta?",
+			"start_session": "Inicia sesión",
+			"download_app": "Descargar app"
+		},
+		"update_profile": {
+			"edit_profile": "Editar Perfil",
+			"change_profile_picture": "Cambiar Foto De Perfil",
+			"public_profile": "Perfil publico",
+			"public": "Publico",
+			"no_public": "No publico",
+			"name": "Nombres",
+			"last_name": "Apellidos",
+			"username": "Nombre de usuario",
+			"website": "Sitio web",
+			"biography": "Biografía",
+			"phone_number": "Número de telefono"
+		}
+	},
+	"components": {
+		"comments_list": {
+			"comments": "Comentarios"
+		},
+		"post": {
+			"likes": "personas le dieron me gusta",
+			"comments": "comentarios"
+		},
+		"post_options": {
+			"see_profile": "Ver perfil",
+			"delete_post": "Eliminar publicación",
+			"stop_following": "Dejar de seguir",
+			"cancel": "Cancelar"
+		},
+		"search_bar": {
+			"post": "Publicar"
+		},
+		"stories": {
+			"new_storie": "Nuevo"
+		},
+		"user_in_list": {
+			"following": "Siguiento",
+			"follow": "Seguir"
+		},
+		"user_menu": {
+			"theme": "Tema",
+			"dark": "Oscuro",
+			"light": "Luminozo",
+			"language": "Idioma",
+			"close_session": "Cerrar sesión"
+		}
+	}
+}

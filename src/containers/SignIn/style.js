@@ -4,14 +4,35 @@ import { Link as Linked } from 'react-router-dom'
 
 export const LoginContainer = styled.div`
 	width: 100%;
-	height: auto;
+	height: 100%;	
+	display: flex;
+	justify-content: center;
+	@media (max-width: 100vw) and (min-width: 800px){
+	    flex-direction: row;
+	    justify-content: space-evenly;
+    }
+`
+
+export const ImageLeft = styled.img`
+	display: none;
+	@media (max-width: 100vw) and (min-width: 800px){
+	    display: flex;
+	    width: 350px;
+	    height: 90vh;
+	    margin: auto 0;
+	    border-radius: 4px;
+    }
+`
+
+export const SigninForm = styled.div`
+	margin-top: 20px;
+	width: 350px;	
+	height: 100vh;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
 	text-align: center;
-	padding-top: 30px;
-
 `
 
 export const MainData = styled.div`
@@ -27,6 +48,7 @@ export const MainData = styled.div`
 
 export const Title = styled.h1`
 	margin: 5% 0 10% 0;
+	font-family: 'ZCOOL KuaiLe', cursive;
 `
 
 export const PHeader = styled.h2`
