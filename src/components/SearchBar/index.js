@@ -16,7 +16,7 @@ import ThemeContext from '../../context/theme'
 import { useGetWords } from '../../hooks/useGetWords'
 
 
-const SearchBar = ({ search, focus, setFocus, fixed, url, handleSendComment }) => { 
+const SearchBar = ({ search, focus = false, setFocus = (some) => {}, fixed, url, handleSendComment }) => { 
 	 
 	const size = '25px'
 

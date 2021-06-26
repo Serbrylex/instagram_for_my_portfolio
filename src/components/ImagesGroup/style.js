@@ -2,7 +2,7 @@ import styled, { css } from 'styled-components'
 
 export const ImagesContainer = styled.div`
 	display: flex;
-	overflow-x: scroll;	
+	overflow-x: scroll;	 
 	height: auto;
 	scroll-behavior: smooth;
 
@@ -25,7 +25,7 @@ export const ImagesContainer = styled.div`
 	}; 
 `
 
-export const ImagePost = styled.img`	
+export const ImagePost = styled.img`		
 	${props => props.size === '100vw' ? css`
 		width: 100vw;
 		@media (max-width: 100vw) and (min-width: 500px){
@@ -36,5 +36,5 @@ export const ImagePost = styled.img`
 			width: props.size;
 		`
 	}; 
-	height: auto;	
+	height: auto;
 `

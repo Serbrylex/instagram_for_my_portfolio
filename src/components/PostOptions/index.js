@@ -1,6 +1,6 @@
 // React
 import { useHistory } from 'react-router-dom'
-import { useContext, useEffect } from 'react'
+import { useContext } from 'react'
 
 // API
 import apiCall from '../../api/apiCall'
@@ -9,9 +9,6 @@ import apiCall from '../../api/apiCall'
 import {
 	PostOptionsPage, PostOptionsContainer, Option
 } from './style'
- 
-import { MdKeyboardArrowDown } from 'react-icons/md'
-import { RiUserUnfollowLine, RiDeleteBin7Line, RiUser3Line } from 'react-icons/ri'
 
 // Context
 import ThemeContext from '../../context/theme'
@@ -27,8 +24,7 @@ const PostOptions = ({ setShowMenuPost, post_data, isAuth, setShowPost }) => {
 	
 	// Variables
 	const color = theme === 'light' ? 'black' : 'white'
-	const history = useHistory()
-	const size = '22px'
+	const history = useHistory()	
 
 	// Language hook
  	const words = useGetWords({ component: 'post_options' }) 		 		

@@ -9,6 +9,7 @@ export const PostContainer = styled.div`
 	position: relative;	
 	margin: 10px 0;
 	border: 1px solid #dbdbdb;
+	border-radius: 4px;
 `
 
 export const UserPost = styled.div`

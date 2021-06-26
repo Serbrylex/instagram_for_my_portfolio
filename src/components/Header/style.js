@@ -42,27 +42,6 @@ export const ListIcons = styled.div`
 	height: 100%;
 `
 
-export const Form = styled.div`
-	width: 100%;
-	height: 100%;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-`
-
-export const Input = styled.div`
-	width: 90%;
-	height: 80%;
-	padding: 5% 2%;
-	position: relative;
-`
-
-export const Submit = styled.div`
-	background-color: none;
-	border: 1px solid red;
-	position: absolute;	
-`
-
 export const ProfileData = styled.div`
 	display: flex;
 	align-items: center;

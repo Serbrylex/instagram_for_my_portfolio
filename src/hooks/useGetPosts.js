@@ -11,15 +11,16 @@ import ResetDate from './ResetDate'
 import LanguageContext from '../context/language'
  
 
-export const useGetPosts = ({ token, user, url, idUser = '', page }) => {	
+export const useGetPosts = ({ token, user, url, idUser = '' }) => {	
 
-	const [posts, setPosts] = useState([])	
+	const [posts, setPosts] = useState([])
+	const [loading, setLoading]	= useState(true)
 	const { language } = useContext(LanguageContext)
 
 	// Hace la petición y ordena los elementos (user first)
-	const fetchAndOrderData = async (page_numer) => {
+	const fetchAndOrderData = async () => {
  
-		let urlDirection = idUser.length !== 0 ? `get-posts/${idUser}/` : `posts/${page_numer}/`
+		let urlDirection = idUser.length !== 0 ? `get-posts/${idUser}/` : `posts/`
 		const postsResponse = await apiCall({
 			urlDirection,
 			headers: {
@@ -49,16 +50,17 @@ export const useGetPosts = ({ token, user, url, idUser = '', page }) => {
 			}
 		
 			setPosts(postsData)
+			setLoading(false)
 		}
 
 	}
 
-	useEffect(()=>{
-		fetchAndOrderData(page)
+	useEffect(()=>{		
+		fetchAndOrderData()
 	}, [])
 
 	return {
-		posts: posts,
-		getPosts: (page_numer) => fetchAndOrderData(page_numer)
+		posts,
+		loading
 	}
 }

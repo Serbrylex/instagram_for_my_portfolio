@@ -36,6 +36,7 @@ const Stories = ({ add, stories, url }) => {
  	const words = useGetWords({ component: 'stories' }) 	
 
  	useEffect(()=>{
+ 		console.log(stories)
  		setStoriesReference(document.getElementById('list-of-stories'))
  	}, [])
 

@@ -1,11 +1,11 @@
 // React
 import { useContext } from 'react'
-import { useLocation, useHistory } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 
 // Assets
 import {
-	HeaderContainer, Title, ListIcons, Form, Input, Submit,
-	ProfileData, Username, Link, ImageProfile
+	HeaderContainer, Title, ListIcons, ProfileData, 
+	Username, Link, ImageProfile
 } from './style' 
 
 import imageTest from '../../assets/images/agujero-del-tiempo.jpg'
@@ -13,15 +13,11 @@ import imageTest from '../../assets/images/agujero-del-tiempo.jpg'
 // Icons
 import { CgAddR } from 'react-icons/cg'
 import { 
-	AiOutlineHeart, AiOutlineSend, AiOutlineSearch, AiOutlineLock, 
-	AiOutlineUnlock, AiFillHome, AiOutlineHome
+	AiOutlineSearch, AiOutlineLock, AiOutlineUnlock, AiFillHome, AiOutlineHome
 } from 'react-icons/ai'
 import { MdKeyboardArrowDown } from 'react-icons/md'
 import { GiHamburgerMenu } from 'react-icons/gi'
 import { ImSearch } from 'react-icons/im'
-
-// Hooks
-import { useInputValue } from '../../hooks/useInputValue'
 
 // Context
 import ThemeContext from '../../context/theme' 
@@ -37,11 +33,8 @@ const Header = ({ setShowUserMenu, url }) => {
 	// Url location
 	let site = useLocation();
 	site = site.pathname
-
-	const searchInput = useInputValue('Search')
 	
 	// Variables
-	const history = useHistory()
 	const size = '22px'
 	const color = theme === 'light' ? 'black' : 'white'
 	

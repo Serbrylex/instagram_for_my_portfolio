@@ -9,7 +9,7 @@ import {
 // Components
 import Post from '../../components/Post'
 
-const PostsContainer = ({ posts, url }) => {
+const PostsContainer = ({ posts, url, isMoving, scrollTop }) => {
 
 	const [postsFinal, setPostsFinal] = useState([])	
 
@@ -22,7 +22,7 @@ const PostsContainer = ({ posts, url }) => {
 	return(
 		<PostsFor>
 			{postsFinal?.map((post, index)=>(
-				<Post key={index} post={post} url={url} />
+				<Post key={index} post={post} url={url} isMoving={isMoving} scrollTop={scrollTop}/>
 			))}
 		</PostsFor>
 	)

@@ -102,7 +102,7 @@ const Profile = ({ url }) => {
 	useEffect(()=>{				
 		//setKindOfView(true)
 		
-		if ((posts.posts?.length || posts.posts.length === 0) && (stories?.length || stories.length === 0)) {
+		if ((posts?.length || posts.length === 0) && (stories?.length || stories.length === 0)) {
 			setLoading(false)			
 		}
 
@@ -142,7 +142,7 @@ const Profile = ({ url }) => {
 		let response = ''
 		if (what) {
 			response = await apiCall({
-				urlDirection: `user/follow_to/${user.user_id}`, 
+				urlDirection: `user/follow_to/${user.user_id}/`, 
 				method: 'POST', 
 				headers: {
 					'Authorization': `Token ${isAuth.access_token}`

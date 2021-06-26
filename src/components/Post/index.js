@@ -2,7 +2,7 @@
 import { useState, useContext, useEffect } from 'react'
 import { useHistory } from 'react-router-dom' 
  
-// Assets
+// Assets 
 import {	
 	PostContainer, UserPost, UserDataLeft, ImageUser, Username, Count, 
 	InterectiveSection, Left, Dots, Dot, Likes, Paragraph, Comments, Time, 
@@ -40,7 +40,7 @@ const Post = ({ post, url }) => {
  	const { theme } = useContext(ThemeContext) 	
 
 	// Language hook
- 	const words = useGetWords({ component: 'post' }) 		 		
+ 	const words = useGetWords({ component: 'post' }) 	 	
 
 	const [like, setLike] = useState(post.user_liked)
 	const [showLikes, setShowLikes] = useState(false)
@@ -55,7 +55,7 @@ const Post = ({ post, url }) => {
 	const [imageIndex, setImageIndex] = useState(0)	
 
 	const [referenceId, setReferenceId] = useState(false)
-	const [arrowClicked, setArrowClicked] = useState(false)
+	const [arrowClicked, setArrowClicked] = useState(false) 
 
 	// Variables
 	const size = '22px'
@@ -148,75 +148,70 @@ const Post = ({ post, url }) => {
 		}
 		setArrowClicked(false)
 	}
-
-
-	if (showPost) {
-		return(
-			<PostContainer>
-				{showComments &&  
-					<CommentsList url={url} setShowComments={setShowComments} post_id={post.post_id}/>
-				}
-				{showLikes && 
-					<LikesList url={url} setShowLikes={setShowLikes} post_id={post.post_id}/>
-				}
-				{showMenuPost && 
-					<PostOptions 
-						setShowMenuPost={setShowMenuPost} 
-						post_data={{
-							username: post.username,
-							user_id: post.user_id,
-							post_id: post.post_id
-						}}
-						isAuth={isAuth}	
-						setShowPost={setShowPost}
-					/>
-				}								
-				<UserPost>
-					<UserDataLeft>
-						<ImageUser src={post.picture} alt='User post' />
-						<Username to={`profile/${post.username}`} theme={theme}>{post.username}</Username>
-					</UserDataLeft>
-					<DotsButtonMenu onClick={()=>setShowMenuPost(true)}>
-						<BiDotsVerticalRounded size='20px' color={color}/>
-					</DotsButtonMenu>
-				</UserPost>
-				<ImagesGroupContainer>
-					<Count theme={theme}>{imageIndex+1}/{post.images?.length}</Count>
-					<ButtonLeft theme={theme} onClick={()=>handleMoveArrow(true)}><IoIosArrowBack size={size} color={theme === 'light' ? 'white' : 'black'} /></ButtonLeft>
-					<ButtonRight theme={theme} onClick={()=>handleMoveArrow(false)}><IoIosArrowForward size={size} color={theme === 'light' ? 'white' : 'black'} /></ButtonRight>
-					<ImagesGroup images={post.images} size='100vw' onScrollEvent={handleControlScrollImage} post_id={post.post_id} />
-				</ImagesGroupContainer>
-				<Dots>
-					{post.images?.map((image, index)=>(
-						<Dot key={index} onClick={()=> handleDotClick(index)}>
-							<GoPrimitiveDot size='10px' color={index <= imageIndex ? 'blue' : color} />
-						</Dot>
-					))}
-				</Dots>
-				<InterectiveSection>							
-					<Left>
-						{ like ? <AiFillHeart  size={size} onClick={()=>handleLike()} color={color}/> :
-						<AiOutlineHeart  size={size} onClick={()=>handleLike()}/> }					
-						<AiOutlineComment  size={size} onClick={()=>setShowComments(true)} color={color}/>
-						<AiOutlineSend size={size}  onClick={()=>console.log("send")} color={color}/>
-					</Left>				
-				</InterectiveSection>
-				<Likes onClick={()=>setShowLikes(true)}>{totalLikes} {words?.likes}</Likes>
-				
-				<Paragraph>
-					<Username to={`/profile/${post.username}`} theme={theme}>{post.username}</Username> {post.description}
-				</Paragraph>						
-				<ExtradataContainer>
-					<Comments onClick={()=>setShowComments(true)}>
-						{post.all_comments} {words?.comments}
-					</Comments>
-					<Time>{post.created}</Time>
-				</ExtradataContainer>
-			</PostContainer>
-		)
-	} else {
-		return ''
-	}
+	
+	return(
+		<PostContainer>
+			{showComments &&  
+				<CommentsList url={url} setShowComments={setShowComments} post_id={post.post_id}/>
+			}
+			{showLikes && 
+				<LikesList url={url} setShowLikes={setShowLikes} post_id={post.post_id}/>
+			}
+			{showMenuPost && 
+				<PostOptions 
+					setShowMenuPost={setShowMenuPost} 
+					post_data={{
+						username: post.username,
+						user_id: post.user_id,
+						post_id: post.post_id
+					}}
+					isAuth={isAuth}	
+					setShowPost={setShowPost}
+				/>
+			}								
+			<UserPost>
+				<UserDataLeft>
+					<ImageUser src={post.picture} alt='User post' />
+					<Username to={`profile/${post.username}`} theme={theme}>{post.username}</Username>
+				</UserDataLeft>
+				<DotsButtonMenu onClick={()=>setShowMenuPost(true)}>
+					<BiDotsVerticalRounded size='20px' color={color}/>
+				</DotsButtonMenu>
+			</UserPost>
+			<ImagesGroupContainer>
+				<Count theme={theme}>{imageIndex+1}/{post.images?.length}</Count>
+				<ButtonLeft theme={theme} onClick={()=>handleMoveArrow(true)}><IoIosArrowBack size={size} color={theme === 'light' ? 'white' : 'black'} /></ButtonLeft>
+				<ButtonRight theme={theme} onClick={()=>handleMoveArrow(false)}><IoIosArrowForward size={size} color={theme === 'light' ? 'white' : 'black'} /></ButtonRight>
+				<ImagesGroup images={post.images} size='100vw' onScrollEvent={handleControlScrollImage} post_id={post.post_id}/>
+			</ImagesGroupContainer>
+			<Dots>
+				{post.images?.map((image, index)=>(
+					<Dot key={index} onClick={()=> handleDotClick(index)}>
+						<GoPrimitiveDot size='10px' color={index <= imageIndex ? 'blue' : color} />
+					</Dot>
+				))}
+			</Dots>
+			<InterectiveSection>							
+				<Left>
+					{ like ? <AiFillHeart  size={size} onClick={()=>handleLike()} color={color}/> :
+					<AiOutlineHeart  size={size} onClick={()=>handleLike()}/> }					
+					<AiOutlineComment  size={size} onClick={()=>setShowComments(true)} color={color}/>
+					<AiOutlineSend size={size}  onClick={()=>console.log("send")} color={color}/>
+				</Left>				
+			</InterectiveSection>
+			<Likes onClick={()=>setShowLikes(true)}>{totalLikes} {words?.likes}</Likes>
+			
+			<Paragraph>
+				<Username to={`/profile/${post.username}`} theme={theme}>{post.username}</Username> {post.description}
+			</Paragraph>						
+			<ExtradataContainer>
+				<Comments onClick={()=>setShowComments(true)}>
+					{post.all_comments} {words?.comments}
+				</Comments>
+				<Time>{post.created}</Time>
+			</ExtradataContainer>
+		</PostContainer>
+	)	
 }
 
 export default Post

@@ -83,6 +83,7 @@ export const Button = styled.input`
 	color: white;
 	margin: 10px 0;
 	border: none;
+	cursor: pointer;
 `
 
 export const Separator = styled.div`

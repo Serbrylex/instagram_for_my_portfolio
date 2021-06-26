@@ -28,9 +28,10 @@ export const HeaderSection = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content: start;	
+	margin: 5px 0;
 
 	@media (min-width: 500px){
-	    margin: 0 auto;
+	    margin: 5px auto;
 	    width: 500px;
 	    border: 1px solid #dbdbdb;
 	    border-radius: 4px;

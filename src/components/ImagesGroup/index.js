@@ -7,7 +7,7 @@ const ImagesGroup = ({ images, size, onScrollEvent, post_id }) => {
 	return( 
 		<ImagesContainer size={size} onScroll={e => onScrollEvent(e)} id={`${post_id}-imagesGroup`}> 
 			{images?.map((image, index)=>(								
-				<ImagePost src={image} alt={image} key={index} size={size}/>
+				<ImagePost src={image} alt={image} key={index} size={size} />
 			))}
 		</ImagesContainer> 
 	)

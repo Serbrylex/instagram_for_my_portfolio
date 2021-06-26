@@ -103,8 +103,7 @@ export const EditProfile = styled.button`
 	padding: 5px 0;
 	text-align: center;
 	border-radius: 4px;
-	cursor: pointer;
-	margin: 10px 0;
+	cursor: pointer;	
 	${props => props.theme === 'light' && css`
 		border: 1px solid black;
 		background-color: white;			
@@ -118,7 +117,7 @@ export const EditProfile = styled.button`
 	`}
 	@media (min-width: 500px){	    	    
 	    width: 500px;
-	    margin: 10px auto;
+	    margin: 10px auto 0 auto;
     }	
 `
 
@@ -127,7 +126,7 @@ export const ButtonsContainer = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	margin: 10px 0;
+	margin: 5px 0;
 	@media (min-width: 500px){	    	    
 	    width: 500px;
 	    margin: 10px auto;

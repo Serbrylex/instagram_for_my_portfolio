@@ -15,23 +15,26 @@ import SearchBar from '../SearchBar'
 
 // Hooks
 import { useInputValue } from '../../hooks/useInputValue'
-
+ 
 // API
 import apiCall from '../../api/apiCall'
 
 // Context
 import UserContext from '../../context/users'
+import ThemeContext from '../../context/theme'
 
 
 const UsersList = ({ url, setShowList, users, title }) => {
+
+	// Context
+	const { isAuth } = useContext(UserContext)
+	const { theme } = useContext(ThemeContext) 	 		
 
 	// Variables
 	const size = '25px'
 	const history = useHistory()	
 	const search = useInputValue('Buscar')
-
-	// Context
-	const { isAuth } = useContext(UserContext)
+	const color = theme === 'light' ? 'black' : 'white'
 
 	// Searching
 	const [usersSearching, setUsersSearching] = useState([])
@@ -53,17 +56,17 @@ const UsersList = ({ url, setShowList, users, title }) => {
 	}, [search.value])
 
 	return(
-		<LikesContainer>
-			<HeaderSection>			
+		<LikesContainer theme={theme}>
+			<HeaderSection theme={theme}>			
 				<Close onClick={() => setShowList(false)}>
-					<CgArrowLeft size={size}/>
+					<CgArrowLeft size={size} color={color}/>
 				</Close>
 				<Title>{title}</Title>				
 			</HeaderSection>
 
 			<SearchBar search={search} setFocus={setFocus} fixed='top' />
 
-			<LikeList>
+			<LikeList theme={theme}>
 				{search.value.length > 0 ?
 					<>
 						{usersSearching?.map((user, index)=>(

@@ -172,7 +172,7 @@ const FullPageStories = ({ url, byUser = false }) => {
 	return(
 		<FullPageStoriesContainer onClick={e => handleClickWindow(e)}>
 			<Helmet>
-                <title>Storie of {actualStorie.username}</title>
+                <title>Stories</title> 
 				<meta name='description' content={`This is the storie of: ${isAuth.user.username}`} />
 			</Helmet>
 			{actualStorie?.id ?

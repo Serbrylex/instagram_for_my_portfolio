@@ -1,4 +1,5 @@
 import styled, { css } from 'styled-components' 
+import { Link } from 'react-router-dom'
 
 export const FeedContainer = styled.div`
 	width: 100%;	
@@ -55,4 +56,20 @@ export const LoadingBottom = styled.div`
 export const ImageLoading = styled.img`
 	height: 30px;
 	width: 30px;
+`
+
+export const ContainerButtonFor = styled.div`
+	width: 100%;
+	height: 500px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+`
+
+export const ButtonToSearch = styled.p`
+	width: auto;	
+`
+
+export const LinkFor = styled(Link)`	
+	text-decoration: none;
 `

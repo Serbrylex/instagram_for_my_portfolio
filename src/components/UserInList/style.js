@@ -42,13 +42,14 @@ export const Button = styled.button`
 	color: white;
 	cursor: pointer;
 	border-radius: 4px;
+	border: 1px solid #dbdbdb;	  
 	${props => props.theme === 'light' && css`
 		background-color: #0095f6;		
 		color: white;		
 	`}
 
 	${props => props.theme === 'dark' && css`
-		background-color: #1F1F1F;
+		background-color: #292929;
 		color: white;		
-	`}
+	`} 
 `

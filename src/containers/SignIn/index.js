@@ -19,6 +19,9 @@ import imageFont from '../../assets/images/agujero-del-tiempo.jpg'
 import { useInputValue } from '../../hooks/useInputValue'
 import { useGetWords } from '../../hooks/useGetWords'
 
+// Components
+import Loading from '../../components/Loading'
+
 // Context 
 import UserContext from '../../context/users'
 import ThemeContext from '../../context/theme'
@@ -34,6 +37,7 @@ const SignIn = () => {
  	const words = useGetWords({ container: 'sign_in' }) 		
 
 	const history = useHistory()
+	const [loading, setLoading] = useState(false)
 
 	// Inputs form
 	const email = useInputValue('Email')
@@ -48,8 +52,9 @@ const SignIn = () => {
 		listErrors: ''
 	})
 
-	const handleSubmit = async e => {
+	const handleSubmit = async e => {		
 		e.preventDefault()
+		setLoading(true)
 
 		const response = await activeAuth({  
 			urlDirection: 'user/signup/', 
@@ -138,6 +143,9 @@ const SignIn = () => {
 
 					{errorResponse.listErrors?.non_field_errors &&
 						<ErrorP>{errorResponse.listErrors?.non_field_errors}</ErrorP>
+					}
+					{loading && 
+						<Loading />
 					}
 					
 				</MainData>

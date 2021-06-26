@@ -39,10 +39,9 @@ const CommentsList = ({ url, setShowComments, post_id }) => {
  	const words = useGetWords({ component: 'comments_list' }) 		
 	
 	const [comments, setComments] = useState([])
-	const [focus, setFocus] = useState(false)	
 
 	const handleSendComment = async () => {
-		let data = await apiCall({			
+		await apiCall({			
 			urlDirection: 'set-comment/',
 			method: 'POST',
 			headers: {
@@ -55,7 +54,19 @@ const CommentsList = ({ url, setShowComments, post_id }) => {
 				'user_id': isAuth.user.id
 			})
 		})
-		handleFetchComments()
+
+		console.log(isAuth)
+		
+		setComments([
+			...comments,
+			{
+				comment: comment.value,
+				picture: isAuth.user.profile.picture,
+				user_id: isAuth.user.user_id,
+				username: isAuth.user.username
+			}
+		])
+
 		comment.setValue('')
 	}
 
@@ -94,7 +105,7 @@ const CommentsList = ({ url, setShowComments, post_id }) => {
 				))}	
 			</CommentList>
 
-			<SearchBar search={comment} setFocus={setFocus} fixed='bottom' url={url} handleSendComment={handleSendComment}/>
+			<SearchBar search={comment} fixed='bottom' url={url} handleSendComment={handleSendComment}/>
 			
 		</LikesContainer>
 	)

@@ -39,7 +39,7 @@ export const useGetStoriesByUser = ({ token, user, url, idUser = '' }) => {
 		const dataResponse = await storiesResponse.json()		
 			
 		let storiesData = [...dataResponse]	
-
+		
 		if (storiesResponse.ok) {						
 					
 			let pasa = true
@@ -54,14 +54,7 @@ export const useGetStoriesByUser = ({ token, user, url, idUser = '' }) => {
 			// Entramos aquí si no hay stories que devolver
 			// Devolvemos al usuario
 			} else {
-				storiesData = [{
-					user: {
-						id: user.id,
-						username: user.username,
-						picture: user.profile.picture ? `${url}${user.profile.picture}` : imageTest
-					},
-					eventAddOrGo: '/add-storie'
-				}]
+				storiesData = []
 			}
 		}
 		

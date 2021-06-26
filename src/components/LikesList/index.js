@@ -1,6 +1,5 @@
 // React
 import { useState, useEffect, useContext } from 'react'
-import { useHistory } from 'react-router-dom'
 
 // Assets
 import { 
@@ -31,14 +30,11 @@ const LikesList = ({ url, setShowLikes, post_id }) => {
 	const { theme } = useContext(ThemeContext) 	
 
 	// Variables
-	const size = '25px'
-	const history = useHistory()	
+	const size = '25px'	
 	const color = theme === 'light' ? 'black' : 'white'
 
 	const [likes, setLikes] = useState([])
 	const [likesSearching, setLikesSearching] = useState([])
-
-	const [focus, setFocus] = useState(false)	
 	
 	const search = useInputValue('Buscar')
 
@@ -87,7 +83,7 @@ const LikesList = ({ url, setShowLikes, post_id }) => {
 				<Title>Likes</Title>				
 			</HeaderSection>
 
-			<SearchBar search={search} setFocus={setFocus} fixed='top' />
+			<SearchBar search={search} fixed='top' />
 
 			<LikeList>
 				{search.value.length > 0 ?

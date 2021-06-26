@@ -32,7 +32,7 @@ export const Form = styled.div`
 	align-items: center;	
 	background-color: grey;
 	border-radius: 4px;
-	padding: 5px 10px;
+	padding: 5px 10px; 
 	justify-content: space-between;
 
 	@media (min-width: 500px){
