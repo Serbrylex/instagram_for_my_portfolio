@@ -8,7 +8,7 @@ import apiCall from '../api/apiCall'
 import imageTest from '../assets/images/agujero-del-tiempo.jpg' 
  
 // Hooks
-import ResetDate from './ResetDate'
+import ResetDate from './ResetDate' 
 
 // Context
 import LanguageContext from '../context/language'

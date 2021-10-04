@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom'
 import { useContext, useState, useEffect } from 'react'
 import { Helmet } from 'react-helmet'
 
-// Assets
+// Assets 
 import {
 	LoginContainer, MainData, Title, Form, Input, Button, Separator, Line, 
 	Element, LinkFacebook, Forgot, Signin, Link, Apps, Description, 
@@ -61,8 +61,6 @@ const Login = () => {
 				password: password.value				
 			})
 		})
-		
-		console.log(response)
 
 		if (response?.access_token) {
 			history.push("/")

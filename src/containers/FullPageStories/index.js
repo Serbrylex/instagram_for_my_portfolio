@@ -4,7 +4,7 @@ import { useParams, useHistory } from 'react-router-dom'
 import { Helmet } from 'react-helmet'
 
 // Assets
-import {
+import { 
 	FullPageStoriesContainer, ImageFont, HeaderInfo,
 	HeaderData, DataLeft, ImageProfile, Username, Hour, 
 	DataRight, BottomData, Input, SendTo
@@ -87,12 +87,14 @@ const FullPageStories = ({ url, byUser = false }) => {
 		setActualUser(data)
 	}
 
+	// Cada vez que cambie userIndex esta función seteara el user
 	useEffect(()=>{
 		if (stories.length > 0) {			
 			setUser()
 		}
 	}, [userIndex])
 
+	// Cada vez que cambie storiesIndex esta función seteara la story
 	useEffect(()=>{
 		if (stories.length > 0) {			
 			setStorie()
@@ -116,11 +118,10 @@ const FullPageStories = ({ url, byUser = false }) => {
 		clearTimeout(timer)
 
 		const widthScreen = window.screen.width
-		const widthClient = e.clientX
-
+		const widthClient = e.clientX		
 		// Si es menor le dio click del lado izquierdo
 		// Si es mayor le dio click del lado derecho
-		if ( widthClient < (widthScreen / 2) ) {
+		if ( widthClient < (widthScreen / 2) ) {		
 			// Izquierda
 			if (storiesIndex > 0) {
 				setStoriesIndex(storiesIndex - 1)
@@ -128,7 +129,7 @@ const FullPageStories = ({ url, byUser = false }) => {
 				setStoriesIndex(stories[userIndex - 1].stories.length - 1)	
 				setUserIndex(userIndex - 1)
 			}
-		} else {
+		} else {			
 			// Derecha
 			if (storiesIndex < stories[userIndex].stories.length - 1) {
 				setStoriesIndex(storiesIndex + 1)
@@ -138,10 +139,9 @@ const FullPageStories = ({ url, byUser = false }) => {
 			} else {				
 				history.goBack()
 			}
-		}
-				
+		}		
 		setTime(0)
-		setTime(1)
+		//setTime(1)
 	}
 
 	// Timer para cada Storie
@@ -149,7 +149,7 @@ const FullPageStories = ({ url, byUser = false }) => {
 		if (stories[userIndex]?.user) {
 			timer = setTimeout(()=>{
 				if (time === 5) {					
-					if (storiesIndex < stories[userIndex].stories.length - 1){						
+					if (storiesIndex < stories[userIndex].stories.length - 1){
 						setStoriesIndex(storiesIndex + 1)
 					} else {						
 						if (userIndex < stories.length - 1) {

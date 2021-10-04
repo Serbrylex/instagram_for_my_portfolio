@@ -6,8 +6,8 @@ export const SearchContainer = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	padding: 10px 2%;
-	
+	padding: 10px 2%; 
+	position: relative;
 
 	${props => props.fixed === 'bottom' && css`
 		bottom: 0;
@@ -30,7 +30,8 @@ export const Form = styled.div`
 	height: 100%;
 	display: flex;
 	align-items: center;	
-	background-color: grey;
+	background-color: white;
+	border: 1px solid #dbdbdb;
 	border-radius: 4px;
 	padding: 5px 10px; 
 	justify-content: space-between;
@@ -45,9 +46,8 @@ export const Form = styled.div`
 export const Input = styled.input`
 	width: 80%;
 	height: 100%;
-	color: black;
-	background-color: gray;
-	border: none;
+	color: black;	
+	border: none;	
 `
 
 export const Close = styled.div`
@@ -58,6 +58,11 @@ export const Close = styled.div`
 	align-items: center;
 	justify-content: start;
 	padding-left: 5px;
+	position: absolute;
+	left: 20px;
+	@media (max-width: 500px){
+	    display: none;
+    }
 `
 
 export const ImageProfile = styled.img`
@@ -71,7 +76,7 @@ export const ImageProfile = styled.img`
 export const Button = styled.button`
 	height: 50px;
 	width: 100px;
-	border: none;
-	background-color: none;
-	color: blue;
+	border: none;	
+	color: black;
+	cursor: pointer;
 `

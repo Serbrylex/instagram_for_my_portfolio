@@ -1,7 +1,7 @@
 // React
 import { useContext, useEffect, useState } from 'react' 
 import { Helmet } from 'react-helmet'
-
+ 
 // Assets 
 import {
 	SearchContainer, SearchInput, HeaderSection, Close, Title,

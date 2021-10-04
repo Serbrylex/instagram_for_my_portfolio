@@ -2,7 +2,7 @@
 import { useState, useContext, useEffect } from 'react'
 import { Helmet } from 'react-helmet'
  
-// Assets 
+// Assets  
 import {   
 	FeedContainer, FeedImages, LoadingBottom, ImageLoading,
 	ContainerButtonFor, ButtonToSearch, LinkFor

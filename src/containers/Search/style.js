@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components' 
 
-
+ 
 export const SearchContainer = styled.div`
 	width: 100%;
 	height: auto; 
@@ -34,12 +34,12 @@ export const HeaderSection = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content: start;		
+    position: relative;
 
 	@media (min-width: 500px){
 	    width: 500px;	   	       
 		border: 1px solid #dbdbdb;	  		    
 	    margin: 0 auto;
-    
     }
 
 `
@@ -50,6 +50,9 @@ export const Close = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	position: absolute;
+	top: 10px;
+	left: 10px;
 `
 
 export const Title = styled.h1`

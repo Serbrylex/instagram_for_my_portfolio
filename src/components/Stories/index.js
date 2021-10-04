@@ -35,8 +35,7 @@ const Stories = ({ add, stories, url }) => {
 	// Language hook
  	const words = useGetWords({ component: 'stories' }) 	
 
- 	useEffect(()=>{
- 		console.log(stories)
+ 	useEffect(()=>{ 		
  		setStoriesReference(document.getElementById('list-of-stories'))
  	}, [])
 

@@ -8,7 +8,7 @@ export const FeedContainer = styled.div`
 	padding-top: 50px;	
 
 	-ms-overflow-style: none;
-	scrollbar-width: none;
+	scrollbar-width: none; 
 
 	&::-webkit-scrollbar { 
 		display: none;

@@ -53,9 +53,7 @@ const CommentsList = ({ url, setShowComments, post_id }) => {
 				'comment': comment.value,
 				'user_id': isAuth.user.id
 			})
-		})
-
-		console.log(isAuth)
+		})		
 		
 		setComments([
 			...comments,

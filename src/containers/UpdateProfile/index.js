@@ -176,6 +176,7 @@ const UpdateProfile = ({ url }) => {
 					<Image src={imagen.image[0]} alt={isAuth.user.username} />
 					<input 
 						type="file" 
+						accept="image/png,image/jpeg"
 						ref={hiddenFileInput}
 		             	onChange={handleChange}
 		             	style={{display:'none'}}		             	

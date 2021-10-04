@@ -7,6 +7,7 @@ import {
 } from './style'
 
 import { CgSearch, CgArrowLeft } from 'react-icons/cg'
+import { AiOutlineSend } from 'react-icons/ai'
 
 // Context
 import UserContext from '../../context/users'
@@ -32,17 +33,17 @@ const SearchBar = ({ search, focus = false, setFocus = (some) => {}, fixed, url,
 			{focus &&
 				<Close onClick={()=> setFocus(false)}>
 					<CgArrowLeft size={size}/>
-				</Close>
+				</Close> 
 			}
-			<Form>
+			<Form> 
 				{fixed === 'bottom' ? 
 					<ImageProfile src={`${url}${isAuth.user.profile.picture}`} /> :
 					<CgSearch size={size}/>
 				}
-				<Input {...search} onFocus={()=>setFocus(true)}/>
+				<Input {...search} onFocus={()=>setFocus(true)} onKeyUp={(event)=>event.keyCode === 13 ? handleSendComment() : false} />
 				{fixed === 'bottom'  && 
 					<Button onClick={handleSendComment} >
-						{words?.post}
+						<AiOutlineSend size={size}/>
 					</Button>
 				}
 			</Form>

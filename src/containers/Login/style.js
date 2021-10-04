@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { Link as Linked } from 'react-router-dom'
 
 export const LoginContainer = styled.div`
-	width: 100%;
+	width: 100%; 
 	height: 100%;	
 	display: flex;
 	justify-content: center;
@@ -37,9 +37,9 @@ export const LoginForm = styled.div`
 
 export const MainData = styled.div`
 	width: 350px;
-	height: 65%;	
+	height: auto;	
+	padding: 3% 5%;	
 	border: 1px solid #dbdbdb;
-	padding: 3% 5%;
 	margin: 1% 5%;
 	display: flex;
 	flex-direction: column;
@@ -102,6 +102,7 @@ export const LinkFacebook = styled.a`
 	color: #385185;
 	text-decoration: none;
 	width: 100%;
+	height: 35px;
 	margin: 10px 0 10px 0;
 	display: block;
 	display: flex;
@@ -112,7 +113,8 @@ export const LinkFacebook = styled.a`
 export const Forgot = styled(Linked)`
 	color: #00376b;
 	text-decoration: none;
-	width: 100%;	
+	width: 100%;
+	height: 35px;	
 	display: block;
 `
 
