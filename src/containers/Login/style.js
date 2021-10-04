@@ -121,9 +121,12 @@ export const Forgot = styled(Linked)`
 export const Signin = styled.div`
 	width: 350px;
 	height: 50px;
-	padding: 3% 5%;
-	margin: 1% 5%;
+	padding: 5px 10px;
+	margin: 5px 10px;
 	border: 1px solid #dbdbdb;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 `
 
 export const Link = styled(Linked)`
@@ -133,7 +136,7 @@ export const Link = styled(Linked)`
 
 export const Apps = styled.div`
 	width: 350px;
-	height: 15%;
+	height: 100px;
 	padding: 10%;
 	padding: 2% 5%;
 	margin: 1% 5%;	

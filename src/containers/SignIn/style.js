@@ -27,7 +27,7 @@ export const ImageLeft = styled.img`
 export const SigninForm = styled.div`
 	margin-top: 20px;
 	width: 350px;	
-	height: 100vh;
+	height: auto;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
@@ -122,9 +122,12 @@ export const LinkFacebook = styled.a`
 export const Signin = styled.div`
 	width: 350px;
 	height: 50px;
-	padding: 3% 5%;
-	margin: 1% 5%;
+	padding: 5px 10px;
+	margin: 5px 10px;
 	border: 1px solid #dbdbdb;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 `
 
 export const Link = styled(Linked)`
