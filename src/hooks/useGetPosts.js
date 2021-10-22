@@ -11,25 +11,44 @@ import ResetDate from './ResetDate'
 import LanguageContext from '../context/language'
  
 
-export const useGetPosts = ({ token, user, url, idUser = '' }) => {	
+export const useGetPosts = ({ token = false, user, url, idUser = '' }) => {	
 
 	const [posts, setPosts] = useState([])
 	const [loading, setLoading]	= useState(true)
+	const [page, setPage] = useState(1)
 	const { language } = useContext(LanguageContext)
 
 	// Hace la petición y ordena los elementos (user first)
-	const fetchAndOrderData = async () => {
- 
-		let urlDirection = idUser.length !== 0 ? `get-posts/${idUser}/` : `posts/`
-		const postsResponse = await apiCall({
-			urlDirection,
-			headers: {
-				'Authorization': `Token ${token}`
-			}
-		})
+	const fetchAndOrderData = async (numberPage) => {
+ 		let urlDirection = ''
+ 		let addHeaders = true
+ 		 		
+ 		if (!token) {
+ 			urlDirection = 'get-posts/popular/'
+ 			addHeaders = false
+ 		} else if (idUser.length !== 0) {
+ 			urlDirection = `get-posts/${idUser}/${numberPage}/`
+ 		} else {
+ 			urlDirection = `posts/${numberPage}/`
+ 		}
+		 
+		let postsResponse = ''
+		if (addHeaders) {
+			postsResponse = await apiCall({
+				urlDirection,			
+				headers: {
+					'Authorization': `Token ${token}`
+				}			
+			})			
+		} else {
+			postsResponse = await apiCall({
+				urlDirection				
+			})			
+		}
 
 		const dataResponse = await postsResponse.json()
-		
+		console.log(dataResponse)
+
 		let postsData = [...dataResponse]	
 		
 
@@ -48,7 +67,7 @@ export const useGetPosts = ({ token, user, url, idUser = '' }) => {
 					}
 				}					
 			}
-		
+						
 			setPosts(postsData)
 			setLoading(false)
 		}
@@ -56,11 +75,25 @@ export const useGetPosts = ({ token, user, url, idUser = '' }) => {
 	}
 
 	useEffect(()=>{		
-		fetchAndOrderData()
+		fetchAndOrderData(page)
 	}, [])
+
+	const handleNextPage = where => {
+		// where === true derecha else izquierda
+		if (where) {
+			setLoading(true)
+			fetchAndOrderData(page+1)
+			setPage(page+1)
+		} else if (page>2) {
+			setLoading(true)
+			fetchAndOrderData(page-1)
+			setPage(page-1)
+		}		
+	}
 
 	return {
 		posts,
-		loading
+		loading,
+		handleNextPage
 	}
 }

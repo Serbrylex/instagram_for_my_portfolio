@@ -6,7 +6,7 @@ import apiCall from '../../api/apiCall'
 
 const UserProvider = ({ children }) => {
 	const [isAuth, setIsAuth] = useState(() => {		
-		const cookie = window.sessionStorage.getItem('token')		
+		const cookie = window.sessionStorage.getItem('token_instagram')
 		if (cookie === undefined || cookie === null){
 			return false
 		} else {
@@ -38,7 +38,7 @@ const UserProvider = ({ children }) => {
 				}
 				
 				setIsAuth(newAuth)					
-				window.sessionStorage.setItem('token', JSON.stringify(newAuth))
+				window.sessionStorage.setItem('token_instagram', JSON.stringify(newAuth))
 
 				return newAuth
 
@@ -56,7 +56,7 @@ const UserProvider = ({ children }) => {
 						'Content-Type': 'application/json'
 					} 					
 				})				
-				window.sessionStorage.removeItem('token')
+				window.sessionStorage.removeItem('token_instagram')
 				setIsAuth(false)				
 			}catch(error){
 				console.log(error)		

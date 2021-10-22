@@ -5,6 +5,7 @@ export const ImagesContainer = styled.div`
 	overflow-x: scroll;	 
 	height: auto;
 	scroll-behavior: smooth;
+	background-color: black;
 
 	-ms-overflow-style: none;
 	scrollbar-width: none;
@@ -16,7 +17,7 @@ export const ImagesContainer = styled.div`
 	${props => props.size === '100vw' ? css`
 		width: 100vw;
 		@media (min-width: 500px){
-		    width: 498px;
+		    width: 500px;
     	}	
 	` :
 		css`

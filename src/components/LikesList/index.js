@@ -33,31 +33,10 @@ const LikesList = ({ url, setShowLikes, post_id }) => {
 	const size = '25px'	
 	const color = theme === 'light' ? 'black' : 'white'
 
-	const [likes, setLikes] = useState([])
+	const [likes, setLikes] = useState({})
 	const [likesSearching, setLikesSearching] = useState([])
 	
 	const search = useInputValue('Buscar')
-
-	const handleFetchLikes = async () => {
-		const token = `Token ${isAuth.access_token}`
-		
-		let data = await apiCall({			
-			urlDirection: `get-likes/${post_id}/`, 						
-			headers: {
-				'Authorization': token,				
-			}
-		})
-
-		data = await data.json()
-
-		console.log(data)
-
-		setLikes(data)
-	}
-
-	useEffect(()=>{
-		handleFetchLikes()
-	}, [])
 
 	// Handle the search function
 	useEffect(()=>{		
@@ -73,6 +52,23 @@ const LikesList = ({ url, setShowLikes, post_id }) => {
 			setLikesSearching([])
 		}
 	}, [search.value])
+
+	const getLikes = async () => {
+		let response = await apiCall({
+			urlDirection: `get-likes/${post_id}/`,
+			headers: {
+				'Authorization': `Token ${isAuth.access_token}`
+			}
+		})
+
+		let data = response.json()
+
+		setLikes(data)
+	}
+
+	useEffect(()=>{
+		getLikes()
+	},[])
 
 	return(
 		<LikesContainer theme={theme}>

@@ -8,7 +8,7 @@ import apiCall from '../api/apiCall'
 import imageTest from '../assets/images/agujero-del-tiempo.jpg' 
 
 
-export const useGetStories = ({ token, user, url }) => {	
+export const useGetStories = ({ token = false, user, url }) => {	
 
 	const [stories, setStories] = useState([])	
 
@@ -27,15 +27,24 @@ export const useGetStories = ({ token, user, url }) => {
 
 	// Hace la petición y ordena los elementos (user first)
 	const fetchAndOrderData = async () => {
-		const storiesResponse = await apiCall({
-			urlDirection: `stories/get-stories/`,
-			headers: {
-				'Authorization': `Token ${token}`
-			}
-		})
+		let storiesResponse = ''
+
+		if (!token) {
+			storiesResponse = await apiCall({
+				urlDirection: 'stories/get-public-stories/',
+			})
+		} else {
+			storiesResponse = await apiCall({
+				urlDirection: 'stories/get-stories/',
+				headers: {
+					'Authorization': `Token ${token}`
+				}
+			})			
+		}
 
 		const dataResponse = await storiesResponse.json()			
-		let storiesData = [...dataResponse]	
+		let storiesData = [...dataResponse]			
+		console.log(dataResponse)
 
 		if (storiesResponse.ok) {						
 					
@@ -46,7 +55,7 @@ export const useGetStories = ({ token, user, url }) => {
 				for (var i = 0; i < storiesData.length; i++) {				
 					if (storiesData[i]?.user) {
 										
-						if (storiesData[i].user.username === user.username) {						
+						if ((user?.username) && (storiesData[i].user.username === user.username)) {
 							pasa = false								
 
 							if (i !== 0) {
@@ -60,7 +69,17 @@ export const useGetStories = ({ token, user, url }) => {
 						// Reseteo las imagenes
 						storiesData[i] = ReseteaEachStorie(storiesData[i], url, i)
 					}
-				}					
+
+					for (var x = i + 1; x < storiesData.length; x++) {
+						if (storiesData[i].user.username === storiesData[x].user.username) {
+							storiesData.splice(x, x+1)
+						}
+					}
+				}			
+
+				if (!user?.username) {
+					pasa = false
+				}
 
 				// Si pasa === true means que no encontro al usuario dentro de las stories
 				// Lo que significa que no tiene stories y hay que agregar el "botton"

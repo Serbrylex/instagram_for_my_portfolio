@@ -15,7 +15,7 @@ const PostsContainer = ({ posts, url, isMoving, scrollTop }) => {
 
 	useEffect(()=>{
 		if (posts?.length) {
-			setPostsFinal(posts)
+			setPostsFinal(posts) 
 		}
 	}, [posts])
 

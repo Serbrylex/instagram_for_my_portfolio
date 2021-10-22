@@ -73,3 +73,22 @@ export const ButtonToSearch = styled.p`
 export const LinkFor = styled(Link)`	
 	text-decoration: none;
 `
+
+export const ButtonsPagination = styled.div`
+	width: auto;
+	height: auto;
+	margin: 20px auto;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+`
+
+export const ButtonPage = styled.button`
+	width: 100px;
+	height: 30px;	
+	cursor: pointer;
+	border-radius: 5px;
+	background-color: #b2dffc;
+	margin: 0 5px;
+`
+

@@ -48,24 +48,21 @@ const Header = ({ setShowUserMenu, url }) => {
 	 					<Link to='/new-post'>
 	 						<CgAddR size={size} color={color}/>
 	 					</Link>
-	 					<Link to='/'>
-							{site === '/' ?
-								<AiFillHome size={size} color={color} /> :
-								<AiOutlineHome size={size} color={color} />
-							}
+	 					<Link to='/'>							
+							<AiFillHome size={size} color={color} />							
 						</Link>
-						<Link to='/search'>
-							{site === '/search' ?
-								<ImSearch size={size} color={color} /> :
-								<AiOutlineSearch size={size} color={color} />
-							}
+						<Link to='/search'>													
+							<AiOutlineSearch size={size} color={color} />							
 						</Link>
-						<Link to={`/profile/${isAuth.user.username}`}>
-							{site === '/profile' ?
-								<ImageProfile src={isAuth.user.profile?.picture ? `${url}${isAuth.user.profile.picture}` : imageTest} alt="Profile Image" border={color}/> : 
-								<ImageProfile src={isAuth.user.profile?.picture ? `${url}${isAuth.user.profile.picture}` : imageTest} alt="Profile Image" border={''}/>
-							}
-						</Link>
+
+						{isAuth.isAuth ?
+							<Link to={`/profile/${isAuth.user.username}`}>		
+								<ImageProfile src={isAuth.user.profile?.picture ? `${url}${isAuth.user.profile.picture}` : imageTest} alt="Profile Image" border={''}/>								
+							</Link> :
+							<Link to='/login'>																	
+								<ImageProfile src={imageTest} alt="Profile Image" border={''}/>								
+							</Link>
+						}
 	 				</ListIcons>
 	 			</>
  			}
@@ -77,23 +74,14 @@ const Header = ({ setShowUserMenu, url }) => {
 	 					<Link to='/new-post'>
 	 						<CgAddR size={size} color={color}/>
 	 					</Link>
-	 					<Link to='/'>
-							{site === '/' ?
-								<AiFillHome size={size} color={color} /> :
-								<AiOutlineHome size={size} color={color} />
-							}
+	 					<Link to='/'>															
+							<AiOutlineHome size={size} color={color} />							
 						</Link>
-						<Link to='/search'>
-							{site === '/search' ?
-								<ImSearch size={size} color={color} /> :
-								<AiOutlineSearch size={size} color={color} />
-							}
+						<Link to='/search'>							
+							<ImSearch size={size} color={color} />
 						</Link>
-						<Link to={`/profile/${isAuth.user.username}`}>
-							{site === '/profile' ?
-								<ImageProfile src={isAuth.user.profile?.picture ? `${url}${isAuth.user.profile.picture}` : imageTest} alt="Profile Image" border={color}/> : 
-								<ImageProfile src={isAuth.user.profile?.picture ? `${url}${isAuth.user.profile.picture}` : imageTest} alt="Profile Image" border={''}/>
-							}
+						<Link to={isAuth.user?.username ? `/profile/${isAuth.user.username}` : '/login/'} >														
+							<ImageProfile src={isAuth.user.profile?.picture ? `${url}${isAuth.user.profile.picture}` : imageTest} alt="Profile Image" border={''}/>
 						</Link>
 	 				</ListIcons>
 	 			</>
@@ -102,31 +90,24 @@ const Header = ({ setShowUserMenu, url }) => {
  			{site.includes('/profile/') &&
  				<>
  					<ProfileData>
- 						{true ?
+ 						{isAuth.user.is_public ?
  							<AiOutlineLock size={size} color={color}/> :
  							<AiOutlineUnlock size={size} color={color}/>
  						}
- 						<Username>{isAuth.user.username}</Username>
+ 						<Username>{isAuth.user?.username ? isAuth.user?.username : 'Unknown'}</Username>
  						<MdKeyboardArrowDown size={size} onClick={()=>console.log('Desplega la wea')} color={color}/>
  					</ProfileData>
  					<ListIcons>
  						<Link to='/new-post'>
  							<CgAddR size={size} color={color}/>
  						</Link>
- 						<Link to='/'>
-							{site === '/' ?
-								<AiFillHome size={size} color={color} /> :
-								<AiOutlineHome size={size} color={color} />
-							}
+ 						<Link to='/'>															
+							<AiOutlineHome size={size} color={color} />							
 						</Link>
-						<Link to='/search'>
-							{site === '/search' ?
-								<ImSearch size={size} color={color} /> :
-								<AiOutlineSearch size={size} color={color} />
-							}
+						<Link to='/search'>														
+							<AiOutlineSearch size={size} color={color} />							
 						</Link>											
- 						<GiHamburgerMenu size={size} onClick={()=>setShowUserMenu(true)} color={color}/>
- 						
+ 						<GiHamburgerMenu size={size} onClick={()=>setShowUserMenu(true)} color={color}/> 						
  					</ListIcons>
  				</>
  			}

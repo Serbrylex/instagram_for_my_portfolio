@@ -15,7 +15,7 @@ export const ProfileContainer = styled.div`
 
 	&::-webkit-scrollbar {
 		display: none;
-	}
+	} 
 	
 	${props => props.theme === 'light' && css`
 		background-color: white;		
@@ -29,8 +29,8 @@ export const ProfileContainer = styled.div`
 `
  
 export const DataProfile = styled.div`
-	width: 100%; 
-	padding: 5px 2vw;
+	width: 94%; 
+	padding: 5% 2%;
 	display: flex;
 	flex-direction: column;
 	@media (min-width: 500px){	    
@@ -43,18 +43,19 @@ export const DataProfile = styled.div`
 export const SectionImage = styled.div`
 	width: 100%;
 	height: 100px;	
+	margin: 0 auto;
 	display: flex;
 	align-items: center;
-	justify-content: space-between;
+	justify-content: space-between;	
 `
 
 export const Image = styled.img`
 	height: 50px;
 	width: 50px;
 	border-radius: 100%;
-	margin-right: auto;
+	margin: auto;
 	object-fit: cover;	
-	border: 1px solid black;
+	border: 1px solid black;	
 `
 
 export const GeneralData = styled.div`

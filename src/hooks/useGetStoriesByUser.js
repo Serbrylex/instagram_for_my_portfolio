@@ -11,11 +11,11 @@ import imageTest from '../assets/images/agujero-del-tiempo.jpg'
 //import ResetDate from './ResetDate'
 
 
-export const useGetStoriesByUser = ({ token, user, url, idUser = '' }) => {	
+export const useGetStoriesByUser = ({ token = false, user, url, idUser = '' }) => {	
 	const [stories, setStories] = useState([])
 
 	// Serializa la información obtenida por el backend
-	const ReseteaEachStorie = (storie, url, indice) => {		
+	const ReseteaEachStorie = (storie, url, indice) => {		 
 
 		return({
 			user: {
@@ -30,7 +30,7 @@ export const useGetStoriesByUser = ({ token, user, url, idUser = '' }) => {
 	// Hace la petición y ordena los elementos (user first)
 	const fetchAndOrderData = async () => {
 		const storiesResponse = await apiCall({
-			urlDirection: `stories/get-stories/${idUser}/`,
+			urlDirection: `stories/get-stories/${idUser}/`,	
 			headers: {
 				'Authorization': `Token ${token}`
 			}

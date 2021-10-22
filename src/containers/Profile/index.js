@@ -76,7 +76,7 @@ const Profile = ({ url }) => {
 	const posts = useGetPosts({ 
 		token: isAuth.access_token, 
 		user: isAuth.user, 
-		url: url,
+		url: url, 
 		idUser: username
 	})
 

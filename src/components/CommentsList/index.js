@@ -50,8 +50,7 @@ const CommentsList = ({ url, setShowComments, post_id }) => {
 			},
 			body: JSON.stringify({
 				'post_id': post_id,
-				'comment': comment.value,
-				'user_id': isAuth.user.id
+				'comment': comment.value
 			})
 		})		
 		

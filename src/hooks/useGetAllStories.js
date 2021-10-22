@@ -14,33 +14,44 @@ import ResetDate from './ResetDate'
 import LanguageContext from '../context/language'
 
 
-export const useGetAllStories = ({ token, user, url, byUser = false }) => {	
+export const useGetAllStories = ({ token = false, user = false, url, byUser = false }) => {	
 
 	const [stories, setStories] = useState([])
 	const { language } = useContext(LanguageContext)
 
 	// Hace la petición y ordena los elementos (user first)
 	const fetchAndOrderData = async () => {
-		const storiesResponse = await apiCall({
-			urlDirection: byUser ? `stories/get-stories/${user.username}/` : 'stories/get-all-stories/',
-			headers: {
-				'Authorization': `Token ${token}`
-			}
-		})
+
+		let storiesResponse = ''
+		if (token) {
+			storiesResponse = await apiCall({
+				urlDirection: byUser ? `stories/get-stories/${user.username}/` : 'stories/get-all-stories/',
+				headers: {
+					'Authorization': `Token ${token}`
+				}
+			})
+		} else {
+			storiesResponse = await apiCall({
+				urlDirection: 'stories/get-public-stories/',				
+			})
+		}
 
 		const dataResponse = await storiesResponse.json()		
 		
 		let storiesData = [...dataResponse]	
 
-		// Ponemos al usuario al inicio xd
-		let storiesOrderedByUser = [{
-			user: {
-				id: user.id,
-				picture: user.profile.picture ? url + user.profile.picture : imageTest,
-				username: user.username		
-			},
-			stories: []
-		}]
+		let storiesOrderedByUser = []
+		if (user) {
+			// Ponemos al usuario al inicio xd
+			let storiesOrderedByUser = [{
+				user: {
+					id: user.id,
+					picture: user.profile.picture ? url + user.profile.picture : imageTest,
+					username: user.username		
+				},
+				stories: []
+			}]
+		}
 
 		if (storiesResponse.ok) {						
 								

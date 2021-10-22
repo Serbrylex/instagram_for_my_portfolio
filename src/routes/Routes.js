@@ -78,7 +78,19 @@ const Routes = () => {
 			</Route>
 		]
 	}else{
-		elements.push(<Redirect to="/login" key={10}/>)
+		// Si no está autentificado pero quiere el feed, denle el feed
+		if (window.location.pathname === '/') {
+			elements = [
+				<Route path="/" exact key={1}>
+					<Feed  url={url} />
+				</Route>,
+				<Route path="/stories/:index" exact key={9}>
+					<FullPageStories url={url}/>
+				</Route>
+			]
+		} else {
+			elements = [<Redirect to="/login" key={10}/>]
+		}
 	}
 
 	return(

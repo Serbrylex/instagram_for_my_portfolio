@@ -49,9 +49,8 @@ const FullPageStories = ({ url, byUser = false }) => {
 	}
 
  	// Stories	
-	const stories = useGetAllStories({ 
-		token: isAuth.access_token, 
-		user: isAuth.user,
+	const stories = useGetAllStories({ 	
+		token: isAuth.access_token,
 		url: url,
 		byUser: byUser
 	})	
@@ -170,13 +169,14 @@ const FullPageStories = ({ url, byUser = false }) => {
 	
 
 	return(
-		<FullPageStoriesContainer onClick={e => handleClickWindow(e)}>
-			<Helmet>
-                <title>Stories</title> 
-				<meta name='description' content={`This is the storie of: ${isAuth.user.username}`} />
-			</Helmet>
+		<FullPageStoriesContainer onClick={e => handleClickWindow(e)}>			
 			{actualStorie?.id ?
-				<><ImageFont src={actualStorie.image} alt={actualUser.username}/>
+				<>
+				<Helmet>
+	                <title>Stories | {actualUser.username}</title> 
+					<meta name='description' content={`This is the storie of: ${actualUser.username}`} />
+				</Helmet>
+				<ImageFont src={actualStorie.image} alt={actualUser.username}/>
 				<HeaderInfo>
 					<TimeLine size={stories[userIndex].stories.length} where={storiesIndex} />
 					<HeaderData>

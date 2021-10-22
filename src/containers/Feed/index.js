@@ -5,7 +5,7 @@ import { Helmet } from 'react-helmet'
 // Assets  
 import {   
 	FeedContainer, FeedImages, LoadingBottom, ImageLoading,
-	ContainerButtonFor, ButtonToSearch, LinkFor
+	ContainerButtonFor, ButtonToSearch, LinkFor, ButtonsPagination, ButtonPage
 } from './style'
 
 // Components
@@ -22,6 +22,9 @@ import ThemeContext from '../../context/theme'
 // Hooks
 import { useGetStories } from '../../hooks/useGetStories'
 import { useGetPosts } from '../../hooks/useGetPosts' 
+
+// Icons
+import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md'
 
 let element = undefined
  
@@ -44,7 +47,7 @@ const Feed = ({ url }) => {
 		user: isAuth.user, 
 		url: url
 	})
-	
+			
 
 	return(
 		<FeedContainer theme={theme}>
@@ -58,6 +61,7 @@ const Feed = ({ url }) => {
 				<Loading /> :
 				<>
 					<Stories add='first' stories={stories} url={url} />					
+					
 
 					<FeedImages theme={theme}>
 						{posts.posts.length > 0 ?
@@ -66,10 +70,13 @@ const Feed = ({ url }) => {
 								<ButtonToSearch>No sigues a nadie, <LinkFor to='/search'>presiona aquí para buscar gente</LinkFor></ButtonToSearch>
 							</ContainerButtonFor>
 						}
-					</FeedImages>					
+					</FeedImages>	 				
+					<ButtonsPagination>
+						<ButtonPage onClick={()=>posts.handleNextPage(false)}><MdKeyboardArrowLeft /></ButtonPage>
+						<ButtonPage onClick={()=>posts.handleNextPage(true)}><MdKeyboardArrowRight /></ButtonPage>
+					</ButtonsPagination>
 				</>
-			}
-
+			}			
 			<Footer />
 		</FeedContainer>
 	)
