@@ -1,5 +1,6 @@
 // React
 import { useEffect, useState } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 
 // API
 import apiCall from '../api/apiCall' 
@@ -7,18 +8,24 @@ import apiCall from '../api/apiCall'
 // Assets
 import imageTest from '../assets/images/agujero-del-tiempo.jpg' 
 
+import { setStorie } from '../actions'
 
-export const useGetStories = ({ token = false, user, url }) => {	
+
+export const useGetStories = ({ token = false, user }) => {	
 
 	const [stories, setStories] = useState([])	
+	const url = useSelector(store => store.preference.url)
+	const data = useSelector(store => store.storie.data)
+
+	const dispatch = useDispatch()
 
 	// Serializa la información obtenida por el backend
-	const ReseteaEachStorie = (storie, url, indice) => {		
+	const ReseteaEachStorie = (storie, indice) => {		
 
 		return({
 			user: {
 				id: storie.user.id,
-				picture: url + storie.user.profile.picture,
+				picture: storie.user.profile?.picture ? url + storie.user.profile.picture : imageTest,
 				username: storie.user.username		
 			},		
 			eventAddOrGo: `/stories/${indice}`
@@ -31,23 +38,21 @@ export const useGetStories = ({ token = false, user, url }) => {
 
 		if (!token) {
 			storiesResponse = await apiCall({
-				urlDirection: 'stories/get-public-stories/',
+				url: url + '/stories/get-public-stories/',
 			})
 		} else {
 			storiesResponse = await apiCall({
-				urlDirection: 'stories/get-stories/',
+				url: url + '/stories/get-stories/',
 				headers: {
 					'Authorization': `Token ${token}`
 				}
 			})			
 		}
-
-		const dataResponse = await storiesResponse.json()			
-		let storiesData = [...dataResponse]			
-		console.log(dataResponse)
+		const dataResponse = await storiesResponse.json()					
+		let storiesData = []			
 
 		if (storiesResponse.ok) {						
-					
+			storiesData = [...dataResponse]
 			let pasa = true
 			if (storiesData?.length) {					
 									
@@ -62,12 +67,12 @@ export const useGetStories = ({ token = false, user, url }) => {
 								storiesData[0] = storiesData[i]
 								storiesData[i] = storiesData[0]
 								// Reseteo las imagenes de nuevo (?)
-								storiesData[0] = ReseteaEachStorie(storiesData[0], url, 0)
+								storiesData[0] = ReseteaEachStorie(storiesData[0], 0)
 							}
 						}
 
 						// Reseteo las imagenes
-						storiesData[i] = ReseteaEachStorie(storiesData[i], url, i)
+						storiesData[i] = ReseteaEachStorie(storiesData[i], i)
 					}
 
 					for (var x = i + 1; x < storiesData.length; x++) {
@@ -79,41 +84,31 @@ export const useGetStories = ({ token = false, user, url }) => {
 
 				if (!user?.username) {
 					pasa = false
-				}
+				}							
+			}			
+		}	
 
-				// Si pasa === true means que no encontro al usuario dentro de las stories
-				// Lo que significa que no tiene stories y hay que agregar el "botton"
-				// add images
-				if (pasa) {
-					storiesData = [{							
-						user: {
-							id: user.id,
-							picture: url + user.profile.picture,
-							username: user.username
-						},
-						eventAddOrGo: '/add-storie'
-					}, ...storiesData]
-				}
-
-			// Entramos aquí si no hay stories que devolver
-			// Devolvemos al usuario
-			} else {
-				storiesData = [{
-						user: {
-							id: user.id,
-							username: user.username,
-							picture: user.profile.picture ? `${url}${user.profile.picture}` : imageTest
-						},
-						eventAddOrGo: '/add-storie'
-				}]
-			}
+		if (!!token) {
+			// Si el usuario esta logeado (!!token)
+			storiesData = [{							
+				user: {
+					id: 0,
+					picture: imageTest,
+					username: 'Add story'
+				},
+				eventAddOrGo: '/add-storie'
+			}, ...storiesData]
 		}
-		
-		setStories(storiesData)
+		dispatch(setStorie(storiesData))
+		setStories(storiesData)		
 	}
 
 	useEffect(()=>{
-		fetchAndOrderData()
+		if (data.length === 0) {
+			fetchAndOrderData()
+		} else {
+			setStories(data)
+		}
 	}, [])
 
 	return(stories)

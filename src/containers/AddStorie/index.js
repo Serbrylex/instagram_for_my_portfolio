@@ -1,7 +1,8 @@
 // React
-import { useState, useContext, useEffect, useRef } from 'react'
-import { useHistory } from 'react-router-dom'
+import { useState, useEffect, useRef } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { Helmet } from 'react-helmet'
+import { useSelector } from 'react-redux'
  
 // Assets
 import { 
@@ -26,18 +27,15 @@ import { useGetWords } from '../../hooks/useGetWords'
 // API
 import apiCall from '../../api/apiCall'
 
-// Context
-import UserContext from '../../context/users'
-import ThemeContext from '../../context/theme'
 
-const AddStorie = ({ url }) => {
+const AddStorie = () => {
 
 	// Context
-	const { isAuth } = useContext(UserContext) 	
- 	const { theme } = useContext(ThemeContext) 	
+	const user = useSelector(store => store.user)
+ 	const { theme, url } = useSelector(store => store.preference)
 
 	// Variables
-	const history = useHistory()	
+	const history = useNavigate()	
 	const size = '25px'	
 
  	// Language hook
@@ -107,7 +105,7 @@ const AddStorie = ({ url }) => {
 
 
 	const handleSendStorie = async () => {		
-		const newToken = `Token ${isAuth.access_token}`
+		const newToken = `Token ${user.access_token}`
 		let response = {
 			ok: false
 		}
@@ -128,7 +126,7 @@ const AddStorie = ({ url }) => {
 		}
 
 		if (response.ok) {
-			history.push('/')
+			history('/')
 		} else {
 			alert(words?.something_wrong)
 		}
@@ -149,11 +147,11 @@ const AddStorie = ({ url }) => {
 				</ImagesContainer>
 				<Header>
 					{position === 'right' &&
-						<MdClose size={size} onClick={()=>history.goBack()}/>
+						<MdClose size={size} onClick={()=>history(-1)}/>
 					}
-					<BsArrowLeftRight size={size} onClick={()=>position === 'left' ? setPosition('right') : setPosition('left')} />
+					<BsArrowLeftRight size={size} onClick={()=>position === 'left' ? setPosition('right') : setPosition('left')}/>
 					{position === 'left' &&
-						<MdClose size={size} onClick={()=>history.goBack()}/>
+						<MdClose size={size} onClick={()=>history(-1)}/>
 					}
 				</Header>
 				<NavegationBar position={position}>		
@@ -180,7 +178,7 @@ const AddStorie = ({ url }) => {
 				             	style={{display:'none'}}
 				             	multiple
 							/>		
-							<Button onClick={handleClick}><ImageButton src={isAuth.user.profile.picture.length > 0 ? `${url}${isAuth.user.profile.picture}` : imageTest} alt='image by defect'/></Button>
+							<Button onClick={handleClick}><ImageButton src={user.user.profile.picture.length > 0 ? `${url}${user.user.profile.picture}` : imageTest} alt='image by defect'/></Button>
 							<WhatContainer onClick={handleClick}>					
 								<BsArrowRight size={size}/>
 							</WhatContainer>

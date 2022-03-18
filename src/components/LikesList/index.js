@@ -1,10 +1,13 @@
 // React
-import { useState, useEffect, useContext } from 'react'
+import { useState, useEffect } from 'react'
+import { useSelector } from 'react-redux'
 
 // Assets
 import { 
 	LikesContainer, HeaderSection, Close, Title, LikeList
 } from './style'
+
+import imageTest from '../../assets/images/agujero-del-tiempo.jpg' 
 
 import { CgArrowLeft } from 'react-icons/cg'
 
@@ -18,22 +21,18 @@ import { useInputValue } from '../../hooks/useInputValue'
 // API
 import apiCall from '../../api/apiCall'
 
-// Context
-import UserContext from '../../context/users'
-import ThemeContext from '../../context/theme'
 
-
-const LikesList = ({ url, setShowLikes, post_id }) => {
+const LikesList = ({ setShowLikes, post_id }) => {
 	
 	// Context
-	const { isAuth } = useContext(UserContext)
-	const { theme } = useContext(ThemeContext) 	
+	const user = useSelector(state => state.user)
+	const { theme, url } = useSelector(state => state.preference)	
 
 	// Variables
 	const size = '25px'	
 	const color = theme === 'light' ? 'black' : 'white'
 
-	const [likes, setLikes] = useState({})
+	const [likes, setLikes] = useState([])
 	const [likesSearching, setLikesSearching] = useState([])
 	
 	const search = useInputValue('Buscar')
@@ -55,15 +54,17 @@ const LikesList = ({ url, setShowLikes, post_id }) => {
 
 	const getLikes = async () => {
 		let response = await apiCall({
-			urlDirection: `get-likes/${post_id}/`,
+			url: url + `/get-likes/${post_id}/`,
 			headers: {
-				'Authorization': `Token ${isAuth.access_token}`
+				'Authorization': `Token ${user.access_token}`
 			}
 		})
 
-		let data = response.json()
-
-		setLikes(data)
+		if (response.ok) {
+			let data = await response.json()
+			console.log(data)
+			setLikes(data)
+		}
 	}
 
 	useEffect(()=>{
@@ -85,12 +86,12 @@ const LikesList = ({ url, setShowLikes, post_id }) => {
 				{search.value.length > 0 ?
 					<>
 						{likesSearching?.map((like, index)=>(
-							<UserInList key={index} username={like.username} picture={`${url}${like.picture}`} follow={like.following}/>
+							<UserInList key={index} user_id={like.user_id} username={like.username} picture={like.picture ? `${url}${like.picture}` : imageTest} follow={like.following}/>
 						))}	
 					</> :
 					<>
 						{likes?.map((like, index)=>(
-							<UserInList key={index} username={like.username} picture={`${url}${like.picture}`} follow={like.following}/>
+							<UserInList key={index} user_id={like.user_id} username={like.username} picture={like.picture ? `${url}${like.picture}` : imageTest} follow={like.following}/>
 						))}	
 					</>
 				}				

@@ -3,9 +3,11 @@ import styled, { css } from 'styled-components'
 // Stories --------------------------------------------
 export const ListOfStoriesFor = styled.div`	
 	width: 100%;
-	height: 100px;	
+	height: auto;	
 	border-bottom: 1px solid #dbdbdb;		
 	position: relative;
+	display: flex;
+	align-items: center;
 	${props => props.theme === 'light' && css`
 		background-color: white;
 		color: black;
@@ -39,38 +41,33 @@ export const ListOfStories = styled.div`
 		display: none;
 	}
 `
-export const ButtonLeft = styled.button`
-	cursor: pointer;
+export const ArrowsContainer = styled.div`	
 	position: absolute;
-	top: 35px;	
-	left: 5px;		
-	background-color: ${props => props.theme === 'light' ? 'black' : 'white'};
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	border-radius: 100%;
-	width: 30px;
-	height: 30px;
-`
 
-export const ButtonRight = styled.button`
-	cursor: pointer;
-	position: absolute;
-	top: 35px;
-	right: 5px;	
-	background-color: ${props => props.theme === 'light' ? 'black' : 'white'};
+	top: 0;
+	bottom: 0;
+	${props => props.orientation === 'left' && css`left: 5px;`}
+	${props => props.orientation === 'right' && css`right: 5px;`}	
+
 	display: flex;
 	align-items: center;
-	justify-content: center;
-	border-radius: 100%;
+	justify-content: center;	
 	width: 30px;
-	height: 30px;
+	height: 100%;
+
+	& > svg {
+		cursor: pointer;
+		background-color: ${props => props.theme === 'light' ? 'black' : 'white'};
+		border-radius: 100%;
+		width: 25px;
+		height: 25px;
+	}
 `
 
 export const Stori = styled.div`	
 	width: 70px;
-	height: 100%;
-	margin: 0 5px;
+	height: auto;
+	margin: 5px;
 	display: flex;
 	flex-direction: column;
 	align-items: center;

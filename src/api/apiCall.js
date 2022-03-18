@@ -1,7 +1,4 @@
-const apiCall = async ({ urlDirection = '', method = "GET", body, headers }) => {	
-	
-	const url = 'http://127.0.0.1:8000/' + urlDirection
-	//const url = 'https://newinstagrambyme.herokuapp.com/' + urlDirection
+const apiCall = async ({ url, method = "GET", body, headers }) => {		
 	
 	try{
 

@@ -17,7 +17,7 @@ import Post from '../../components/Post'
 
 // Si kindOfView === true, significa que le dio click y debe de haber un feed como feed ('/')
 // Si es false significa que son simples imagenes
-const SearchFeed = ({ posts, kindOfView, setKindOfView, loading, url }) => {	 	
+const SearchFeed = ({ posts, kindOfView, setKindOfView, loading, url}) => {	 	
 
 	if (loading) {
 		return(

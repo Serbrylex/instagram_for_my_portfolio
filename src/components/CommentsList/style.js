@@ -60,7 +60,7 @@ export const CommentList = styled.div`
 	width: 100vw;
 	height: auto;	
 	margin: 10px 0;
-	height: 80vh;	
+	height: 75vh;	
 	overflow-y: scroll;
 
 	@media (min-width: 500px){

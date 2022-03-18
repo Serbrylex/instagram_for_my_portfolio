@@ -1,11 +1,7 @@
 // React
-import { useState, useContext, useEffect } from 'react'
-import { useHistory } from 'react-router-dom'
-
-// Context
-import UserContext from '../../context/users'
-import ThemeContext from '../../context/theme' 
-import LanguageContext from '../../context/language' 
+import { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { useSelector, useDispatch } from 'react-redux'
 
 // Assets
 import {
@@ -21,41 +17,41 @@ import { GiHamburgerMenu } from 'react-icons/gi'
 // Hooks
 import { useGetWords } from '../../hooks/useGetWords'
 
+// Actions
+import { setTheme, setLanguage, setCloseSession } from '../../actions'
 
 const UserMenu = ({ setShowUserMenu }) => {
+
+	const { url, theme, language } = useSelector(store => store.preference)	
+	const dispatch = useDispatch()
 
  	// Just variables
  	const size = '22px'
  	const [showLanguageList, setShowLanguageList] = useState(false)
-
- 	// Context
- 	const { isAuth, removeAuth } = useContext(UserContext) 	 	
- 	const { theme, setTheTheme } = useContext(ThemeContext) 	
-
- 	const { language, setTheLanguage } = useContext(LanguageContext)
+ 	
 
  	// Language hook
  	const words = useGetWords({ component: 'user_menu' })
 
 
  	// Router history
- 	const history = useHistory() 	
+ 	const history = useNavigate() 	
 
  	const handleSetLanguage = (language) => {
  		setShowLanguageList(false)
- 		setTheLanguage({ language }) 		
+ 		dispatch(setLanguage(language))
  	}
 
  	const handleSetTheme = (e) => {
 		let themeSelected = e.target.id
 
-		if (themeSelected == 'dark' || themeSelected == 'light') {
-			setTheTheme({ newTheme: themeSelected })
+		if (themeSelected == 'dark' || themeSelected == 'light') {			
+			dispatch(setTheme(themeSelected))
 		}
  	}
 
  	const handleCloseSession = () => {
- 		removeAuth()
+ 		dispatch(setCloseSession())
  		history.push('/login')
  	}
 

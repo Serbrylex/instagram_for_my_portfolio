@@ -3,7 +3,7 @@ import styled, { css } from 'styled-components'
  
 export const SearchContainer = styled.div`
 	width: 100%;
-	height: auto; 
+	height: 100%; 
 	padding: 60px 0 0 0;
 	
 	${props => props.theme === 'light' && css` 
@@ -31,15 +31,15 @@ export const HeaderSection = styled.div`
 	width: 100%;
 	height: 10vh;
 	padding: 2px 2vw;
-	display: flex;
+	margin: 10px auto;
+	display: grid;
 	align-items: center;
-	justify-content: start;		
-    position: relative;
+	grid-template-columns: 50px auto 50px;
+    
 
 	@media (min-width: 500px){
 	    width: 500px;	   	       
-		border: 1px solid #dbdbdb;	  		    
-	    margin: 0 auto;
+		border: 1px solid #dbdbdb;	  		    	    
     }
 
 `
@@ -47,16 +47,17 @@ export const HeaderSection = styled.div`
 export const Close = styled.div`
 	cursor: pointer;
 	height: 100%;
+	width: 100%;
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	position: absolute;
-	top: 10px;
-	left: 10px;
+	grid-column: 1 / 2;
+	
 `
 
 export const Title = styled.h1`
-	margin-left: 10px;
+	grid-column: 2 / 3;
+	margin: auto;
 `
 
 export const NavBarFilters = styled.div`

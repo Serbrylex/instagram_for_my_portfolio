@@ -9,7 +9,7 @@ export const PostContainer = styled.div`
 	position: relative;	
 	margin: 10px 0;
 	border: 1px solid #dbdbdb;
-	border-radius: 4px;
+	border-radius: 4px;	
 `
 
 export const UserPost = styled.div`
@@ -66,6 +66,10 @@ export const Left = styled.div`
 	align-items: center;
 	justify-content: space-between;	
 	z-index: 2;
+
+	& > svg {
+		cursor: pointer;
+	}
 `
 
 export const Dots = styled.div`
@@ -129,27 +133,17 @@ export const ImagesGroupContainer = styled.div`
 	position: relative;
 `
 
-export const ButtonLeft = styled.button`
+export const ButtonArrow = styled.button`
 	cursor: pointer;
 	position: absolute;
 	top: 50%;
 	bottom: 50%;
-	left: 5px;		
-	background-color: ${props => props.theme === 'light' ? 'black' : 'white'};
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	border-radius: 100%;
-	width: 30px;
-	height: 30px;
-`
-
-export const ButtonRight = styled.button`
-	cursor: pointer;
-	position: absolute;
-	top: 50%;	
-	bottom: 50%;
-	right: 5px;	
+	${props => props.orientation === 'left' && css `
+		left: 5px;
+	`}
+	${props => props.orientation === 'right' && css `
+		right: 5px;
+	`}	
 	background-color: ${props => props.theme === 'light' ? 'black' : 'white'};
 	display: flex;
 	align-items: center;

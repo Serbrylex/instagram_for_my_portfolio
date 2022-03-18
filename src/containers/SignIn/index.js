@@ -1,7 +1,8 @@
 // React 
-import { useHistory  } from 'react-router-dom'
-import { useContext, useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { useState, useEffect } from 'react'
 import { Helmet } from 'react-helmet'
+import { useSelector } from 'react-redux'
 
 // Assets
 import {
@@ -22,21 +23,18 @@ import { useGetWords } from '../../hooks/useGetWords'
 // Components
 import Loading from '../../components/Loading'
 
-// Context 
-import UserContext from '../../context/users'
-import ThemeContext from '../../context/theme'
-
+// API
+import apiCall from '../../api/apiCall'
 
 const SignIn = () => {
 
-	// Context
-	const { activeAuth } = useContext(UserContext)	
- 	const { theme } = useContext(ThemeContext) 	
+	// Context	
+ 	const { theme, url } = useSelector(store => store.preference)
 
  	// Language hook
  	const words = useGetWords({ container: 'sign_in' }) 		
 
-	const history = useHistory()
+	const history = useNavigate()
 	const [loading, setLoading] = useState(false)
 
 	// Inputs form
@@ -56,8 +54,8 @@ const SignIn = () => {
 		e.preventDefault()
 		setLoading(true)
 
-		const response = await activeAuth({  
-			urlDirection: 'user/signup/', 
+		const response = await apiCall({  
+			url: url + '/user/signup/', 
 			method: "POST", 
 			headers:  {
 				'Content-Type': 'application/json',
@@ -71,9 +69,9 @@ const SignIn = () => {
 				last_name: last_name.value
 			})
 		})
-
-		if (response?.isAuth) {
-			history.push("/login")
+		const data = await response.json()	
+		if (response.ok) {
+			history("/login")
 		} else {			
 			setErrorRespose({
 				error: true,

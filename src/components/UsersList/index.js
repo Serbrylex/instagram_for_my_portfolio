@@ -1,6 +1,7 @@
 // React
-import { useState, useEffect, useContext } from 'react'
-import { useHistory } from 'react-router-dom'
+import { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 
 // Assets
 import { 
@@ -19,20 +20,15 @@ import { useInputValue } from '../../hooks/useInputValue'
 // API
 import apiCall from '../../api/apiCall'
 
-// Context
-import UserContext from '../../context/users'
-import ThemeContext from '../../context/theme'
 
+const UsersList = ({ setShowList, users, title }) => {
 
-const UsersList = ({ url, setShowList, users, title }) => {
-
-	// Context
-	const { isAuth } = useContext(UserContext)
-	const { theme } = useContext(ThemeContext) 	 		
+	// Context	
+	const { theme, url  } = useSelector(store => store.preference)
 
 	// Variables
 	const size = '25px'
-	const history = useHistory()	
+	const history = useNavigate()	
 	const search = useInputValue('Buscar')
 	const color = theme === 'light' ? 'black' : 'white'
 

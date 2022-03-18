@@ -94,6 +94,8 @@ export const Header = styled.div`
 	justify-content: space-between;
 	padding: 0 2vw; 
 
+	& > svg { cursor: pointer; }
+
 	@media (min-width: 500px){
 	    width: 500px;	    
 	    margin: 0 auto;
@@ -112,6 +114,8 @@ export const NavegationBar = styled.div`
 	justify-content: space-evenly;
 	padding: 0 2vw;
 	color: white;	
+
+	& > svg { cursor: pointer; }
 `
 export const Footer = styled.div`
 	position: absolute;

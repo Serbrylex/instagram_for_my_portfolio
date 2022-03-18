@@ -5,16 +5,11 @@ import { Link } from 'react-router-dom'
 export const CommentContainer = styled.div`
 	width: 90%;
 	height: auto;
-	display: flex;	
-	margin: 0 auto;
-	border-bottom: 1px solid black;	
+	display: grid;	
+	margin: 0 auto;	
+	border-bottom: 1px solid ${props => props.theme === 'light' ? 'black' : 'white'};
 	padding: 10px 0;
-`
-
-export const DataLeft = styled.div`
-	width: 60px;	
-	height: 100%;
-	text-align: center;
+	grid-template-columns: 20% 80%;
 `
 
 export const ImageProfile = styled.img`
@@ -24,13 +19,9 @@ export const ImageProfile = styled.img`
 	object-fit: cover;
 `
 
-export const DataRight = styled.div`
-	width: 100%;
-	height: auto;
-`
-
 export const CommentParagraph = styled.div`	
 	color: ${props => props.theme === 'light' ? 'black' : 'white'};
+	margin: auto 0;
 `
 
 export const Username = styled(Link)`

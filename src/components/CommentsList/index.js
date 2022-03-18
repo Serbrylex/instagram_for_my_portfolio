@@ -1,5 +1,6 @@
 // React
-import { useState, useEffect, useContext } from 'react'
+import { useState, useEffect } from 'react'
+import { useSelector } from 'react-redux'
 
 // Assets
 import {
@@ -19,16 +20,12 @@ import { useGetWords } from '../../hooks/useGetWords'
 // API
 import apiCall from '../../api/apiCall'
 
-// Context
-import UserContext from '../../context/users'
-import ThemeContext from '../../context/theme'
 
-
-const CommentsList = ({ url, setShowComments, post_id }) => {
+const CommentsList = ({ setShowComments, post_id }) => {
 	
 	// Context
-	const { isAuth } = useContext(UserContext)
- 	const { theme } = useContext(ThemeContext) 	
+	const user = useSelector(store => store.user)
+ 	const { theme, url } = useSelector(store => store.preference) 	
 
 	// Variables
 	const size = '25px'	
@@ -42,10 +39,10 @@ const CommentsList = ({ url, setShowComments, post_id }) => {
 
 	const handleSendComment = async () => {
 		await apiCall({			
-			urlDirection: 'set-comment/',
+			url: url + '/set-comment/',
 			method: 'POST',
 			headers: {
-				'Authorization': `Token ${isAuth.access_token}`,
+				'Authorization': `Token ${user.access_token}`,
 				'Content-Type': 'application/json'
 			},
 			body: JSON.stringify({
@@ -58,9 +55,9 @@ const CommentsList = ({ url, setShowComments, post_id }) => {
 			...comments,
 			{
 				comment: comment.value,
-				picture: isAuth.user.profile.picture,
-				user_id: isAuth.user.user_id,
-				username: isAuth.user.username
+				picture: user.user.profile.picture,
+				user_id: user.user.user_id,
+				username: user.user.username
 			}
 		])
 
@@ -68,10 +65,10 @@ const CommentsList = ({ url, setShowComments, post_id }) => {
 	}
 
 	const handleFetchComments = async () => {
-		const token = `Token ${isAuth.access_token}`
+		const token = `Token ${user.access_token}`
 		
 		let data = await apiCall({			
-			urlDirection: `get-comments/${post_id}/`, 						
+			url: `${url}/get-comments/${post_id}/`, 						
 			headers: {
 				'Authorization': token,				
 			}
@@ -98,11 +95,11 @@ const CommentsList = ({ url, setShowComments, post_id }) => {
 
 			<CommentList>
 				{comments?.map((comment, index)=>(
-					<Comment key={index} comment={comment} url={url}/>
+					<Comment key={index} comment={comment}/>
 				))}	
 			</CommentList>
 
-			<SearchBar search={comment} fixed='bottom' url={url} handleSendComment={handleSendComment}/>
+			<SearchBar search={comment} fixed='bottom' handleSendComment={handleSendComment}/>
 			
 		</LikesContainer>
 	)

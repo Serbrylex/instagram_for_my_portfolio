@@ -1,6 +1,7 @@
 // React
-import { useState, useContext, useEffect } from 'react'
-import { useHistory } from 'react-router-dom'
+import { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 
 import { 
 	LikeContainer, Picture, Image, Username, Button
@@ -9,22 +10,18 @@ import {
 // API 
 import apiCall from '../../api/apiCall'
 
-// Context
-import UserContext from '../../context/users'
-import ThemeContext from '../../context/theme'
-
 // Hooks
 import { useGetWords } from '../../hooks/useGetWords'
 
 
 const UserInList = ({ username, user_id, picture, follow }) => {
  
-	const history = useHistory()
+	const history = useNavigate()
 	const [alreadyFollowing, setAlreadyFollowing] = useState(follow)
 	
 	// Context
-	const { isAuth } = useContext(UserContext)
- 	const { theme } = useContext(ThemeContext) 	
+	const user = useSelector(store => store.user) 	
+	const { url, theme } = useSelector(store => store.preference)
 
 	// Language hook
  	const words = useGetWords({ component: 'user_in_list' })
@@ -33,18 +30,18 @@ const UserInList = ({ username, user_id, picture, follow }) => {
 		let response = ''
 		if (what) {
 			response = await apiCall({
-				urlDirection: `user/follow_to/${user_id}/`, 
+				url: `${url}/user/follow-to/${user_id}/`, 
 				method: 'POST', 
 				headers: {
-					'Authorization': `Token ${isAuth.access_token}`
+					'Authorization': `Token ${user.access_token}`
 				}
 			})
 		} else {
 			response = await apiCall({
-				urlDirection: `user/stop_following_to/${user_id}/`, 
+				url: `${url}/user/stop-following-to/${user_id}/`, 
 				method: 'DELETE', 
 				headers: {
-					'Authorization': `Token ${isAuth.access_token}`
+					'Authorization': `Token ${user.access_token}`
 				}
 			})
 		}		
@@ -54,10 +51,10 @@ const UserInList = ({ username, user_id, picture, follow }) => {
 
 	return(
 		<LikeContainer>
-			<Picture onClick={()=>history.push(`/profile/${username}`)}>
+			<Picture onClick={()=>history(`/profile/${username}`)}>
 				<Image src={picture} alt={username} />
 			</Picture>
-			<Username onClick={()=>history.push(`/profile/${username}`)} theme={theme}>
+			<Username onClick={()=>history(`/profile/${username}`)} theme={theme}>
 				{username}
 			</Username>
 

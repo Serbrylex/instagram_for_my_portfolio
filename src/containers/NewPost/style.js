@@ -3,50 +3,40 @@ import styled, { css } from 'styled-components'
 export const NewPostContainer = styled.div`
 	width: 100%;
 	height: 100vh;	
-	position: relative;
-	padding-top: 60px;
+	display: grid;
+	grid-template-rows: 7vh 13vh 80vh;
+	grid-template-columns: 1fr 500px 1fr;
 
 	${props => props.theme === 'light' && css`
 		background-color: white;			
-		color: black;
-		border: 1px solid black;
+		color: black;		
 	`}
 
 	${props => props.theme === 'dark' && css`
 		background-color: #141414;		
-		color: white;
-		border: 1px solid white;
-	`}
-
-	@media (min-width: 500px){
-	    display: flex;
-	    justify-content: space-evenly;	
-	    padding: 60px 20px 0 20px;   	    
-    }
+		color: white;		
+	`}	
 ` 
 
 export const HeaderSection = styled.div`
 	width: 100%;
-	height: 50px;
+	height: 100%;
 	padding: 5px 2%;
 	display: flex;
 	align-items: center;
-	justify-content: space-between;	
-	position: absolute;
-	top: 0;
-	left: 0;
-	right: 0;
+	justify-content: space-between;
+	grid-column: 1 / 4;
 
 	${props => props.theme === 'light' && css`
 		background-color: white;			
 		color: black;
-		border: 1px solid black;
+		border-bottom: 1px solid black;
 	`}
 
 	${props => props.theme === 'dark' && css`
 		background-color: #1F1F1F;		
 		color: white;
-		border: 1px solid white;
+		border-bottom: 1px solid white;
 	`}
 `
 
@@ -63,32 +53,27 @@ export const Publish = styled.div`
 `
 
 export const ImagesContainer = styled.div`
-	display: flex;
-	overflow-x: scroll;	
-	width: 100vw;
-	height: auto;
-	scroll-behavior: smooth;
-
-	@media (min-width: 500px){
-	    width: 45vw;
-    }
+	display: flex;	
+	width: 100%;
+	height: 90%;	
+	grid-column: 2/3;
+	position: relative;		
 `
 
 export const Image = styled.img`
 	width: 100vw;
-	height: auto;
-	@media (min-width: 500px){
-	    width: 45vw;
-    }
+	height: auto;	
 `
 
 export const Form = styled.form`
-	display: flex;
-	flex-direction: column;
-	width: 100%;
-	height: auto;	
-	padding: 5px 2vw;
-	text-align: start;
+	display: flex;	
+	width: 500px;
+	height: 70%;
+	padding: 5px 2vw;	
+	grid-column: 2/3;
+	margin: auto 0;
+	align-items: center;
+	justify-content: space-evenly;
 
 	${props => props.theme === 'light' && css`
 		background-color: white;			
@@ -101,24 +86,83 @@ export const Form = styled.form`
 		color: white;
 		border: 1px solid white;
 	`}
-
-	@media (min-width: 500px){
-	    width: 45vw;
-    }
 `
 
 export const Button = styled.button`
-	width: 120px;
-	height: 50px;
+	width: 150px;
+	height: 30px;
 	font-weight: 600;
 	cursor: pointer;
 	display: flex;
 	align-items: center;
 	justify-content: space-evenly;
+	border-radius: 5px;
+
+	${props => props.theme === 'light' && css`				
+		color: black;
+		border: 1px solid black;
+	`}
+
+	${props => props.theme === 'dark' && css`		
+		color: white;	
+		border: 1px solid white;
+	`}
 `
 
-export const InputText = styled.textarea`
-	width: 100%;
-	height: 50px;
-	resize: none;
+export const InputText = styled.input`
+	width: 60%;
+	height: 30px;
+	border-radius: 5px;
+
+	${props => props.theme === 'light' && css`
+		background-color: white;			
+		color: black;
+		border: 1px solid black;
+	`}
+
+	${props => props.theme === 'dark' && css`
+		background-color: #1F1F1F;		
+		color: white;
+		border: 1px solid white;
+	`}
+`
+
+export const Count = styled.p`
+	position: absolute;
+	right: 5px;
+	top: 5px;
+	padding: 5px 10px;
+	border-radius: 5px;
+	
+	${props => props.theme === 'light' && css`
+		background-color: white;		
+		color: black;
+		border: 1px solid black;
+	`}
+
+	${props => props.theme === 'dark' && css`
+		background-color: black;		
+		color: white;
+		border: 1px solid white;
+	`}
+`
+
+export const ButtonArrow = styled.button`
+	cursor: pointer;
+	position: absolute;
+	top: 50%;
+	bottom: 50%;
+	${props => props.orientation === 'left' && css `
+		left: 5px;
+	`}
+	${props => props.orientation === 'right' && css `
+		right: 5px;
+	`}	
+	background-color: ${props => props.theme === 'light' ? 'black' : 'white'};
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 100%;
+	width: 30px;
+	height: 30px;
 `

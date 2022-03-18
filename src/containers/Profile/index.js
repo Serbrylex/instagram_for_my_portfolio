@@ -1,7 +1,8 @@
 // React
 import { useState, useContext, useEffect } from 'react' 
-import { useParams, useHistory } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 import { Helmet } from 'react-helmet'
+import { useSelector, useDispatch } from 'react-redux'
 
 // Assets 
 import { 
@@ -27,24 +28,20 @@ import Loading from '../../components/Loading'
 // API
 import apiCall from '../../api/apiCall'
 
-// Context
-import UserContext from '../../context/users'
-import ThemeContext from '../../context/theme'
-
 // Hooks
 import { useGetStoriesByUser } from '../../hooks/useGetStoriesByUser'
 import { useGetPosts } from '../../hooks/useGetPosts'
 import { useGetWords } from '../../hooks/useGetWords'
 
-const Profile = ({ url }) => {
+const Profile = () => {
 	
  	// Context
-	const { isAuth } = useContext(UserContext)	
- 	const { theme } = useContext(ThemeContext) 	
+	const user = useSelector(store => store.user)
+ 	const { theme, url } = useSelector(store => store.preference) 	
 	
 	// Variables
 	const size = "25px"
-	const history = useHistory()
+	const history = useNavigate()
 	const { username } = useParams()		
 	const [alreadyFollowing, setAlreadyFollowing] = useState(false)
 
@@ -52,7 +49,7 @@ const Profile = ({ url }) => {
  	const words = useGetWords({ container: 'profile' })
  	
  	// User data
- 	const [user, setUser] = useState({})
+ 	const [profile, setProfile] = useState({})
 
  	// Follower and following users
  	const [showUserList, setShowUserList] = useState(false)
@@ -61,61 +58,57 @@ const Profile = ({ url }) => {
 
  	const [showUserMenu, setShowUserMenu] = useState(false)
 
-	const [loading, setLoading] = useState(false)
+	const [loading, setLoading] = useState(true)
 
 	const [kindOfView, setKindOfView] = useState(false)
 	
 	// Stories and posts
 	let stories = useGetStoriesByUser({ 
-		token: isAuth.access_token, 
-		user: isAuth.user, 
+		token: user.access_token, 
+		user: user.user, 
 		url: url,
-		idUser: username
+		idUser: profile.username
 	})	
 	
 	const posts = useGetPosts({ 
-		token: isAuth.access_token, 
-		user: isAuth.user, 
+		token: user.access_token, 
+		user: user.user, 
 		url: url, 
-		idUser: username
+		idUser: profile.username
 	})
 
-	const handleAsyncSetUser = async () => {
+	const handleAsyncSetUser = async () => {		
 		const userResponse = await apiCall({
-			urlDirection: `user/${username}/`,
+			url: url + `/user/${username}/`,
 			headers: {
-				'Authorization': `Token ${isAuth.access_token}`
+				'Authorization': `Token ${user.access_token}`
 			}
 		})
-
-		const userData = await userResponse.json()		
 		
-		setAlreadyFollowing(userData.already_following)
-		setUser(userData)
+		const userData = await userResponse.json()				
+		setAlreadyFollowing(userData.already_following)		
+		setProfile(userData)		
 	}
 
-	useEffect(()=>{
+	useEffect(()=>{				
 		handleAsyncSetUser() 
-	}, [])
+	}, [username])
 		
 
-	useEffect(()=>{				
-		//setKindOfView(true)
-		
-		if ((posts?.length || posts.length === 0) && (stories?.length || stories.length === 0)) {
+	useEffect(()=>{							
+		if (posts.posts.length >= 0 && stories.length >= 0) {			
 			setLoading(false)			
 		}
-
-	}, [stories, posts])
+	}, [stories, posts.posts])
 
 	const handleFetchUsers = async (lookAt) => {
 
 		setLoading(true)
 
 		const usersResponse = await apiCall({
-			urlDirection: `user/${lookAt === 'follower' ? 'list_of_followers' : 'list_of_following'}/${user.user_id}/`,
+			url: url + `/user/${lookAt === 'followers' ? 'list-of-followers' : 'list-of-following'}/${profile.user_id}/`,
 			headers: {
-				'Authorization': `Token ${isAuth.access_token}`
+				'Authorization': `Token ${user.access_token}`
 			}
 		})				
 
@@ -142,18 +135,18 @@ const Profile = ({ url }) => {
 		let response = ''
 		if (what) {
 			response = await apiCall({
-				urlDirection: `user/follow_to/${user.user_id}/`, 
+				url: url + `/user/follow-to/${profile.user_id}/`, 
 				method: 'POST', 
 				headers: {
-					'Authorization': `Token ${isAuth.access_token}`
+					'Authorization': `Token ${user.access_token}`
 				}
 			})
 		} else {
 			response = await apiCall({
-				urlDirection: `user/stop_following_to/${user.user_id}/`, 
+				url: url + `/user/stop-following-to/${profile.user_id}/`, 
 				method: 'DELETE', 
 				headers: {
-					'Authorization': `Token ${isAuth.access_token}`
+					'Authorization': `Token ${user.access_token}`
 				}
 			})
 		}		
@@ -164,8 +157,8 @@ const Profile = ({ url }) => {
 	return(
 		<ProfileContainer theme={theme}>
 			<Helmet>
-                <title>Instagram | {isAuth.user.username}</title>
-				<meta name='description' content={`This is the profile of ${isAuth.user.username}`} />
+                <title>Instagram | {user.user.username}</title>
+				<meta name='description' content={`This is the profile of ${user.user.username}`} />
 			</Helmet>
 			<Header setShowUserMenu={setShowUserMenu} url={url}/> 
 
@@ -177,47 +170,47 @@ const Profile = ({ url }) => {
 
 			<DataProfile>
 				<SectionImage>
-					{user?.profile ?
-						<Image src={`${url}${user.profile.picture}`} alt='image profile' /> :
+					{profile?.profile && profile.profile?.picture ?
+						<Image src={`${url}${profile.profile.picture}`} alt='image profile' /> :
 						<Image src={imageTest} alt='image profile' />
 					}
 					<GeneralData>
 						<Data>
 							<Count>{posts.posts.length}</Count>
-							<Description onClick={()=>setKindOfView(true)}>{words?.post}</Description>
+							<Description onClick={()=>setKindOfView(true)}>{words?.posts}</Description>
 						</Data>
 						<Data>
-							<Count>{user.follower || 0}</Count>
-							<Description onClick={()=>handleFetchUsers('follower')}>{words?.followers}</Description>
+							<Count>{profile.follower || 0}</Count>
+							<Description onClick={()=>handleFetchUsers('followers')}>{words?.followers}</Description>
 						</Data>
 						<Data>
-							<Count>{user.following || 0}</Count>
+							<Count>{profile.following || 0}</Count>
 							<Description onClick={()=>handleFetchUsers('following')}>{words?.following}</Description>
 						</Data>
 					</GeneralData>
 				</SectionImage>
 				<UserDescription>
 					<Username>{username}</Username>
-					{user?.profile && <>
-						<Information>{user.profile.biography}</Information>
-						<Link>{user.profile.website}</Link>
+					{profile?.profile && <>
+						<Information>{profile.profile.biography}</Information>
+						<Link>{profile.profile.website}</Link>
 					</>}
 				</UserDescription>
 			</DataProfile>
 
-			{username === isAuth.user.username ?
-				<EditProfile onClick={()=>history.push('/edit/profile')} theme={theme}>{words?.edit_profile}</EditProfile> :				
+			{username === user.user.username ?
+				<EditProfile onClick={()=>history('/edit/profile')} theme={theme}>{words?.edit_profile}</EditProfile> :				
 				<ButtonsContainer>					
 					{alreadyFollowing ? 
 						<ButtonUserFunction theme={theme} onClick={()=>handleFollowing(false)}>{words?.following}</ButtonUserFunction> :
 						<ButtonUserFunction theme={theme} onClick={()=>handleFollowing(true)}>{words?.follow}</ButtonUserFunction>
 					}
-					<ButtonUserFunction theme={theme} onClick={()=>history.push('/messages')}>{words?.message}</ButtonUserFunction>
+					<ButtonUserFunction theme={theme} onClick={()=>history('/messages')}>{words?.message}</ButtonUserFunction>
 					<Down theme={theme}><RiArrowDownSLine /></Down>
 				</ButtonsContainer>				
 			}
 
-			<Stories add='last' stories={stories} />
+			<Stories add='last' stories={stories} isMyProfile={username === user.user.username}/>
 			{kindOfView &&
 				<HeaderSection>			
 					<Close onClick={()=> setKindOfView(false)}>
@@ -225,8 +218,8 @@ const Profile = ({ url }) => {
 					</Close>
 					<Title>{words?.posts}</Title>				
 				</HeaderSection>
-			}
-			<SearchFeed posts={posts.posts} url={url} setKindOfView={setKindOfView} kindOfView={kindOfView} loading={loading}/>						
+			}			
+			<SearchFeed posts={posts.posts} url={url} setKindOfView={setKindOfView} kindOfView={kindOfView} loading={loading} />
 			<Footer />
 		</ProfileContainer>
 	)

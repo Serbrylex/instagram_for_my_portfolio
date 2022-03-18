@@ -1,6 +1,6 @@
 // React
-import { useHistory } from 'react-router-dom'
-import { useContext } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 
 // API
 import apiCall from '../../api/apiCall'
@@ -10,47 +10,45 @@ import {
 	PostOptionsPage, PostOptionsContainer, Option
 } from './style'
 
-// Context
-import ThemeContext from '../../context/theme'
-
 // Hooks
 import { useGetWords } from '../../hooks/useGetWords'
 
 
-const PostOptions = ({ setShowMenuPost, post_data, isAuth, setShowPost }) => {
+const PostOptions = ({ setShowMenuPost, post_data, setShowPost }) => {
 
 	// Context
- 	const { theme } = useContext(ThemeContext) 	
+ 	const { theme, url } = useSelector(store => store.preference)
+ 	const user = useSelector(store => store.user)
 	
 	// Variables
 	const color = theme === 'light' ? 'black' : 'white'
-	const history = useHistory()	
+	const history = useNavigate()	
 
 	// Language hook
  	const words = useGetWords({ component: 'post_options' }) 		 		
 
 	const handleUnFollowUser = async () => {
 		let response = await apiCall({			
-			urlDirection: `user/stop_following_to/${post_data.user_id}/`, 			
+			url: `${url}/user/stop-following-to/${post_data.user_id}/`, 			
 			method: 'DELETE',
 			headers: {
-				'Authorization': `Token ${isAuth.access_token}`,				
+				'Authorization': `Token ${user.access_token}`,				
 			}
 		}) 
 
 		console.log(response)
 
-		if (response.ok) {
-			history.go(0)
+		if (response.ok) {			
+			setShowMenuPost(false)
 		}
 	}
 
 	const handleDeletePost = async () => {
 		let response = await apiCall({			
-			urlDirection: `delete-post/${post_data.post_id}/`, 			
+			url: `${url}/delete-post/${post_data.post_id}/`, 			
 			method: 'DELETE',
 			headers: {
-				'Authorization': `Token ${isAuth.access_token}`,
+				'Authorization': `Token ${user.access_token}`,
 			}
 		}) 
 
@@ -58,23 +56,24 @@ const PostOptions = ({ setShowMenuPost, post_data, isAuth, setShowPost }) => {
 
 		if (response.ok) {
 			setShowPost(false)
+			setShowMenuPost(false)
 		}		
 	}
 
 	return(
 		<PostOptionsPage theme={theme}>
 			<PostOptionsContainer theme={theme}>								
-				<Option onClick={()=>history.push(`/profile/${post_data.username}`)} theme={theme} color={color}>
+				<Option onClick={()=>history(`/profile/${post_data.username}`)} theme={theme} color={color}>
 					{words?.see_profile}
 				</Option>
 				{
-					isAuth.user.username === post_data.username &&						
+					user.user.username === post_data.username &&						
 					<Option onClick={()=>handleDeletePost()} color={'red'} theme={theme}>
 						{words?.delete_post}
 					</Option>
 				}
 				{
-					isAuth.user.username !== post_data.username &&						
+					user.user.username !== post_data.username &&						
 					<Option onClick={()=>handleUnFollowUser()} color={'red'} theme={theme}>
 						{words?.stop_following}
 					</Option>

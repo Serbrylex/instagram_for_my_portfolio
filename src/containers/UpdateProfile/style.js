@@ -4,7 +4,7 @@ import styled, { css } from 'styled-components'
 export const UpdateProfileContainer = styled.div`
 	width: 100vw;
 	height: auto; 
-
+	padding-top: 10px;
 	${props => props.theme === 'light' && css`
 		background-color: white;
 		color: black;

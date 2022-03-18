@@ -1,14 +1,20 @@
 // Assets
 import circle from '../../assets/images/circle.svg' 
 
+// Redux
+import { useSelector } from 'react-redux'
+
 import {
 	ImageLoading, Container
 } from './style'
 
 
 const Loading = () => {
+
+	const theme = useSelector(store => store.preference.theme)
+
 	return(
-		<Container>
+		<Container theme={theme}>
 			<ImageLoading src={circle} alt='loading' />
 		</Container>
 	)

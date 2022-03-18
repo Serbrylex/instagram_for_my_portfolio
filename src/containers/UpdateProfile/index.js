@@ -1,7 +1,8 @@
 // React
-import { useContext, useEffect, useState, useRef } from 'react'
-import { useParams, useHistory } from 'react-router-dom'
+import { useEffect, useState, useRef } from 'react'
+import { useParams, useNavigate } from 'react-router-dom'
 import { Helmet } from 'react-helmet'
+import { useSelector, useDispatch } from 'react-redux'
   
 // Assets
 import {
@@ -21,19 +22,18 @@ import { useGetWords } from '../../hooks/useGetWords'
 // API
 import apiCall from '../../api/apiCall'
 
-// Context 
-import UserContext from '../../context/users'
-import ThemeContext from '../../context/theme'
+// Actions
+import { setUpdateUser } from '../../actions'
 
-
-const UpdateProfile = ({ url }) => {
+const UpdateProfile = () => {
 	
 	// Context
- 	const { isAuth, setIsAuth } = useContext(UserContext) 		
- 	const { theme } = useContext(ThemeContext) 	
+ 	const user = useSelector(store => store.user)
+ 	const { theme, url } = useSelector(store => store.preference)
+ 	const dispatch = useDispatch()
 
 	// Variables
-	const history = useHistory()	
+	const history = useNavigate()	
 	const hiddenFileInput = useRef(null);
  	const [loading, setLoading] = useState(true)
  	const color = theme === 'light' ? 'black' : 'white'
@@ -42,23 +42,23 @@ const UpdateProfile = ({ url }) => {
  	const words = useGetWords({ container: 'update_profile' }) 		 		
 
  	// Inputs form
- 	const imagen = useImage(`${url}${isAuth.user.profile.picture}`) 
+ 	const imagen = useImage(`${url}${user.user.profile.picture}`) 
  	const first_name = useInputValue('')
  	const last_name = useInputValue('')
  	const username = useInputValue('')
  	const website = useInputValue('')
  	const biography = useInputValue('')
  	const phone_number = useInputValue('')
- 	const [isPublic, setIsPublic] = useState(isAuth.user.profile.is_public)
+ 	const [isPublic, setIsPublic] = useState(user.user.profile.is_public)
 
  	useEffect(()=>{
 	 	setTimeout(()=>{
-			first_name.setValue(isAuth.user.first_name)
-	 		last_name.setValue(isAuth.user.last_name)
-			username.setValue(isAuth.user.username)
-			website.setValue(isAuth.user.profile.website)
-			biography.setValue(isAuth.user.profile.biography)
-			phone_number.setValue(isAuth.user.profile.phone_number) 			 				 		
+			first_name.setValue(user.user.first_name)
+	 		last_name.setValue(user.user.last_name)
+			username.setValue(user.user.username)
+			website.setValue(user.user.profile.website)
+			biography.setValue(user.user.profile.biography)
+			phone_number.setValue(user.user.profile.phone_number) 				
 	 	}, 1000)
  	}, [])
 
@@ -71,15 +71,13 @@ const UpdateProfile = ({ url }) => {
 	const handleChange = e => {
 		const fileUploaded = e.target.files[0]
 
-		console.log(fileUploaded)
-
 		imagen.setFileImage(fileUploaded)
-		imagen.setImage([URL.createObjectURL(fileUploaded)])		
+		imagen.setImage([URL.createObjectURL(fileUploaded)])
 	}
 
 	// Fetch -------------------------------------------------
 	const handleFormSubmit = async () => {
-		const newToken = `Token ${isAuth.access_token}`				
+		const newToken = `Token ${user.access_token}`				
 
 		let objectOne = new FormData()		
 		
@@ -113,57 +111,29 @@ const UpdateProfile = ({ url }) => {
 		objectOne.forEach((value, key) => object[key] = value);		
 
 		const response = await apiCall({
-			urlDirection: 'user/me/profile/', 
+			url: url + '/user/me/profile/', 
 			method: 'PATCH', 
 			headers: {
 				'Authorization': newToken,
 			},
 			body: objectOne
-		})		
-
-		if (response.ok) {
-			
-			const new_data = {...isAuth}			
-
-			if (object?.first_name) {
-				new_data.user.first_name = object.first_name
-			}
-			if (object?.last_name) {
-				new_data.user.last_name = object.last_name
-			}
-			if (object?.username) {
-				new_data.user.username = object.username
-			}
-
-			if (object?.biography) {
-				new_data.user.profile.biography = object.biography
-			}
-			if (object?.is_public) {
-				new_data.user.profile.is_public = object.is_public === 'true' ? true : false
-			}
-			if (object?.phone_number) {
-				new_data.user.profile.phone_number = object.phone_number
-			}
-			if (object?.picture) {
-				new_data.user.profile.picture = object.picture
-			}
-			if (object?.website) {
-				new_data.user.profile.website = object.website
-			}
-						
-			setIsAuth(new_data)
-			history.goBack()
+		})				
+		const data = await response.json()			
+		
+		if (response.ok) {								
+			dispatch(setUpdateUser(data))
+			history(-1)
 		}
 	}
 
 	return(
 		<UpdateProfileContainer theme={theme}>
 			<Helmet>
-                <title>@{isAuth.user.username} | Update Profile</title>
-				<meta name='description' content={`Update profile of ${isAuth.user.username}`} />
+                <title>@{user.user.username} | Update Profile</title>
+				<meta name='description' content={`Update profile of ${user.user.username}`} />
 			</Helmet>
 			<Header theme={theme}>
-				<BackButton onClick={()=>history.goBack()} >
+				<BackButton onClick={()=>history(-1)} >
 					<AiOutlineClose size={size} color={color} />
 				</BackButton>
 				<Title>{words?.edit_profile}</Title>
@@ -173,7 +143,7 @@ const UpdateProfile = ({ url }) => {
 			</Header>
 			<DataUserProfile>
 				<ImageDataContainer theme={theme}>
-					<Image src={imagen.image[0]} alt={isAuth.user.username} />
+					<Image src={imagen.image[0]} alt={user.user.username} />
 					<input 
 						type="file" 
 						accept="image/png,image/jpeg"

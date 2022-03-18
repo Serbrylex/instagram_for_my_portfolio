@@ -2,11 +2,11 @@ import styled, { css } from 'styled-components'
 
 export const ProfileContainer = styled.div` 
 	width: 100%;
-	height: 100%;
+	height: 100vh;
 	display: flex;
 	flex-direction: column; 
 	align-items: center;	
-	padding: 60px 0 50px 0;
+	padding: 70px 0 50px 0;
 	margin: 0 auto;
 	overflow-y: scroll;
 	overflow-x: hidden;

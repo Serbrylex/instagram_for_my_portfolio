@@ -1,12 +1,12 @@
 // React
 import {
-	BrowserRouter as Router,
-	Switch,
+	BrowserRouter,
+	Routes as Switch,
 	Route,
 	Redirect
 } from 'react-router-dom'
 
-import { useContext } from 'react'
+import { useEffect } from 'react'
 
 // Containers -------------------------------------------
 import Login from '../containers/Login'
@@ -32,82 +32,42 @@ import AddStorie from '../containers/AddStorie'
 import FourOFour from '../containers/FourOFour'
 
 // Context
-import UserContext from '../context/users'
+import { useSelector } from 'react-redux'
 
 const Routes = () => {
 
-	const { isAuth } = useContext(UserContext)	
-	//const url = 'http://127.0.0.1:8000'
-	const url = 'https://newinstagrambyme.herokuapp.com'
+	const user = useSelector(store => store.user)
+	
 	let elements = []
-
-	// Recuerda cambiarlo ------------------------------------------------
-	// isAuth.isAuth
-
-	if (isAuth.isAuth) {
-		elements = [
-			<Route path="/" exact key={1}>
-				<Feed  url={url} />
-			</Route>,
-			<Route path="/profile/:username" exact key={2}>
-				<Profile  url={url}/>
-			</Route>,
-			<Route path="/edit/profile" exact key={3}>
-				<UpdateProfile  url={url}/>
-			</Route>,
-			<Route path="/search" exact key={4}>
-				<Search  url={url}/>
-			</Route>,						
-			<Route path="/new-post" exact key={5}>
-				<NewPost url={url}/>
-			</Route>,
-			<Route path="/follow-request" exact key={6}>
-				<FollowRequest url={url}/>
-			</Route>,
-			<Route path="/messages" exact key={7}>
-				<Messages url={url} />
-			</Route>,						
-			<Route path="/add-storie" exact key={8}>
-				<AddStorie url={url}/>
-			</Route>,
-			<Route path="/stories/:index" exact key={9}>
-				<FullPageStories url={url}/>
-			</Route>,
-			<Route path="/stories_by_user/:index" exact key={9}>
-				<FullPageStories url={url} byUser={true} />
-			</Route>
-		]
-	}else{
-		// Si no está autentificado pero quiere el feed, denle el feed
-		if (window.location.pathname === '/') {
-			elements = [
-				<Route path="/" exact key={1}>
-					<Feed  url={url} />
-				</Route>,
-				<Route path="/stories/:index" exact key={9}>
-					<FullPageStories url={url}/>
-				</Route>
-			]
-		} else {
-			elements = [<Redirect to="/login" key={10}/>]
-		}
-	}
-
+			
 	return(
-		<Router>
+		<BrowserRouter>
 			<Switch>
-				<Route path="/login" exact>
-					<Login  />
-				</Route>
-				<Route path="/signin" exact>
-					<SignIn  />
-				</Route>
-				{elements}			
-				<Route>
-					<FourOFour />
-				</Route>
+				<Route path="/" exact element={<Feed  />} />
+				<Route path="/login" exact element={<Login  />} />
+				<Route path="/signin" exact element={<SignIn  />} />
+				<Route path="/stories/:index" exact element={<FullPageStories />} />
+
+				{user.isAuth && 
+					<>						
+						<Route path="/profile/:username" element={<Profile />} />
+						<Route path="/edit/profile" exact element={<UpdateProfile />} />
+						<Route path="/search" exact element={<Search />} />
+						<Route path="/search/:searching" element={<Search />} />
+						<Route path="/new-post" exact element={<NewPost />} />
+						<Route path="/follow-request" exact element={<FollowRequest />} />
+						<Route path="/messages" exact element={<Messages />} />
+						<Route path="/add-storie" exact element={<AddStorie />} />
+						<Route path="/stories_by_user/:username/:index" element={<FullPageStories byUser={true} />} />
+						<Route path="*" element={<FourOFour />} />
+					</>
+				}
+
+				{!user.isAuth && 
+					<Route path="*" element={<Login />} />
+				}
 			</Switch>			
-		</Router>
+		</BrowserRouter>
 	)
 }
 

@@ -1,5 +1,5 @@
 // React
-import { useContext } from 'react'
+import { useSelector } from 'react-redux'
 import { useLocation } from 'react-router-dom'
 
 // Assets
@@ -12,14 +12,11 @@ import { ImSearch } from 'react-icons/im'
 
 import imageTest from '../../assets/images/agujero-del-tiempo.jpg'
 
-// Context
-import ThemeContext from '../../context/theme'
-
 
 const Footer = () => {
 	
 	// Context
-	const { theme } = useContext(ThemeContext) 	
+	const theme = useSelector(store => store.preference.theme)
 
 	// Location
 	let site = useLocation();	

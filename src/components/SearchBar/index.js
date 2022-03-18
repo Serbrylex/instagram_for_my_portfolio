@@ -1,5 +1,6 @@
 // React
-import { useContext, useEffect } from 'react'
+import { useEffect } from 'react'
+import { useSelector } from 'react-redux'
 
 // Assets
 import {
@@ -9,41 +10,40 @@ import {
 import { CgSearch, CgArrowLeft } from 'react-icons/cg'
 import { AiOutlineSend } from 'react-icons/ai'
 
-// Context
-import UserContext from '../../context/users'
-import ThemeContext from '../../context/theme'
-
 // Hooks
 import { useGetWords } from '../../hooks/useGetWords'
 
 
-const SearchBar = ({ search, focus = false, setFocus = (some) => {}, fixed, url, handleSendComment }) => { 
+const SearchBar = ({ search, focus = false, setFocus = (some) => {}, fixed, handleSendComment = () => {} }) => { 
 	 
-	const size = '25px'
+	const size = '25px'	
 
 	// Context
-	const { isAuth } = useContext(UserContext)
- 	const { theme } = useContext(ThemeContext) 	
+	const user = useSelector(store => store.user)
+ 	const { theme, url } = useSelector(store => store.preference)
 
 	// Language hook
  	const words = useGetWords({ component: 'search_bar' })
 
 	return(
 		<SearchContainer fixed={fixed}>
-			{focus &&
-				<Close onClick={()=> setFocus(false)}>
-					<CgArrowLeft size={size}/>
-				</Close> 
-			}
 			<Form> 
-				{fixed === 'bottom' ? 
-					<ImageProfile src={`${url}${isAuth.user.profile.picture}`} /> :
-					<CgSearch size={size}/>
+				{focus &&
+					<Close onClick={()=> setFocus(false)}>
+						<CgArrowLeft size={size}/>
+					</Close> 
 				}
-				<Input {...search} onFocus={()=>setFocus(true)} onKeyUp={(event)=>event.keyCode === 13 ? handleSendComment() : false} />
-				{fixed === 'bottom'  && 
-					<Button onClick={handleSendComment} >
-						<AiOutlineSend size={size}/>
+				{fixed === 'bottom' &&					
+					<ImageProfile src={`${url}${user.user.profile.picture}`} /> 
+				}
+				<Input {...search} onFocus={()=>setFocus(true)} onKeyUp={(event)=>event.keyCode === 13 ? handleSendComment() : false} theme={theme} />
+				{fixed === 'bottom' ?
+					<Button onClick={handleSendComment}>
+						<AiOutlineSend size={size} color={theme === 'light' ? 'black' : 'white'}/>
+					</Button>		
+					:
+					<Button>
+						<CgSearch size={size} color={theme === 'light' ? 'black' : 'white'}/>
 					</Button>
 				}
 			</Form>

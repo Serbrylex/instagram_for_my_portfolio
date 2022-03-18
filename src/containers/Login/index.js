@@ -1,7 +1,8 @@
 // React 
-import { useHistory } from 'react-router-dom'
-import { useContext, useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { useState, useEffect } from 'react'
 import { Helmet } from 'react-helmet'
+import { useSelector, useDispatch } from 'react-redux'
 
 // Assets 
 import {
@@ -25,20 +26,25 @@ import Loading from '../../components/Loading'
 import { useInputValue } from '../../hooks/useInputValue'
 import { useGetWords } from '../../hooks/useGetWords'
 
-// Context
-import UserContext from '../../context/users'
-import ThemeContext from '../../context/theme'
+// API
+import apiCall from '../../api/apiCall'
+
+// Actions
+import { setUser } from '../../actions'
+
 
 const Login = () => {	
 
-	// Context
-	const { activeAuth } = useContext(UserContext)	
- 	const { theme } = useContext(ThemeContext) 	
+	// Context	
+ 	const theme = useSelector(store => store.preference.theme) 	
+ 	const url = useSelector(store => store.preference.url)
+
+ 	const dispatch = useDispatch()
 
  	// Language hook
  	const words = useGetWords({ container: 'login' })
 
-	const history = useHistory()
+	const history = useNavigate()
 
 	const username = useInputValue('Username')
 	const password = useInputValue('Password')
@@ -54,21 +60,29 @@ const Login = () => {
 
 		setLoading(true)
 
-		const response = await activeAuth({  
-			urlDirection: 'user/login/',
+		const response = await apiCall({  
+			url: url + '/user/login/',
+			method: 'POST',
+			headers:  {
+				'Content-Type': 'application/json',
+			},
 			body: JSON.stringify({
 				username: username.value,
 				password: password.value				
 			})
 		})
-
-		if (response?.access_token) {
-			history.push("/")
+		if (response.ok) {			
+			const data = await response.json()			
+			dispatch(setUser({
+				...data,
+				isAuth: true
+			}))
+			history("/")
 		} else {			
 			setErrorRespose({
 				error: true,
 				listErrors: response
-			})
+			})			
 			setLoading(false)
 		}			
 	}

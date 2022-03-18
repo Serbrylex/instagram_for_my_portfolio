@@ -1,6 +1,8 @@
 // React
-import { useContext, useEffect, useState } from 'react' 
+import { useEffect, useState } from 'react' 
 import { Helmet } from 'react-helmet'
+import { useSelector } from 'react-redux'
+import { useParams } from 'react-router-dom'
  
 // Assets 
 import {
@@ -25,16 +27,13 @@ import { useGetWords } from '../../hooks/useGetWords'
 // API
 import apiCall from '../../api/apiCall'
 
-// Context 
-import UserContext from '../../context/users'
-import ThemeContext from '../../context/theme'
 
-
-const Search = ({ url }) => {
+const Search = () => {
 	
 	// Context
-	const { isAuth } = useContext(UserContext)	
- 	const { theme } = useContext(ThemeContext) 	
+	const user = useSelector(store => store.user)
+	const { theme, url } = useSelector(store => store.preference)
+	const { searching } = useParams()
 
 	// Variables
 	const size = '25px'
@@ -46,10 +45,9 @@ const Search = ({ url }) => {
 
 	// posts and users
 	const posts = useGetPosts({
-		token: isAuth.access_token,
-		user: isAuth.user,
-		url: url,
-		idUser: 'popular'
+		token: user.access_token,
+		user: user.user,
+		idUser: 'popular'		
 	})	
 	const [users, setUsers] = useState([])
 	
@@ -70,28 +68,42 @@ const Search = ({ url }) => {
 	}, [posts])
 
 
-	const handleSearchByFilter = async () => {
-		const response = await apiCall({ 
-			urlDirection: `user/filter-people/${search.value}/`, 
-			method: "GET", 
-			headers:  {
-				'Authorization': `Token ${isAuth.access_token}`
-			}
-		})
+	const handleSearchByFilter = async (value) => {
+		if (value.length !== 0) {	
+			const response = await apiCall({ 
+				url: url + `/user/filter-people/${value}/`, 
+				method: "GET", 
+				headers:  {
+					'Authorization': `Token ${user.access_token}`
+				}
+			})
 
-		const data = await response.json()
-		console.log(data)
-		setUsers(data)
+			if (response.ok) {
+				const data = await response.json()		
+				setUsers(data)
+				console.log(data)
+			} else {
+				setUsers([])
+			}
+		} else {
+			setUsers([])
+		}
 	}
 
 
 	// Handle searching
-	useEffect(()=>{
-		if (search.value.length > 0) {
-			handleSearchByFilter()
-		}
 
+	useEffect(()=>{
+		handleSearchByFilter(search.value)		
 	}, [search.value])
+
+	useEffect(()=>{
+		if (searching?.length) {			
+			search.setValue(searching)						
+			setFocus(true)
+			setLoading(true)
+		}
+	}, [searching])
 
 
 	return(
@@ -100,7 +112,7 @@ const Search = ({ url }) => {
                 <title>Instagram | Search</title>
 				<meta name='description' content={`This is the searching`} />
 			</Helmet>
-			<Header url={url}/>
+			<Header />
 			{kindOfView ? 
 				<HeaderSection>			
 					<Close onClick={()=> setKindOfView(false)}>
@@ -109,20 +121,21 @@ const Search = ({ url }) => {
 					<Title>{words?.explor}</Title>				
 				</HeaderSection>:
 				<SearchBar 
-					search={search} 
+					search={search} 					
 					focus={focus} 
 					setFocus={setFocus} 
 					url={url}					
 				/>
 			}
-			{focus ?  
-				<SearchInput>					
+			{focus && users.length > 0 ?
+				<SearchInput>
 					<ListOfFilter>
-						{users?.map((user, index)=>(
-							<UserInList username={user.username} user_id={user.user_id} picture={`${url}${user.profile.picture}`} follow={user.already_following} key={index} />
-						))}
+						{users?.map((userFilter, index)=>(
+							<UserInList username={userFilter?.username} user_id={userFilter?.user_id} picture={`${url}${userFilter?.profile.picture}`} follow={userFilter?.already_following} key={index} />
+						))}						
 					</ListOfFilter>
-				</SearchInput>:
+				</SearchInput>
+				:
 				<SearchFeed 
 					url={url} 
 					posts={posts.posts} 

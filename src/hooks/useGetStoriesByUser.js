@@ -1,5 +1,6 @@
 // React
 import { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
 
 // API
 import apiCall from '../api/apiCall' 
@@ -11,8 +12,9 @@ import imageTest from '../assets/images/agujero-del-tiempo.jpg'
 //import ResetDate from './ResetDate'
 
 
-export const useGetStoriesByUser = ({ token = false, user, url, idUser = '' }) => {	
+export const useGetStoriesByUser = ({ token = false, user, idUser = '' }) => {	
 	const [stories, setStories] = useState([])
+	const url = useSelector(store => store.preference.url)
 
 	// Serializa la información obtenida por el backend
 	const ReseteaEachStorie = (storie, url, indice) => {		 
@@ -23,14 +25,14 @@ export const useGetStoriesByUser = ({ token = false, user, url, idUser = '' }) =
 				picture: url + storie.image,
 				username: storie.user.username		
 			},		
-			eventAddOrGo: `/stories_by_user/${indice}` 
+			eventAddOrGo: `/stories_by_user/${storie.user.username}/${indice}` 
 		})
 	}
 
 	// Hace la petición y ordena los elementos (user first)
 	const fetchAndOrderData = async () => {
 		const storiesResponse = await apiCall({
-			urlDirection: `stories/get-stories/${idUser}/`,	
+			url: url + `/stories/get-stories/${idUser}/`,	
 			headers: {
 				'Authorization': `Token ${token}`
 			}
@@ -57,13 +59,14 @@ export const useGetStoriesByUser = ({ token = false, user, url, idUser = '' }) =
 				storiesData = []
 			}
 		}
-		
+		console.log('useGetStoriesByUser')
+		console.log(storiesData)
 		setStories(storiesData)
 	}
 
 	useEffect(()=>{
 		fetchAndOrderData()
-	}, [])
+	}, [idUser])
 
 	return(stories)
 }

@@ -1,42 +1,41 @@
 // React
-import { useContext, useEffect, useState } from 'react'
-import { useHistory } from 'react-router-dom' 
+import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom' 
+import { useSelector } from 'react-redux'
 
 // Assets
-import {
+import { 
 	ListOfStories, Stori, StoriContainer, UsernameShort, ImgageStorie,
-	ButtonLeft, ButtonRight, ListOfStoriesFor
+	ArrowsContainer, ListOfStoriesFor
 } from './style'
  
 import { AiOutlinePlus } from 'react-icons/ai'
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io'
 
-// Context
-import UserContext from '../../context/users'
-import ThemeContext from '../../context/theme'
-
 // Hooks
 import { useGetWords } from '../../hooks/useGetWords'
  
  
-const Stories = ({ add, stories, url }) => {
+const Stories = ({ add, stories, isMyProfile = false }) => {
  
 	// Context
-	const { isAuth } = useContext(UserContext)
- 	const { theme } = useContext(ThemeContext) 	
+	const user = useSelector(store => store.user)
+ 	const { theme, url } = useSelector(store => store.preference)
 
 	// Variables
-	const history = useHistory()
+	const history = useNavigate()
 	const color = theme === 'light' ? 'black' : 'white'
 	const size = '22px'
 	const [storiesReference, setStoriesReference] = useState(false)
+	// Esto sirver para saber en página de las Stories te encuentras,
+	// lo maximo de stories por página es de 6
 	const [storiesIndex, setStoriesIndex] = useState(0)
 
 	// Language hook
  	const words = useGetWords({ component: 'stories' }) 	
 
  	useEffect(()=>{ 		
- 		setStoriesReference(document.getElementById('list-of-stories'))
+ 		setStoriesReference(document.getElementById('list-of-stories')) 		
  	}, [])
 
 	const handleMoveArrow = (whatDoYouWant) => {				
@@ -71,14 +70,26 @@ const Stories = ({ add, stories, url }) => {
 	return (
 		<ListOfStoriesFor>	
 			{storiesIndex !== 0 &&
-				<ButtonLeft theme={theme} onClick={()=>handleMoveArrow(true)}><IoIosArrowBack size={size} color={theme === 'light' ? 'white' : 'black'} /></ButtonLeft>
+				<ArrowsContainer theme={theme} orientation={'left'}>
+					<IoIosArrowBack 
+						size={size} 
+						color={theme === 'light' ? 'white' : 'black'}
+						onClick={()=>handleMoveArrow(true)}
+					/>
+				</ArrowsContainer>
 			}
-			{storiesIndex !== (stories.length - 1) / 6 &&
-					<ButtonRight theme={theme} onClick={()=>handleMoveArrow(false)}><IoIosArrowForward size={size} color={theme === 'light' ? 'white' : 'black'} /></ButtonRight>
-				}
+			{stories.length > 4 &&
+				<ArrowsContainer theme={theme} orientation={'right'}>
+					<IoIosArrowForward 
+						size={size} 
+						color={theme === 'light' ? 'white' : 'black'}
+						onClick={()=>handleMoveArrow(false)}
+					/>
+				</ArrowsContainer>
+			}
 			<ListOfStories theme={theme} id='list-of-stories'>	
-				{add === 'last' &&
-					<Stori onClick={()=> history.push('/add-storie') }>
+				{add === 'last' && isMyProfile &&
+					<Stori onClick={()=> history('/add-storie') }>
 						<StoriContainer theme={theme} style={{border: `1px solid ${color}`}}>						
 							<AiOutlinePlus color={color}/>
 						</StoriContainer>
@@ -86,7 +97,7 @@ const Stories = ({ add, stories, url }) => {
 					</Stori>	
 				}		
 				{stories?.map((eachUserStorie, index)=>(
-					<Stori key={index} onClick={()=>{history.push(eachUserStorie.eventAddOrGo)}}>
+					<Stori key={index} onClick={()=>{history(eachUserStorie.eventAddOrGo)}}>
 						<StoriContainer theme={theme}>						
 							<ImgageStorie src={eachUserStorie.user.picture} alt={eachUserStorie.user.username} />
 						</StoriContainer>

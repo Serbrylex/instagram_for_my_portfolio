@@ -1,5 +1,6 @@
 // React
-import { useEffect, useState, useContext } from 'react'
+import { useEffect, useState } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 
 // API
 import apiCall from '../api/apiCall'
@@ -7,51 +8,55 @@ import apiCall from '../api/apiCall'
 // Hook as function
 import ResetDate from './ResetDate'  
 
-// Context
-import LanguageContext from '../context/language'
+// Actions
+import { setFeed } from '../actions'
  
 
-export const useGetPosts = ({ token = false, user, url, idUser = '' }) => {	
+export const useGetPosts = ({ token = false, user, idUser = '' }) => {	
 
 	const [posts, setPosts] = useState([])
 	const [loading, setLoading]	= useState(true)
 	const [page, setPage] = useState(1)
-	const { language } = useContext(LanguageContext)
+
+	const { url, language } = useSelector(store => store.preference)
+	const feed = useSelector(store => store.feed.data)
+	const dispatch = useDispatch()
 
 	// Hace la petición y ordena los elementos (user first)
-	const fetchAndOrderData = async (numberPage) => {
- 		let urlDirection = ''
+	const fetchAndOrderData = async (numberPage) => { 		
  		let addHeaders = true
+ 		let urlPlus = ''
  		 		
- 		if (!token) {
- 			urlDirection = 'get-posts/popular/'
- 			addHeaders = false
- 		} else if (idUser.length !== 0) {
- 			urlDirection = `get-posts/${idUser}/${numberPage}/`
- 		} else {
- 			urlDirection = `posts/${numberPage}/`
+ 		if (idUser === 'popular' || !token) {
+ 			// GET post user, idUser = username
+ 			urlPlus = url + `/get-posts/popular/${numberPage}/`
+ 			addHeaders = false 		
+ 		} else if (idUser.length !== 0 && token) {
+ 			urlPlus = url + `/get-posts/${idUser}/`
+ 		} else if (token) {
+ 			urlPlus = url + `/posts/${numberPage}/`
  		}
+
+ 		console.log(urlPlus)
 		 
 		let postsResponse = ''
 		if (addHeaders) {
 			postsResponse = await apiCall({
-				urlDirection,			
+				url: urlPlus,			
 				headers: {
 					'Authorization': `Token ${token}`
 				}			
 			})			
 		} else {
 			postsResponse = await apiCall({
-				urlDirection				
+				url: urlPlus
 			})			
 		}
 
-		const dataResponse = await postsResponse.json()
-		console.log(dataResponse)
+		const dataResponse = await postsResponse.json()		
 
 		let postsData = [...dataResponse]	
-		
-
+				
 		if (postsResponse.ok) {						
 									
 			if (postsData?.length) {
@@ -67,16 +72,18 @@ export const useGetPosts = ({ token = false, user, url, idUser = '' }) => {
 					}
 				}					
 			}
-						
-			setPosts(postsData)
-			setLoading(false)
+			
+			if (feed !== postsData)	{
+				dispatch(setFeed(postsData))
+				setPosts(postsData)			
+			}
 		}
-
+		setLoading(false)
 	}
 
-	useEffect(()=>{		
+	useEffect(()=>{						
 		fetchAndOrderData(page)
-	}, [])
+	}, [idUser])
 
 	const handleNextPage = where => {
 		// where === true derecha else izquierda

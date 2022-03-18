@@ -2,7 +2,7 @@ import styled, { css } from 'styled-components'
 import { Link as Linked } from 'react-router-dom'
 
 export const FooterContainer = styled.div` 
-	height: 10vh;
+	height: 50px;
 	width: 100vw;	
 	position: fixed;
 	bottom: 0;
@@ -14,6 +14,7 @@ export const FooterContainer = styled.div`
 	background-color: white;
 	z-index: 5;
 	padding: 5px 2vw;
+	border-top: 1px solid white;
 	${props => props.theme === 'light' && css`
 		background-color: white;
 		color: black;

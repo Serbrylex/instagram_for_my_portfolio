@@ -1,5 +1,6 @@
 // React
-import { useEffect, useState, useContext } from 'react'
+import { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
 
 // API
 import apiCall from '../api/apiCall' 
@@ -8,16 +9,13 @@ import apiCall from '../api/apiCall'
 import imageTest from '../assets/images/agujero-del-tiempo.jpg' 
  
 // Hooks
-import ResetDate from './ResetDate' 
-
-// Context
-import LanguageContext from '../context/language'
+import ResetDate from './ResetDate'  
 
 
-export const useGetAllStories = ({ token = false, user = false, url, byUser = false }) => {	
+export const useGetAllStories = ({ token = false, user = false, byUser = false }) => {	
 
 	const [stories, setStories] = useState([])
-	const { language } = useContext(LanguageContext)
+	const { language, url } = useSelector(store => store.preference)	
 
 	// Hace la petición y ordena los elementos (user first)
 	const fetchAndOrderData = async () => {
@@ -25,14 +23,14 @@ export const useGetAllStories = ({ token = false, user = false, url, byUser = fa
 		let storiesResponse = ''
 		if (token) {
 			storiesResponse = await apiCall({
-				urlDirection: byUser ? `stories/get-stories/${user.username}/` : 'stories/get-all-stories/',
+				url: url + (byUser ? `/stories/get-stories/${user.username}/` : '/stories/get-all-stories/'),
 				headers: {
 					'Authorization': `Token ${token}`
 				}
 			})
 		} else {
 			storiesResponse = await apiCall({
-				urlDirection: 'stories/get-public-stories/',				
+				url: url + '/stories/get-public-stories/',				
 			})
 		}
 
@@ -46,7 +44,7 @@ export const useGetAllStories = ({ token = false, user = false, url, byUser = fa
 			let storiesOrderedByUser = [{
 				user: {
 					id: user.id,
-					picture: user.profile.picture ? url + user.profile.picture : imageTest,
+					picture: user.profile?.picture ? url + user.profile.picture : imageTest,
 					username: user.username		
 				},
 				stories: []
@@ -94,6 +92,7 @@ export const useGetAllStories = ({ token = false, user = false, url, byUser = fa
 				}					
 			}
 		}				
+		console.log(storiesOrderedByUser)
 		setStories(storiesOrderedByUser)
 	}
 

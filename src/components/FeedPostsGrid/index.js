@@ -1,23 +1,27 @@
 // React
-import { useContext } from 'react'
+import { useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 
 // Assets
 import {
-	FeedImages, EachImageContainer, IconContainer, ImagePost
+	FeedImages, EachImageContainer, IconContainer, ImagePost, AddNewPost
 } from './style'
 
 import { RiCheckboxMultipleBlankLine } from 'react-icons/ri'
 
-// Context
-import ThemeContext from '../../context/theme'
-
 const FeedPostsGrid = ({ posts, setKindOfView }) => {
  
-	const { theme } = useContext(ThemeContext) 	
+	const theme = useSelector(store => store.preference.theme)
 	const size = '25px'
+	const navigate = useNavigate()
 	 
 	return(
 		<FeedImages theme={theme}> 
+			{posts.length === 0 && 
+				<AddNewPost onClick={() => navigate('/new-post')}>
+					<p>+</p>
+				</AddNewPost>				
+			}
 			{posts?.map((post, index)=>(	
 				<EachImageContainer key={index}>
 					{post.images.length > 0 &&

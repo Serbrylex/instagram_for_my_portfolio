@@ -56,3 +56,17 @@ export const ImagePost = styled.img`
 	cursor: pointer;
 	object-fit: cover;	
 `
+
+export const AddNewPost = styled.div`
+	width: 30vw;
+	height: 30vw;
+	cursor: pointer;
+	border: 1px solid white;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	@media (max-width: 100vw) and (min-width: 500px){
+	    width: 100%;
+	    height: 150px;
+    }	
+`

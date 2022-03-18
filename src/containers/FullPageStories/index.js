@@ -1,7 +1,8 @@
 // React
-import { useState, useEffect, useContext } from 'react'
-import { useParams, useHistory } from 'react-router-dom'
+import { useState, useEffect } from 'react'
+import { useParams, useNavigate } from 'react-router-dom'
 import { Helmet } from 'react-helmet'
+import { useSelector } from 'react-redux'
 
 // Assets
 import { 
@@ -22,38 +23,38 @@ import { useGetWords } from '../../hooks/useGetWords'
 import Loading from '../../components/Loading'
 import TimeLine from '../../components/TimeLine'
 
-// Context
-import UserContext from '../../context/users'
-import ThemeContext from '../../context/theme'
 
-
-const FullPageStories = ({ url, byUser = false }) => {
+const FullPageStories = ({ byUser = false }) => {
 	
 	// Variables
 	let timer
 	const size = '25px'	
-	const history = useHistory()		
-	const { index } = useParams()
+	const history = useNavigate()		
+	const { username, index } = useParams()
  	
  	// Context
-	const { isAuth } = useContext(UserContext) 	
- 	const { theme } = useContext(ThemeContext) 	
+	const user = useSelector(store => store.user)
+	const { theme, url } = useSelector(store => store.preference)
 
  	// Language hook
- 	const words = useGetWords({ container: 'full_page_stories' }) 	
-
-	try{
-		parseInt(index)
-	}catch(e){
-		history.push('/')
-	}
+ 	const words = useGetWords({ container: 'full_page_stories' }) 		
 
  	// Stories	
 	const stories = useGetAllStories({ 	
-		token: isAuth.access_token,
+		token: user.access_token,
 		url: url,
+		user: {
+			username: username,
+			id: 1
+		},
 		byUser: byUser
-	})	
+	})
+
+	try {
+		parseInt(index)
+	} catch (e) {
+		history('/')
+	}
 
 	// Variables especificas para algo
 	const [time, setTime] = useState(999)
@@ -136,7 +137,7 @@ const FullPageStories = ({ url, byUser = false }) => {
 				setUserIndex(userIndex + 1)
 				setStoriesIndex(0)
 			} else {				
-				history.goBack()
+				history(-1)
 			}
 		}		
 		setTime(0)
@@ -156,7 +157,7 @@ const FullPageStories = ({ url, byUser = false }) => {
 							setStoriesIndex(0)							
 						} else {							
 							clearTimeout(timer)
-							history.goBack()
+							history(-1)
 						}
 					}					
 					setTime(0)
@@ -186,7 +187,7 @@ const FullPageStories = ({ url, byUser = false }) => {
 							<Hour>{actualStorie.created}</Hour>
 						</DataLeft>
 						<DataRight>
-							<MdClose size={size} onClick={()=>history.goBack()}/>
+							<MdClose size={size} onClick={()=>history(-1)}/>
 						</DataRight>
 					</HeaderData>
 				</HeaderInfo>

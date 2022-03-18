@@ -1,12 +1,13 @@
 // React 
-import { useState, useContext, useEffect } from 'react'
-import { useHistory } from 'react-router-dom' 
+import { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom' 
+import { useSelector } from 'react-redux'
  
 // Assets 
 import {	
 	PostContainer, UserPost, UserDataLeft, ImageUser, Username, Count, 
 	InterectiveSection, Left, Dots, Dot, Likes, Paragraph, Comments, Time, 
-	ExtradataContainer, DotsButtonMenu, ButtonLeft, ButtonRight, ImagesGroupContainer
+	ExtradataContainer, DotsButtonMenu, ButtonArrow, ImagesGroupContainer
 } from './style'
  
 import { BiDotsVerticalRounded } from 'react-icons/bi'
@@ -23,28 +24,24 @@ import PostOptions from '../PostOptions'
 // API
 import apiCall from '../../api/apiCall'
 
-// Context
-import UserContext from '../../context/users'
-import ThemeContext from '../../context/theme'
-
 // Hooks
 import { useGetWords } from '../../hooks/useGetWords'
 
 let element
 
 
-const Post = ({ post, url }) => {
+const Post = ({ post }) => {
 		
 	// Context
-	const { isAuth } =  useContext(UserContext) 	
- 	const { theme } = useContext(ThemeContext) 	
+	const user = useSelector(store => store.user)
+	const { theme, url } = useSelector(store => store.preference)
 
 	// Language hook
  	const words = useGetWords({ component: 'post' }) 	 	
 
-	const [like, setLike] = useState(()=>{
-		if (isAuth.isAuth) {
-			if (post.users_liked.find((user)=>user===isAuth.user.id)) {
+	const [like, setLike] = useState(()=>{		
+		if (user.isAuth) {
+			if (post.users_liked.find((actualUser)=>user.user.id===actualUser)) {
 				return true
 			}
 		 	return false
@@ -62,22 +59,22 @@ const Post = ({ post, url }) => {
 
 	const [imageIndex, setImageIndex] = useState(0)	
 
-	const [referenceId, setReferenceId] = useState(false)	
+	const [referenceId, setReferenceId] = useState(false)
 
 	// Variables
 	const size = '22px'
-	const history = useHistory()	 
+	const history = useNavigate()	 
 	const color = theme === 'light' ? 'black' : 'white'
 
 	const handleLike = async () => {
 
-		if (isAuth.isAuth) {
-			setTotalLikes(!like ? totalLikes - 1 : totalLikes + 1 )
+		if (user.isAuth) {
+			setTotalLikes(like ? totalLikes - 1 : totalLikes + 1 )
 			
-			const token = `Token ${isAuth.access_token}`		
+			const token = `Token ${user.access_token}`		
 			await apiCall({			
-				urlDirection: `set-like/${post.post_id}/`, 			
-				method: !like ? 'DELETE' : 'POST',
+				url: url + `/set-like/${post.post_id}/`, 			
+				method: like ? 'DELETE' : 'POST',
 				headers: {
 					'Authorization': token,				
 				}
@@ -85,7 +82,7 @@ const Post = ({ post, url }) => {
 
 			setLike(!like)
 		} else {
-			history.push('/login')
+			history('/login')
 		}
 	}
 
@@ -148,36 +145,43 @@ const Post = ({ post, url }) => {
 	return(
 		<PostContainer>
 			{showComments &&  
-				<CommentsList url={url} setShowComments={setShowComments} post_id={post.post_id}/>
+				<CommentsList setShowComments={setShowComments} post_id={post.post_id}/>
 			}
 			{showLikes && 
-				<LikesList url={url} setShowLikes={setShowLikes} post_id={post.post_id}/>
+				<LikesList setShowLikes={setShowLikes} post_id={post.post_id}/>
 			}
 			{showMenuPost && 
-				<PostOptions 
+				<PostOptions
 					setShowMenuPost={setShowMenuPost} 
 					post_data={{
 						username: post.username,
 						user_id: post.user_id,
 						post_id: post.post_id
-					}}
-					isAuth={isAuth}	
+					}}					
 					setShowPost={setShowPost}
 				/>
 			}								
 			<UserPost>
 				<UserDataLeft>
 					<ImageUser src={post.picture} alt='User post' />
-					<Username to={`profile/${post.username}`} theme={theme}>{post.username}</Username>
+					<Username to={`/profile/${post.username}`} theme={theme}>{post.username}</Username>
 				</UserDataLeft>
-				<DotsButtonMenu onClick={()=>{ isAuth.isAuth ? setShowMenuPost(true) : history.push('/login')}}>
+				<DotsButtonMenu onClick={()=>{ user.isAuth ? setShowMenuPost(true) : history('/login')}}>
 					<BiDotsVerticalRounded size='20px' color={color}/>
 				</DotsButtonMenu>
 			</UserPost>
 			<ImagesGroupContainer>
 				<Count theme={theme}>{imageIndex+1}/{post.images?.length}</Count>
-				<ButtonLeft theme={theme} onClick={()=>handleMoveArrow(true)}><IoIosArrowBack size={size} color={theme === 'light' ? 'white' : 'black'} /></ButtonLeft>
-				<ButtonRight theme={theme} onClick={()=>handleMoveArrow(false)}><IoIosArrowForward size={size} color={theme === 'light' ? 'white' : 'black'} /></ButtonRight>
+				{post.images?.length > 1 &&
+					<>
+					<ButtonArrow orientation={'left'} theme={theme} onClick={()=>handleMoveArrow(true)}>
+						<IoIosArrowBack size={size} color={theme === 'light' ? 'white' : 'black'} />
+					</ButtonArrow>
+					<ButtonArrow orientation={'right'} theme={theme} onClick={()=>handleMoveArrow(false)}>
+						<IoIosArrowForward size={size} color={theme === 'light' ? 'white' : 'black'} />
+					</ButtonArrow>
+					</>
+				}
 				<ImagesGroup images={post.images} size='100vw' onScrollEvent={handleControlScrollImage} post_id={post.post_id}/>
 			</ImagesGroupContainer>
 			<Dots>
@@ -189,19 +193,19 @@ const Post = ({ post, url }) => {
 			</Dots>
 			<InterectiveSection>							
 				<Left>
-					{ like ? <AiFillHeart  size={size} onClick={()=>{isAuth.isAuth ? handleLike() : history.push('/login')}} color={color}/> :
-					<AiOutlineHeart  size={size} onClick={()=>{isAuth.isAuth ? handleLike() : history.push('/login')}}/> }					
-					<AiOutlineComment  size={size} onClick={()=>{isAuth.isAuth ? setShowComments(true) : history.push('/login')}} color={color}/>
+					{ like ? <AiFillHeart size={size} onClick={()=>{user.isAuth ? handleLike() : history('/login')}} color={color}/> :
+					<AiOutlineHeart size={size} onClick={()=>{user.isAuth ? handleLike() : history('/login')}}/> }					
+					<AiOutlineComment size={size} onClick={()=>{user.isAuth ? setShowComments(true) : history('/login')}} color={color}/>
 					<AiOutlineSend size={size}  onClick={()=>console.log("send")} color={color}/>
 				</Left>				
 			</InterectiveSection>
-			<Likes onClick={()=>{isAuth.isAuth ? setShowLikes(true) : history.push('/login')}}>{totalLikes} {words?.likes}</Likes>
+			<Likes onClick={()=>{user.isAuth ? setShowLikes(true) : history('/login')}}>{totalLikes} {words?.likes}</Likes>
 			
 			<Paragraph>
 				<Username to={`/profile/${post.username}`} theme={theme}>{post.username}</Username> {post.description}
 			</Paragraph>						
 			<ExtradataContainer>
-				<Comments onClick={()=>{isAuth.isAuth ? setShowComments(true) : history.push('/login')}}>
+				<Comments onClick={()=>{user.isAuth ? setShowComments(true) : history('/login')}}>
 					{post.all_comments} {words?.comments}
 				</Comments>
 				<Time>{post.created}</Time>

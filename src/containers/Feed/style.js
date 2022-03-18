@@ -5,7 +5,7 @@ export const FeedContainer = styled.div`
 	width: 100%;	
 	height: 100vh;
 	overflow-y: scroll;	
-	padding-top: 50px;	
+	padding-top: 60px;	
 
 	-ms-overflow-style: none;
 	scrollbar-width: none; 
