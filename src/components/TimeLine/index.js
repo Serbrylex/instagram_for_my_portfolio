@@ -2,6 +2,8 @@ import {
 	WhiteBar, BlackBar, TimeLineContainer
 } from './style'
 
+import React from 'react'
+
 const TimeLine = ({ size, where }) => {
 	
 	let allBars = []

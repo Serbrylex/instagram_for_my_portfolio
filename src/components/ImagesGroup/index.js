@@ -2,6 +2,8 @@ import {
 	ImagesContainer, ImagePostContainer, ImagePost
 } from './style'
 
+import React from 'react'
+
 const ImagesGroup = ({ images, size, onScrollEvent, post_id }) => {	
 
 	return( 

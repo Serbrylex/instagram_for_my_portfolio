@@ -5,7 +5,7 @@ const FeedMock = [
     created: '1 month ago',
     picture: 'http://127.0.0.1:8000/media/users/pictures/orig_203260_vpYx4nF.jpg',
     post_id: 17,
-    description: 'want cry you the a I skin have But But wish weirdo happy belong \ncreep',
+    description: 'want cry you the a I skin have But But wish weirdo happy belong creep',
     images: [
       'http://127.0.0.1:8000/media/posts/pictures/atrowhat_i4wcO1X.jpg',
       'http://127.0.0.1:8000/media/posts/pictures/orig_203260_2yXnAAV.jpg',

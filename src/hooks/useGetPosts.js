@@ -12,7 +12,7 @@ import ResetDate from './ResetDate'
 import { setFeed } from '../actions'
  
 
-export const useGetPosts = ({ token = false, user, idUser = '' }) => {	
+export const useGetPosts = ({ token = false, idUser = '' }) => {	
 
 	const [posts, setPosts] = useState([])
 	const [loading, setLoading]	= useState(true)

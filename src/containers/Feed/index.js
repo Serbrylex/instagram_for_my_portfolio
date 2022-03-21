@@ -1,5 +1,5 @@
 // React
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Helmet } from 'react-helmet'
 import { useSelector } from 'react-redux'
  
@@ -34,15 +34,12 @@ const Feed = () => {
 	// Stories and posts
 	let stories = useGetStories({ 
 		token: user.access_token, 
-		user: user.user,
-		url: url
+		user: user.user
 	})	
 		
 	// Es el hook que va a hacer las peticiones
 	const posts = useGetPosts({ 
-		token: user.access_token,
-		user: user.user, 
-		url: url
+		token: user.access_token
 	})
 			
 

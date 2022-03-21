@@ -1,5 +1,5 @@
 // React
-import { useEffect, useState, useRef } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { Helmet } from 'react-helmet'
 import { useSelector, useDispatch } from 'react-redux'
@@ -118,7 +118,7 @@ const UpdateProfile = () => {
 			},
 			body: objectOne
 		})				
-		const data = await response.json()			
+		const data = await response.json()
 		
 		if (response.ok) {								
 			dispatch(setUpdateUser(data))

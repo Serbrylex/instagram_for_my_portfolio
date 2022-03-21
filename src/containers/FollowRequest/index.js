@@ -1,6 +1,4 @@
-import {
-
-} from './style'
+import Rect from 'react'
 
 const FollowRequest = () => {
 	

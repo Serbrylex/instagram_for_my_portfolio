@@ -3,6 +3,7 @@ import circle from '../../assets/images/circle.svg'
 
 // Redux
 import { useSelector } from 'react-redux'
+import React from 'react'
 
 import {
 	ImageLoading, Container

@@ -1,6 +1,6 @@
 import React from 'react'
-import { compose } from 'redux'
-import { Router } from 'react-router-dom'
+import { compose, createStore } from 'redux'
+import { BrowserRouter } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import { createBrowserHistory } from 'history'
 
@@ -16,9 +16,9 @@ const history = createBrowserHistory()
 
 const ProviderMock = props => (
 	<Provider store={store}>
-		<Router history={history}>
-			{props.children}
-		</Router>
+		<BrowserRouter history={history}>
+			{props.children}		
+		</BrowserRouter>
 	</Provider>
 )
 

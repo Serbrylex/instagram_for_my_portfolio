@@ -1,6 +1,4 @@
-import {
-
-} from './style'
+import React from 'react'
 
 const Messages = () => {
 	

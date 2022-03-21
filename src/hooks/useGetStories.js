@@ -94,7 +94,7 @@ export const useGetStories = ({ token = false, user }) => {
 				user: {
 					id: 0,
 					picture: imageTest,
-					username: 'Add story'
+					username: 'Add Story'
 				},
 				eventAddOrGo: '/add-storie'
 			}, ...storiesData]
