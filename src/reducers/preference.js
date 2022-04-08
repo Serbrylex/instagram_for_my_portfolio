@@ -6,8 +6,8 @@ const miStorage = window.localStorage.getItem('preference');
 const initialState = JSON.parse(miStorage) || {
 	language: 'en',
 	theme: 'dark',
-	url: 'http://127.0.0.1:8000'
-	//url: 'https://newinstagrambyme.herokuapp.com'
+	//url: 'http://127.0.0.1:8000'
+	url: 'https://newinstagrambyme.herokuapp.com'
 }
 
 const preferenceReducer = (state = initialState, action) => {
