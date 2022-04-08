@@ -25,7 +25,7 @@ export const useGetStories = ({ token = false, user }) => {
 		return({
 			user: {
 				id: storie.user.id,
-				picture: storie.user.profile?.picture ? url + storie.user.profile.picture : imageTest,
+				picture: storie.user.profile?.picture ? storie.user.profile.picture : imageTest,
 				username: storie.user.username		
 			},		
 			eventAddOrGo: `/stories/${indice}`

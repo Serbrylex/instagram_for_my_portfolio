@@ -44,7 +44,7 @@ export const useGetAllStories = ({ token = false, user = false, byUser = false }
 			let storiesOrderedByUser = [{
 				user: {
 					id: user.id,
-					picture: user.profile?.picture ? url + user.profile.picture : imageTest,
+					picture: user.profile?.picture ? user.profile.picture : imageTest,
 					username: user.username		
 				},
 				stories: []
@@ -65,7 +65,7 @@ export const useGetAllStories = ({ token = false, user = false, byUser = false }
 								passport = true
 								storiesOrderedByUser[x].stories.push({
 									id: storiesData[i].id,
-									image: url + storiesData[i].image,
+									image: storiesData[i].image,
 									created: ResetDate({ created: storiesData[i].created, language })
 								})
 							}
@@ -77,12 +77,12 @@ export const useGetAllStories = ({ token = false, user = false, byUser = false }
 							storiesOrderedByUser.push({
 								user: {
 									id: storiesData[i].user.id,
-									picture: storiesData[i].user.profile.picture ? url + storiesData[i].user.profile.picture : imageTest,
+									picture: storiesData[i].user.profile.picture ? storiesData[i].user.profile.picture : imageTest,
 									username: storiesData[i].user.username		
 								},
 								stories: [{
 									id: storiesData[i].id,
-									image: url + storiesData[i].image,
+									image: storiesData[i].image,
 									created: ResetDate({ created: storiesData[i].created, language })
 								}]
 							})														

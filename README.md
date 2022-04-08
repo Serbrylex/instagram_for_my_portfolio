@@ -1,70 +1,74 @@
-# Getting Started with Create React App
+# Read me file
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+First, if you want to run this code, you need to run this: 
 
-## Available Scripts
+```javascript
 
-In the project directory, you can run:
+npm i
 
-### `npm start`
+```
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Then you will download all the modules needed to run this code
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
 
-### `npm test`
+## Run the project
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+First you need to connect to the back-end, i can't let the code open to everyone 
+because it has some secret keys and passwords, but i can let the url and try to 
+explane how it works: https://newinstagrambyme.herokuapp.com/
 
-### `npm run build`
+These are the endpoints: 
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+* create-post/ [name='create-post']
+* update-post/ [name='update-post']
+* posts/<int:page>/ [name='get-posts']
+* get-posts/popular/ [name='get-popular-posts']
+* get-posts/<str:username>/ [name='get-user-posts']
+* delete-post/<int:pk>/ [name='delete-post']
+* add-image/ [name='add-image']
+* set-comment/ [name='set-comment']
+* get-comments/<int:ide>/ [name='get-comment']
+* set-like/<int:ide>/ [name='set-like']
+* get-likes/<int:ide>/ [name='get-like']
+* user/
+* stories/
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+to run the code: 
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```javascript
+npm i
+```
 
-### `npm run eject`
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+## Run the tests
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```javascript
+npm run test
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+This will run the test than i write to be sure than nothing breaks while I was modifying the code
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+## Characteristics
 
-## Learn More
+* This code use Redux to handle the state of the application, at first I was using the react hook useContext but I realise than a lot of companies use Redux, so I learn it
+* I'm using a Django back-end
+* I write some end to end test with Selenium than you can run easily, just need to go to the selenium_test folder, create a virtual machine and install selenium:
+```python
+python -m venv .env
+# activate the virtual machine
+.env/Scripts/activate
+# install the modules
+pip install selenium
+# then just run the code
+python index.py
+```
+* All the data was created by a bot, than I develop. You can do the same with the endpoints than I let in the top
+* I'm usign a S3 bucket to stora and serve all the files
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## Possible future updates
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+* Add a message system
+* Add notifications
+* Update the interface 
 
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+And that's it, thanks for reading, I hope than you find this space useful

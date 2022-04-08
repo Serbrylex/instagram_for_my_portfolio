@@ -22,7 +22,7 @@ export const useGetStoriesByUser = ({ token = false, user, idUser = '' }) => {
 		return({
 			user: {
 				id: storie.user.id,
-				picture: url + storie.image,
+				picture: storie.image,
 				username: storie.user.username		
 			},		
 			eventAddOrGo: `/stories_by_user/${storie.user.username}/${indice}` 

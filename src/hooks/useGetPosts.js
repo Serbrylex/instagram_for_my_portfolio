@@ -64,11 +64,11 @@ export const useGetPosts = ({ token = false, idUser = '' }) => {
 				// Iteramos sobre las posts
 				for (var i = 0; i < postsData.length; i++) {				
 
-					postsData[i].picture = url + postsData[i].picture
+					postsData[i].picture = postsData[i].picture
 					postsData[i].created = ResetDate({ created: postsData[i].created, language })
 
 					for (var x = 0; x < postsData[i].images.length; x++) {
-						postsData[i].images[x] = url + postsData[i].images[x].image
+						postsData[i].images[x] = postsData[i].images[x].image
 					}
 				}					
 			}
